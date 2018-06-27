@@ -1,0 +1,14 @@
+https://forum.intra.42.fr/topics/15703/messages?page=1#54311
+https://forum.intra.42.fr/topics/1371/messages?page=1#24208
+https://abs.traduc.org/abs-5.1-fr/ch19.html
+https://forum.intra.42.fr/topics/1155/messages?page=1#7478
+https://pastebin.com/615ST3gP/
+https://openclassrooms.com/forum/sujet/dup-dup2-et-close-12008
+https://devarea.developpez.com/appel-fork-et-ses-pieges/#LII
+http://okki666.free.fr/docmaster/articles/linux131.html
+http://mauran.perso.enseeiht.fr/pages/cours/Systemes_Centralises/td1in/td002.html
+http://www.tuteurs.ens.fr/unix/shell/entreesortie.html
+https://openclassrooms.com/courses/la-programmation-systeme-en-c-sous-unix/les-processus-1
+https://openclassrooms.com/courses/la-programmation-systeme-en-c-sous-unix/les-tubes
+https://openclassrooms.com/forum/sujet/pipe-et-dup2-comment-faire-23270
+
