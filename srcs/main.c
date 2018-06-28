@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/29 15:00:57 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 16:30:20 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/28 15:38:44 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,7 +67,6 @@ static void	line_edit(void)
 			get_signals();
 			get_key(&loop, &info, tmp);
 		}
-
 		reinit_info(&info);
 	}
 	get_line(1, &(info.line));

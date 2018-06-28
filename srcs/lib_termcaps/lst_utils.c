@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:25:07 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 16:11:15 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/28 11:56:01 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,7 @@ void	add_head(t_hist *elem)
 	if ((new_elem = (t_hist*)malloc(sizeof(*new_elem))))
 	{
 		new_elem->name = NULL;
-		new_elem->current = 0;
+		new_elem->current = 1;
 		new_elem->prev = elem->prev;
 		new_elem->next = elem;
 		elem->prev->next = new_elem;
