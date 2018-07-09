@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/29 13:57:56 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 16:13:01 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/09 14:39:36 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,7 @@ t_hist	*root_hist(void)
 	if (!(lst = malloc(sizeof(*lst))))
 		return (NULL);
 	lst->name = NULL;
+	lst->backup = NULL;
 	lst->current = 0;
 	lst->next = lst;
 	lst->prev = lst;

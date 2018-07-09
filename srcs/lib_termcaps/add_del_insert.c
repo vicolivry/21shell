@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 14:06:24 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/09 14:46:17 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,7 @@ void	insert_char(char c, t_info *info, t_hist *tmp)
 
 	i = info->curs_in_str - 1;
 	tputs(tgetstr("sc", NULL), 1, ft_putchar_err);
-	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+	tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
 	add_c_in_str(info, c, tmp);
 	ft_putchar(c);
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
@@ -67,7 +67,7 @@ void	del_char(t_info *info, t_hist *tmp)
 		left_key(info);
 		i = info->curs_in_str - 2;
 		tputs(tgetstr("sc", NULL), 1, ft_putchar_err);
-		tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+		tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
 		del_c_in_str(info, tmp);
 		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 		while (i++ < info->s_len - 1)

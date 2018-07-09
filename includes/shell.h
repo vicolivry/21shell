@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 16:46:00 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/09 14:41:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -232,6 +232,7 @@ typedef struct termios t_termios;
 typedef struct		s_hist
 {
 	char			*name;
+	char			*backup;
 	int				current;
 	struct s_hist	*next;
 	struct s_hist	*prev;

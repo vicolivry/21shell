@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/28 17:28:33 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/09 15:48:48 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,18 @@
 
 void	rc_key(t_info *info, int *loop, t_hist *tmp)
 {
+	t_hist	*last;
+
+	last = last_elem(info->history);
+	if (tmp->current && tmp->next != info->history)
+	{
+		if (last->name)
+			ft_strdel(&(last->name));
+		last->name = ft_strdup(tmp->name);
+		ft_strdel(&(tmp->name));
+		tmp->name = ft_strdup(tmp->backup);
+		ft_strdel(&(tmp->backup));
+	}
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 	while (info->curs_in_str < info->s_len)
 		right_key(info);
@@ -30,22 +42,29 @@ void	rc_key(t_info *info, int *loop, t_hist *tmp)
 	while (tmp->next != info->history)
 		tmp = tmp->next;
 	if (!tmp->name)
-		tmp->name = ft_strdup("");
+		remove_elem(tmp);
 }
 
 void	up_key(t_info *info, t_hist *tmp)
 {
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
+	if (tmp->backup)
+	{
+		ft_strdel(&(tmp->name));
+		tmp->name = ft_strdup(tmp->backup);
+		ft_strdel(&(tmp->backup));
+	}
 	if (tmp->prev != info->history)
 	{
 		while (info->curs_in_str > 1)
 			left_key(info);
-		tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+		tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
 		while (!tmp->next->current && tmp->prev != info->history)
 			tmp = tmp->prev;
 		tmp->next->current = 0;
 		tmp->current = 1;
 		ft_putstr(tmp->name);
+		tmp->backup = ft_strdup(tmp->name);
 		info->s_len = ft_strlen(tmp->name);
 		info->curs_in_str = info->s_len + 1;
 		info->curs_x = CURS_X;
@@ -57,18 +76,26 @@ void	up_key(t_info *info, t_hist *tmp)
 void	down_key(t_info *info, t_hist *tmp)
 {
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	while (!tmp->current)
-		tmp = tmp->next;
+	if (tmp->backup)
+	{
+		ft_strdel(&(tmp->name));
+		tmp->name = ft_strdup(tmp->backup);
+		ft_strdel(&(tmp->backup));
+	}
 	if (tmp->next != info->history)
 	{
 		while (info->curs_in_str > 1)
 			left_key(info);
-		tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+		tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
 		while (!tmp->prev->current && tmp->next != info->history)
 			tmp = tmp->next;
 		tmp->prev->current = 0;
 		tmp->current = 1;
-		tmp->name ? ft_putstr(tmp->name) : ft_putstr("");
+		if (tmp->name)
+		{
+			ft_putstr(tmp->name);
+			tmp->backup = ft_strdup(tmp->name);
+		}
 		info->s_len = tmp->name ? ft_strlen(tmp->name) : 0;
 		info->curs_in_str = info->s_len + 1;
 		info->curs_x = CURS_X;
