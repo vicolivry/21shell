@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/09 14:41:23 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/10 10:44:14 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -254,7 +254,6 @@ typedef struct		s_info
 	t_termios		term;
 }					t_info;
 
-
 void				default_term_mode(t_info *info);
 void				raw_term_mode(t_info *info);
 void				get_key(int *loop, t_info *info, t_hist *tmp);
@@ -279,6 +278,8 @@ void				alt_up_down(t_info *info, char *buff);
 void				init_current(t_hist *history);
 void				alt_right(t_info *info, t_hist *tmp);
 void				alt_left(t_info *info, t_hist *tmp);
+void				up_key(t_info *info, t_hist *tmp);
+void				down_key(t_info *info, t_hist *tmp);
 /*
 **	END
 */

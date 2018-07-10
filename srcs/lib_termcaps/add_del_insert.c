@@ -6,18 +6,12 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/09 14:46:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/10 18:37:28 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
-
-/*
-** INSERT CHAR
-** im : insertion mode
-** ei : exit insertion mode
-*/
 
 void	insert_char(char c, t_info *info, t_hist *tmp)
 {
@@ -25,16 +19,22 @@ void	insert_char(char c, t_info *info, t_hist *tmp)
 
 	i = info->curs_in_str - 1;
 	tputs(tgetstr("sc", NULL), 1, ft_putchar_err);
-	tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
 	add_c_in_str(info, c, tmp);
 	ft_putchar(c);
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	while (i++ < ft_strlen(tmp->name))
+	while (i++ < info->s_len)
 		ft_putchar(tmp->name[i]);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar_err);
 	right_key(info);
 	info->s_len++;
+	if ((info->s_len + ft_strlen(info->prmpt) - 1) % info->col_nb == 0 &&
+			info->curs_y == info->row_nb)
+	{
+		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
+		info->orig_y--;
+	}
 }
 
 void	add_char(char c, t_info *info, t_hist *tmp)
@@ -45,18 +45,13 @@ void	add_char(char c, t_info *info, t_hist *tmp)
 	chr[1] = '\0';
 	tmp->name = !tmp->name ? ft_strdup(chr) : str_append(tmp->name, chr);
 	ft_putchar(c);
-	info->curs_x = get_curs_pos(0, info);
+	info->curs_x = CURS_X;
 	info->curs_y = CURS_Y;
 	info->curs_in_str++;
 	info->s_len++;
+	if (info->curs_y == info->row_nb && info->curs_x == 2)
+		info->orig_y--;
 }
-
-/*
-** DELETE CHAR
-** dm : delete mode
-** ed : exit delete mode
-** dc : delete char
-*/
 
 void	del_char(t_info *info, t_hist *tmp)
 {
@@ -67,7 +62,7 @@ void	del_char(t_info *info, t_hist *tmp)
 		left_key(info);
 		i = info->curs_in_str - 2;
 		tputs(tgetstr("sc", NULL), 1, ft_putchar_err);
-		tputs(tgetstr("ce", NULL), 1, ft_putchar_err);
+		tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
 		del_c_in_str(info, tmp);
 		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 		while (i++ < info->s_len - 1)

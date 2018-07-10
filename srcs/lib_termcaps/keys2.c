@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/14 15:53:00 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/27 18:07:23 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/10 17:53:40 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,7 +71,7 @@ void	right_key(t_info *info)
 				info->curs_x--;
 			}
 			info->curs_in_str++;
-			info->orig_y -= info->curs_y == info->row_nb ? 1 : 0;
+	//		info->orig_y -= info->curs_y == info->row_nb ? 1 : 0;
 		}
 	}
 	info->curs_x = CURS_X;
