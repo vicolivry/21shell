@@ -6,12 +6,35 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/10 18:37:28 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/07/11 18:39:09 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+static void	too_big(t_info *info)
+{
+	int	win_len;
+	int	i;
+
+	i = -1;
+	win_len = info->col_nb * info->row_nb;
+	if (info->curs_in_str + ft_strlen(info->prmpt) < win_len)
+	{
+		while (info->curs_x > 1 || info->curs_y > 1)
+			left_key(info);
+		tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+		ft_putstr(GREEN);
+		ft_putstr(info->prmpt);
+		ft_putstr(RESET);
+		while (i++ < win_len - 5 - ft_strlen(info->prmpt))
+		ft_putchar(info->line[i]);
+		i = 0;
+		while (i++ < info->curs_in_str)
+			right_key(info);
+	}
+}
 
 void	insert_char(char c, t_info *info, t_hist *tmp)
 {
@@ -30,11 +53,14 @@ void	insert_char(char c, t_info *info, t_hist *tmp)
 	right_key(info);
 	info->s_len++;
 	if ((info->s_len + ft_strlen(info->prmpt) - 1) % info->col_nb == 0 &&
-			info->curs_y == info->row_nb)
+			(info->orig_y + ((info->s_len + ft_strlen(info->prmpt) - 1) /
+							 info->col_nb) - 1 == info->row_nb))
 	{
 		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
 		info->orig_y--;
 	}
+	if (((info->s_len + ft_strlen(info->prmpt) - 1) / info->col_nb) - 1 > info->row_nb)
+		too_big(info);
 }
 
 void	add_char(char c, t_info *info, t_hist *tmp)
