@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/26 14:37:26 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/02 16:13:02 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,6 +70,7 @@
 # define KEY_CODE_CTRL_A *(int*)buff == 1
 # define KEY_CODE_CTRL_P *(int*)buff == 16
 # define KEY_CODE_TAB *(int*)buff == 9
+# define KEY_CODE_SP *(int*)buff == 32
 
 # define CURS_X get_curs_pos(0, info)
 # define CURS_Y get_curs_pos(1, info)
@@ -320,6 +321,8 @@ typedef struct		s_info
 	t_hist			*history;
 	t_wndw			wndw;
 	t_termios		term;
+	int				nb_elem;
+	int				max_len;
 }					t_info;
 
 t_info				g_info;
@@ -357,6 +360,43 @@ void				fill_history(t_info *info, t_hist *tmp);
 void				toggle_quote(t_info *info);
 void				line_edit(t_info *info, t_hist *tmp);
 void				cut_n_cpy(t_info *info, char *buff, t_hist *tmp);
+
+/*
+** LIB_AUTOCOMP
+*/
+
+typedef struct		s_slct
+{
+	int				current;
+	int				len;
+	char			*name;
+	int				index;
+	struct s_slct	*next;
+	struct s_slct	*prev;
+}					t_slct;
+
+void				autocomp(t_info *info);
+void				ac_get_info(t_slct *slct, t_info *info);
+void				ac_add_after_lst(t_slct *elem, const char *name);
+void				ac_add_before_lst(t_slct *elem, const char *name);
+void				ac_add_queue(t_slct *root, const char *name);
+void				ac_add_head(t_slct *root, const char *name);
+void				ac_remove_elem(t_slct *elem);
+t_slct				*root_slct(void);
+t_slct				*init_slct(void);
+t_slct				*ac_first_elem(t_slct *root);
+t_slct				*ac_last_elem(t_slct *root);
+int					get_col_nb(t_info *info);
+void				free_slct(t_slct *lst);
+void				ac_right_key(t_info *info, t_slct *slct);
+void				ac_left_key(t_info *info, t_slct *slct);
+void				ac_up_key(t_slct *slct);
+void				ac_down_key(t_slct *slct);
+void				ac_rc_key(t_info *info, t_slct *slct, int *loop);
+void				key_input(t_info *info, t_slct *slct, int *loop);
+void				ac_print_arg(t_slct *slct);
+void				display(t_info *info, t_slct *slct);
+void				update_index(t_slct *root);
 /*
 **	END
 */

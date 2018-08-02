@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/26 14:53:25 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/02 16:18:32 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -77,10 +77,6 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 	else if (KEY_CODE_CTRL_E || KEY_CODE_CTRL_B ||
 			KEY_CODE_CTRL_X || KEY_CODE_CTRL_A || KEY_CODE_CTRL_P)
 		cut_n_cpy(info, buff, tmp);
-/*	else if (KEY_CODE_CTRL_A || KEY_CODE_CTRL_O)
-		copy(info, buff);
-	else if (KEY_CODE_CTRL_P)
-		paste(info);*/
 	else if (KEY_CODE_CTRL_D)
 	{
 		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
@@ -97,7 +93,7 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 		exit(1);
 	}
 	else if (KEY_CODE_TAB)
-		(void)buff;
+		autocomp(info);
 	else if (ft_isprint(*buff))
 		info->curs_in_str <= info->s_len ? insert_char(*buff, info, tmp)
 			: add_char(*buff, info, tmp);

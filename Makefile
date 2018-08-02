@@ -6,7 +6,7 @@
 #    By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/24 10:04:43 by yoginet      #+#   ##    ##    #+#        #
-#    Updated: 2018/07/25 14:17:17 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/08/02 16:21:47 by volivry     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -60,6 +60,14 @@ N_SRCS = 	main.c\
 			lib_termcaps/end_quote.c\
 			lib_termcaps/prompt.c\
 			lib_termcaps/cut_copy_paste.c\
+			lib_autocomp/arrows.c\
+			lib_autocomp/autocomp.c\
+			lib_autocomp/display.c\
+			lib_autocomp/get_info.c\
+			lib_autocomp/key_func.c\
+			lib_autocomp/ac_lst_utils.c\
+			lib_autocomp/ac_lst_utils2.c\
+			lib_autocomp/utils.c\
 			lib_shell/display.c\
 			lib_shell/ft_add_line.c\
 			lib_shell/ft_check_path.c\
@@ -112,6 +120,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)/init
 	@mkdir -p $(OBJ_PATH)/lib_shell
 	@mkdir -p $(OBJ_PATH)/lib_termcaps
+	@mkdir -p $(OBJ_PATH)/lib_autocomp
 	@mkdir -p $(OBJ_PATH)/builtins
 	@mkdir -p $(OBJ_PATH)/parsing
 	@$(CC) -c $(FLAGS) $(INC) -o $@ $<

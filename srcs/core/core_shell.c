@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/25 14:27:57 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/02 14:30:07 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,6 +29,8 @@ void			init_info(t_info *info)
 	info->copy = NULL;
 	info->prmpt = ft_strdup("$> ");
 	info->history = root_hist();
+	info->max_len = 0;
+	info->nb_elem = 0;
 }
 
 void			reinit_info(t_info *info)
