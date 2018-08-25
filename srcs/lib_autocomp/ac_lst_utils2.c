@@ -20,7 +20,7 @@ t_slct	*root_slct(void)
 	lst = NULL;
 	if (!(lst = malloc(sizeof(*lst))))
 		return (NULL);
-	lst->current = 0;
+	lst->current = 1;
 	lst->len = 0;
 	lst->index = 0;
 	lst->name = NULL;
@@ -29,20 +29,29 @@ t_slct	*root_slct(void)
 	return (lst);
 }
 
-t_slct	*init_slct(void)
+t_slct	*init_slct(char	*line)
 {
 	t_slct			*root;
 	struct dirent	*dp;
 	DIR				*dirp;
 
+	if (!line || !ft_strchr(line, '/'))
+		line = ft_strdup(".");
 	if (!(root = root_slct()))
 		return (NULL);
-	if ((dirp = opendir(".")) != NULL)
+	if ((dirp = opendir(line)) != NULL)
 	{
-		while ((dp = readdir(dirp)) != NULL )
-			ac_add_queue(root, dp->d_name);
+		while ((dp = readdir(dirp)) != NULL)
+			if (dp->d_name[0] != '.')
+				ac_add_queue(root, dp);
 		closedir(dirp);
 	}
+	else
+	{
+		ft_strdel(&line);
+		return (NULL);
+	}
+	ft_strdel(&line);
 	return (root);
 }
 

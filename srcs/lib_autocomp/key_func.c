@@ -13,41 +13,82 @@
 
 #include "../../includes/shell.h"
 
-void	key_input(t_info *info, t_slct *slct, int *loop)
+void	key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 {
 	char	buff[5];
-	int		nb_cols;
 
-	nb_cols = get_col_nb(info);
 	ft_bzero(buff, 5);
 	if ((read(0, buff, 4) < 0))
 		exit(0);
-	if (KEY_CODE_UP)
-		ac_up_key(slct);
-	if (KEY_CODE_DOWN)
-		ac_down_key(slct);
-	if (KEY_CODE_RIGHT)
-		nb_cols == 1 ? ac_down_key(slct) : ac_right_key(info, slct);
-	if (KEY_CODE_LEFT)
-		nb_cols == 1 ? ac_up_key(slct) : ac_left_key(info, slct);
-	if (*(int*)buff == 10)
-		ac_rc_key(info, slct, loop);
+	else if (KEY_CODE_RIGHT)
+		ac_right_key(info, slct, hist);
+	else if (KEY_CODE_LEFT)
+		ac_left_key(info, slct, hist);
+	else if (KEY_CODE_UP)
+		ac_up_key(info, slct, hist);
+	else if (KEY_CODE_DOWN)
+		ac_down_key(info, slct, hist);
+	else if (KEY_CODE_TAB)
+		ac_tab_key(info, slct, hist);
+	else if (*(int*)buff == 10 || (KEY_CODE_BSP) || ft_isprint(*buff))
+	{
+		restore_curs(hist, info, slct);
+		if (ft_isprint(*buff))
+			add_char(*buff, info, hist);
+		*loop = 0;
+	}
+	else
+		reset_screen(info);
 }
 
-void	ac_rc_key(t_info *info, t_slct *slct, int *loop)
+void	add_slct(t_slct *slct, t_info *info)
 {
+	int	i;
+
+	i = 0;
+	if (slct->name)
+		ft_putstr(slct->name);
+	if (slct->is_dir)
+		ft_putchar('/');
+	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+	get_x_back(info);
+}
+
+void	erase_prev(t_info *info, t_hist *hist)
+{
+	reset_screen(info);
+	tputs(tgetstr("up", NULL), 1, ft_putchar_err);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+	print_prompt(info);
+	if (hist->name)
+		ft_putstr(hist->name);
+}
+
+void	restore_curs(t_hist *hist, t_info *info, t_slct *slct)
+{
+	int		i;
 	t_slct	*tmp;
 
-	//TO DO : concat info->line & slct->current
-	tputs(tgetstr("rc", NULL), 1, ft_putchar_err);
+	i = 0;
 	tmp = ac_first_elem(slct);
-	while (tmp != slct)
-	{
-		ac_remove_elem(tmp);
+	reset_screen(info);	
+	tputs(tgetstr("up", NULL), 1, ft_putchar_err);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
+	print_prompt(info);
+	if (hist->name)
+		ft_putstr(hist->name);
+	info->curs_x = CURS_X;
+	info->curs_y = CURS_Y;
+	while (!tmp->current)
 		tmp = tmp->next;
-	}
-	info->max_len = 0;
-	info->nb_elem = 0;
-	*loop = 0;
-	free_slct(slct);
+	if (tmp->name)
+		while (tmp->name[i])
+		{
+			add_char(tmp->name[i], info, hist);
+			i++;
+		}
+	if (tmp->is_dir)
+		add_char('/', info, hist);
+	info->curs_x = CURS_X;
+	info->curs_y = CURS_Y;
 }

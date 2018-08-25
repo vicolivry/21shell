@@ -14,28 +14,62 @@
 #include "../../includes/shell.h"
 
 
-static void	infinite_loop(t_info *info, t_slct *slct)
+static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int	loop;
+//	int	size;
 
 	loop = 1;
+//	size = remaining_chars(info, hist);
 	while (loop)
 	{
-		update_index(slct);
-		ac_get_info(slct, info);
-		key_input(info, slct, &loop);
-		display(info, slct);
+		key_input(info, slct, &loop, hist);
+		if (loop)
+//			if (size > 0)
+				display(info, slct);
 	}
+	free_slct(slct, info);
+	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
-void		autocomp(t_info *info)
+char	*get_last_word(char	*line)
+{
+	char	**table;
+	t_list	*lst;
+	t_list	*tmp;
+
+	if (line == NULL || !ft_strcmp(line, "") ||
+			(table = ft_strsplit(line, ' ')) == NULL)
+		return (NULL);
+	lst = tab_to_lst(table);
+	tmp = lst;
+	while (tmp->next->next != NULL)
+	tmp = tmp->next;
+	ft_strdel(&line);
+	line = ft_strdup(tmp->content);
+	free_lst(lst);
+	return (line);
+}
+
+void		autocomp(t_info *info, t_hist *hist)
 {
 	t_slct	*slct;
+	char	*line;
 
-	slct = init_slct();
+	line = ft_strdup(hist->name);
+	line = get_last_word(line);
+	slct = init_slct(line);
+	if (!slct)
+	{
+		tputs(tgetstr("be", NULL), 1, ft_putchar_err);
+		return ;
+	}
 	ac_get_info(slct, info);
-	slct->next->current = 1;
 	update_index(slct);
+	end_key(info);
+	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
+	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+	get_x_back(info);
 	display(info, slct);
-	infinite_loop(info, slct);
+	infinite_loop(info, slct, hist);
 }

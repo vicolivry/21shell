@@ -13,17 +13,7 @@
 
 #include "../../includes/shell.h"
 
-int		get_col_nb(t_info *info)
-{
-	int	cols;
-
-	cols = info->nb_elem / (info->row_nb);
-	cols = !cols ? 1 : cols;
-	cols += cols * (info->row_nb) < info->nb_elem ? 1 : 0;
-	return (cols);
-}
-
-void	free_slct(t_slct *lst)
+void	free_slct(t_slct *lst, t_info *info)
 {
 	lst = lst->next;
 	while (lst->next != lst)
@@ -31,5 +21,19 @@ void	free_slct(t_slct *lst)
 		ac_remove_elem(lst);
 		lst = lst->next;
 	}
+	info->max_len = 0;
+	info->nb_elem = 0;
 	ft_memdel((void**)&lst);
+}
+
+int		is_exe(char *name)
+{
+	struct stat	st;
+
+	lstat(name, &st);
+	if ((st.st_mode & S_IXUSR || st.st_mode & S_IXGRP || st.st_mode & S_IXOTH)
+				&& !S_ISDIR(st.st_mode))
+		return (1);
+	else
+		return (0);
 }

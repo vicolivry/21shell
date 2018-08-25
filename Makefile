@@ -60,6 +60,7 @@ N_SRCS = 	main.c\
 			lib_termcaps/end_quote.c\
 			lib_termcaps/prompt.c\
 			lib_termcaps/cut_copy_paste.c\
+			lib_termcaps/str_gestion.c\
 			lib_autocomp/arrows.c\
 			lib_autocomp/autocomp.c\
 			lib_autocomp/display.c\

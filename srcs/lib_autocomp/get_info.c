@@ -20,8 +20,8 @@ void	ac_get_info(t_slct *slct, t_info *info)
 	tmp = ac_first_elem(slct);
 	while (tmp != slct)
 	{
-		if (ft_strlen(tmp->name) > info->max_len)
-			info->max_len = ft_strlen(tmp->name);
+		if (tmp->len > info->max_len)
+			info->max_len = tmp->len;
 		info->nb_elem++;
 		tmp = tmp->next;
 	}

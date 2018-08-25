@@ -103,3 +103,15 @@ void	end_key(t_info *info)
 	info->curs_in_str = info->s_len + 1;
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
+
+void	get_x_back(t_info *info)
+{
+	int	i;
+
+	i = CURS_X;
+	while (i > 1)
+	{
+		tputs(tgetstr("le", NULL), 1, ft_putchar_err);
+		i--;
+	}
+}

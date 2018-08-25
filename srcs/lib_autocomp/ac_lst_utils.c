@@ -13,15 +13,19 @@
 
 #include "../../includes/shell.h"
 
-void	ac_add_after_lst(t_slct *elem, const char *name)
+void	ac_add_after_lst(t_slct *elem, struct dirent *dp)
 {
 	t_slct	*new_elem;
 
 	new_elem = NULL;
 	if ((new_elem = (t_slct*)malloc(sizeof(*new_elem))))
 	{
-		new_elem->name = ft_strdup(name);
-		new_elem->len = ft_strlen(name);
+		new_elem->name = ft_strdup(dp->d_name);
+		new_elem->len = ft_strlen(dp->d_name);
+		new_elem->is_exe = is_exe(new_elem->name);
+		new_elem->is_dir = dp->d_type == DT_DIR ? 1 : 0;
+		if (new_elem->is_dir || new_elem->is_exe)
+			new_elem->len++;
 		new_elem->current = 0;
 		new_elem->index = 0;
 		new_elem->prev = elem;
@@ -31,15 +35,19 @@ void	ac_add_after_lst(t_slct *elem, const char *name)
 	}
 }
 
-void	ac_add_before_lst(t_slct *elem, const char *name)
+void	ac_add_before_lst(t_slct *elem, struct dirent *dp)
 {
 	t_slct	*new_elem;
 
 	new_elem = NULL;
 	if ((new_elem = (t_slct*)malloc(sizeof(*new_elem))))
 	{
-		new_elem->name = ft_strdup(name);
-		new_elem->len = ft_strlen(name);
+		new_elem->name = ft_strdup(dp->d_name);
+		new_elem->len = ft_strlen(dp->d_name);
+		new_elem->is_exe = is_exe(new_elem->name);
+		new_elem->is_dir = dp->d_type == DT_DIR ? 1 : 0;
+		if (new_elem->is_dir || new_elem->is_exe)
+			new_elem->len++;
 		new_elem->current = 0;
 		new_elem->index = 0;
 		new_elem->prev = elem->prev;
@@ -49,14 +57,14 @@ void	ac_add_before_lst(t_slct *elem, const char *name)
 	}
 }
 
-void	ac_add_queue(t_slct *root, const char *name)
+void	ac_add_queue(t_slct *root, struct dirent *dp)
 {
-	ac_add_before_lst(root, name);
+	ac_add_before_lst(root, dp);
 }
 
-void	ac_add_head(t_slct *root, const char *name)
+void	ac_add_head(t_slct *root, struct dirent *dp)
 {
-	ac_add_after_lst(root, name);
+	ac_add_after_lst(root, dp);
 }
 
 void	ac_remove_elem(t_slct *elem)

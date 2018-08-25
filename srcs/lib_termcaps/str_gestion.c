@@ -13,55 +13,47 @@
 
 #include "../../includes/shell.h"
 
-void	add_c_in_str(t_info *info, char c)
+static void	end_position(t_info *info, t_hist *hist, int *x, int *y)
 {
-	char	*str;
-	int		i;
-	int		j;
+	int	i;
 
-	i = -1;
-	str = NULL;
-	if (!(str = (char*)malloc(info->s_len + 2)))
-		return ;
-	while (i++ < info->curs_in_str - 2)
-		str[i] = info->line[i];
-	str[i] = c;
-	i++;
-	j = i - 1;
-	while (info->line[j])
-	{
-		str[i] = info->line[j];
-		j++;
-		i++;
-	}
-	str[i] = '\0';
-	ft_strdel(&(info->line));
-	info->line = ft_strdup(str);
-	ft_strdel(&str);
+	i = 0;
+	if (hist->name)
+		while (i < ft_strlen(hist->name) + ft_strlen(info->prmpt))
+		{
+			if (*x != info->col_nb)
+				*x = *x + 1;
+			else
+			{
+				*x = 0;
+				*y = *y + 1;
+			}
+			i++;
+		}
+
 }
 
-void	del_c(t_info *info)
+int		remaining_chars(t_info *info, t_hist *hist)
 {
-	char	*str;
-	int		i;
-	int		j;
+	int	x;
+	int	y;
+	int	ret;
 
-	j = 0;
-	i = -1;
-	str = NULL;
-	if (!(str = (char*)malloc(info->s_len)))
-		return ;
-	while (i++ < info->curs_in_str - 2)
-		str[i] = info->line[i];
-	j = i + 1;
-	while (info->line[j])
+	x = 0;
+	y = info->orig_y;
+	ret = 0;
+	end_position(info, hist, &x, &y);
+	while (x != info->col_nb && y != info->row_nb)
 	{
-		str[i] = info->line[j];
-		i++;
-		j++;
+		if (x != info->col_nb)
+			x++;
+		else
+		{
+			x = 0;
+			y++;
+		}
+		ret++;
 	}
-	str[i] = '\0';
-	ft_strdel(&(info->line));
-	info->line = ft_strdup(str);
-	ft_strdel(&str);
+	ft_printf("\n\nremains %d chars\n", ret);
+	return (0);
 }

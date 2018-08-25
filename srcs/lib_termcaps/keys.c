@@ -93,7 +93,7 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 		exit(1);
 	}
 	else if (KEY_CODE_TAB)
-		autocomp(info);
+		autocomp(info, tmp);
 	else if (ft_isprint(*buff))
 		info->curs_in_str <= info->s_len ? insert_char(*buff, info, tmp)
 			: add_char(*buff, info, tmp);
