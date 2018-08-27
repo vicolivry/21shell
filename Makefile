@@ -6,7 +6,7 @@
 #    By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/24 10:04:43 by yoginet      #+#   ##    ##    #+#        #
-#    Updated: 2018/08/02 16:21:47 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/08/27 17:50:55 by volivry     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -69,6 +69,8 @@ N_SRCS = 	main.c\
 			lib_autocomp/ac_lst_utils.c\
 			lib_autocomp/ac_lst_utils2.c\
 			lib_autocomp/utils.c\
+			lib_autocomp/ac_parse_line.c\
+			lib_autocomp/ac_init_slct.c\
 			lib_shell/display.c\
 			lib_shell/ft_add_line.c\
 			lib_shell/ft_check_path.c\

@@ -6,49 +6,49 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/02 13:07:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/02 16:22:01 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 17:48:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-
 static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int	loop;
-//	int	size;
+	//	int	size;
 
 	loop = 1;
-//	size = remaining_chars(info, hist);
+	//	size = remaining_chars(info, hist);
 	while (loop)
 	{
 		key_input(info, slct, &loop, hist);
 		if (loop)
-//			if (size > 0)
-				display(info, slct);
+			//			if (size > 0)
+			display(info, slct);
 	}
 	free_slct(slct, info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
-char	*get_last_word(char	*line)
+static int	ac_special_cases(t_slct *slct, t_info *info, t_hist *hist)
 {
-	char	**table;
-	t_list	*lst;
-	t_list	*tmp;
-
-	if (line == NULL || !ft_strcmp(line, "") ||
-			(table = ft_strsplit(line, ' ')) == NULL)
-		return (NULL);
-	lst = tab_to_lst(table);
-	tmp = lst;
-	while (tmp->next->next != NULL)
-	tmp = tmp->next;
-	ft_strdel(&line);
-	line = ft_strdup(tmp->content);
-	free_lst(lst);
-	return (line);
+	if (!slct)
+	{
+		tputs(tgetstr("bl", NULL), 1, ft_putchar_err);
+		free_slct(slct, info);
+		return (1);
+	}
+	if (slct->next->next == slct)
+	{
+		slct->current = 0;
+		slct->next->current = 1;
+		tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+		restore_curs(hist, info, slct);
+		free_slct(slct, info);
+		return (1);
+	}
+	return (0);
 }
 
 void		autocomp(t_info *info, t_hist *hist)
@@ -57,13 +57,13 @@ void		autocomp(t_info *info, t_hist *hist)
 	char	*line;
 
 	line = ft_strdup(hist->name);
-	line = get_last_word(line);
-	slct = init_slct(line);
-	if (!slct)
-	{
-		tputs(tgetstr("be", NULL), 1, ft_putchar_err);
+	line = get_last_word(line, info);
+	/*	get_x_back(info);
+		ft_printf("\nline : %s, letters : %s\n", line, info->letters);
+		get_x_back(info);*/
+	slct = init_slct(line, info);
+	if (ac_special_cases(slct, info, hist))
 		return ;
-	}
 	ac_get_info(slct, info);
 	update_index(slct);
 	end_key(info);

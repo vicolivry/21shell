@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/24 10:18:55 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/14 09:10:12 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 18:02:33 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,6 +116,7 @@ int					ft_putchar_fd(char c, int fd);
 int					ft_putstr_fd(char const *s, int fd);
 int					ft_putendl_fd(char const *s, int fd);
 int					ft_putnbr_fd(int n, int fd);
+char				last_char(char *str);
 
 /*
 ** Fonctions Bonus

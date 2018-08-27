@@ -6,14 +6,14 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/30 18:56:33 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/02 17:33:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 11:03:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-int		get_row_number(t_info *info)
+int			get_row_number(t_info *info)
 {
 	int	ret;
 	int	cols;
@@ -57,7 +57,6 @@ void		display(t_info *info, t_slct *slct)
 			tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
 			get_x_back(info);
 		}
-
 		tmp = tmp->next;
 	}
 }

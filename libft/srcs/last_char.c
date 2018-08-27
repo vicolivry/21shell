@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   get_info.c                                       .::    .:/ .      .::   */
+/*   last_char.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/05/30 12:07:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 16:49:27 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/08/27 17:57:37 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/08/27 18:03:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
+#include "../includes/libft.h"
 
-void	ac_get_info(t_slct *slct, t_info *info)
+char	last_char(char *str)
 {
-	t_slct	*tmp;
-
-	tmp = NULL;
-	if (slct)
-	{
-		tmp = ac_first_elem(slct);
-		while (tmp != slct)
-		{
-			if (tmp->len > info->max_len)
-				info->max_len = tmp->len;
-			info->nb_elem++;
-			tmp = tmp->next;
-		}
-	}
+	if (!str)
+		return (0);
+	else
+		return (str[ft_strlen(str) - 1]);
 }

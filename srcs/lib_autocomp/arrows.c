@@ -6,18 +6,17 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 17:44:23 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/02 16:10:57 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 11:35:19 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-int		slct_current(t_slct *slct,t_info * info, t_hist *hist)
+int		slct_current(t_slct *slct, t_info *info, t_hist *hist)
 {
 	if (slct->current)
 	{
-
 		erase_prev(info, hist);
 		slct->current = 0;
 		slct->next->current = 1;
@@ -54,7 +53,6 @@ void	ac_right_key(t_info *info, t_slct *slct, t_hist *hist)
 				tmp->current = 1;
 				add_slct(tmp, info);
 			}
-
 			return ;
 		}
 		tmp = tmp->next;

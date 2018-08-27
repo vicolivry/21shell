@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/29 13:57:56 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/02 16:28:23 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 17:50:11 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,31 +29,6 @@ t_slct	*root_slct(void)
 	return (lst);
 }
 
-t_slct	*init_slct(char	*line)
-{
-	t_slct			*root;
-	struct dirent	*dp;
-	DIR				*dirp;
-
-	if (!line || !ft_strchr(line, '/'))
-		line = ft_strdup(".");
-	if (!(root = root_slct()))
-		return (NULL);
-	if ((dirp = opendir(line)) != NULL)
-	{
-		while ((dp = readdir(dirp)) != NULL)
-			if (dp->d_name[0] != '.')
-				ac_add_queue(root, dp);
-		closedir(dirp);
-	}
-	else
-	{
-		ft_strdel(&line);
-		return (NULL);
-	}
-	ft_strdel(&line);
-	return (root);
-}
 
 t_slct	*ac_first_elem(t_slct *root)
 {
