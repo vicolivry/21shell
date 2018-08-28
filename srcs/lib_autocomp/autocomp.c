@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/02 13:07:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 17:48:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 17:50:05 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,15 +16,12 @@
 static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int	loop;
-	//	int	size;
 
 	loop = 1;
-	//	size = remaining_chars(info, hist);
 	while (loop)
 	{
 		key_input(info, slct, &loop, hist);
 		if (loop)
-			//			if (size > 0)
 			display(info, slct);
 	}
 	free_slct(slct, info);
@@ -43,7 +40,6 @@ static int	ac_special_cases(t_slct *slct, t_info *info, t_hist *hist)
 	{
 		slct->current = 0;
 		slct->next->current = 1;
-		tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
 		restore_curs(hist, info, slct);
 		free_slct(slct, info);
 		return (1);
@@ -58,10 +54,7 @@ void		autocomp(t_info *info, t_hist *hist)
 
 	line = ft_strdup(hist->name);
 	line = get_last_word(line, info);
-	/*	get_x_back(info);
-		ft_printf("\nline : %s, letters : %s\n", line, info->letters);
-		get_x_back(info);*/
-	slct = init_slct(line, info);
+	slct = init_slct(line, info, hist);
 	if (ac_special_cases(slct, info, hist))
 		return ;
 	ac_get_info(slct, info);

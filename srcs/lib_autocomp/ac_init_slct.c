@@ -6,52 +6,118 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 17:49:41 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 17:50:22 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 17:45:01 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-static int	contains_letters(char *name, char *letters)
+static void	fill_commands(t_slct *root, t_info *info)
 {
-	int	i;
+	struct dirent	*dp;
+	DIR				*dirp;
+	char			**pathes;
+	char			*str;
+	int				i;
 
 	i = 0;
-	if (!letters)
-		return (1);
-	else 
-	while (letters[i])
+	str = NULL;
+	str = getenv("PATH");
+	pathes = ft_strsplit(str, ':');
+	while (pathes[i])
 	{
-		if (name[i] != letters[i])
-			return (0);
+		if ((dirp = opendir(pathes[i])) != NULL)
+		{
+			while ((dp = readdir(dirp)) != NULL)
+				if (dp->d_name[0] != '.' &&
+						contains_letters(dp->d_name, info->letters))
+					ac_add_queue(root, dp);
+			closedir(dirp);
+		}
+		ft_strdel(&pathes[i]);
 		i++;
 	}
-	return (1);
+	free(pathes);
 }
 
-t_slct	*init_slct(char *line, t_info *info)
+static void	fill_dir(t_slct *root, t_info *info, char *line, char **table)
 {
-	t_slct			*root;
 	struct dirent	*dp;
 	DIR				*dirp;
 
-	if (!line || !ft_strchr(line, '/'))
-		line = ft_strdup(".");
-	if (!(root = root_slct()))
-		return (NULL);
+	if (info->letters && !ft_strcmp(table[0], info->letters))
+		ft_strdel(&info->letters);
+	if (!line)
+		line = ft_strdup("./");
+	else if (line && !ft_strchr(line, '/'))
+	{
+		ft_strdel(&line);
+		line = ft_strdup("./");
+	}
 	if ((dirp = opendir(line)) != NULL)
 	{
 		while ((dp = readdir(dirp)) != NULL)
-			if (dp->d_name[0] != '.' && contains_letters(dp->d_name, info->letters))
+		{
+			if (dp->d_name[0] != '.' &&
+					contains_letters(dp->d_name, info->letters))
 				ac_add_queue(root, dp);
+		}
 		closedir(dirp);
 	}
-	else
+}
+
+static int	is_cmd(char *cmd)
+{
+	struct dirent	*dp;
+	DIR				*dirp;
+	char			**pathes;
+	char			*str;
+	int				i;
+
+	i = 0;
+	str = NULL;
+	str = getenv("PATH");
+	pathes = ft_strsplit(str, ':');
+	while (pathes[i])
 	{
-		ft_strdel(&line);
-		return (NULL);
+		if ((dirp = opendir(pathes[i])) != NULL)
+		{
+			while ((dp = readdir(dirp)) != NULL)
+				if (!ft_strcmp(dp->d_name, cmd))
+				{
+					while (pathes[i])
+					{
+						ft_strdel(&pathes[i]);
+						i++;
+					}
+					closedir(dirp);
+					return (1);
+				}
+			closedir(dirp);
+		}
+		ft_strdel(&pathes[i]);
+		i++;
 	}
+	free(pathes);
+	return (0);
+}
+
+t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
+{
+	t_slct			*root;
+	char			**table;
+
+	table = NULL;
+	if (hist->name)
+		table = ft_strsplit(hist->name, ' ');
+	if (!(root = root_slct()) || !line || !table)
+		return (NULL);
+	if (!(table[1]) && hist->name && last_char(hist->name) != ' ' &&
+			last_char(hist->name) != '/')
+		fill_commands(root, info);
+	else if (is_cmd(table[0]) || last_char(hist->name) == '/')
+		fill_dir(root, info, line, table);
 	ft_strdel(&line);
 	if (root->next != root)
 		return (root);

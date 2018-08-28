@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/29 13:55:04 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 17:29:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 17:27:28 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,4 +41,35 @@ int		is_exe(char *name)
 		return (1);
 	else
 		return (0);
+}
+
+int		contains_letters(char *name, char *letters)
+{
+	int	i;
+
+	i = 0;
+	if (!letters || !ft_strcmp(letters, ""))
+		return (1);
+	else
+		while (letters[i])
+		{
+			if (name[i] != letters[i] && name[i] != ft_toupper(letters[i])
+					&& name[i] != ft_tolower(letters[i]))
+				return (0);
+			i++;
+		}
+	return (1);
+}
+
+int		slct_current(t_slct *slct, t_info *info, t_hist *hist)
+{
+	if (slct->current)
+	{
+		erase_prev(info, hist);
+		slct->current = 0;
+		slct->next->current = 1;
+		add_slct(slct->next, info);
+		return (1);
+	}
+	return (0);
 }

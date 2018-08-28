@@ -6,14 +6,14 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 17:49:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 16:28:46 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 17:52:44 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-void	key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
+void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 {
 	char	buff[5];
 
@@ -41,12 +41,11 @@ void	key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 		reset_screen(info);
 }
 
-void	add_slct(t_slct *slct, t_info *info)
+void		add_slct(t_slct *slct, t_info *info)
 {
 	int	i;
 
 	i = 0;
-
 	if (info->letters)
 		while (info->letters[i])
 			i++;
@@ -62,7 +61,7 @@ void	add_slct(t_slct *slct, t_info *info)
 	get_x_back(info);
 }
 
-void	erase_prev(t_info *info, t_hist *hist)
+void		erase_prev(t_info *info, t_hist *hist)
 {
 	reset_screen(info);
 	tputs(tgetstr("up", NULL), 1, ft_putchar_err);
@@ -72,15 +71,29 @@ void	erase_prev(t_info *info, t_hist *hist)
 		ft_putstr(hist->name);
 }
 
-void	restore_curs(t_hist *hist, t_info *info, t_slct *slct)
+static void	restore2(t_info *info, t_hist *hist, t_slct *tmp)
 {
-	int		i;
-	t_slct	*tmp;
+	int	i;
 
 	i = 0;
+	if (info->letters)
+		while (info->letters[i])
+			i++;
+	while (tmp->name[i])
+	{
+		add_char(tmp->name[i], info, hist);
+		i++;
+	}
+}
+
+void		restore_curs(t_hist *hist, t_info *info, t_slct *slct)
+{
+	t_slct	*tmp;
+
 	tmp = ac_first_elem(slct);
 	reset_screen(info);
-	tputs(tgetstr("up", NULL), 1, ft_putchar_err);
+	if (slct->next->next != slct)
+		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
 	print_prompt(info);
 	if (hist->name)
@@ -88,16 +101,7 @@ void	restore_curs(t_hist *hist, t_info *info, t_slct *slct)
 	while (!tmp->current)
 		tmp = tmp->next;
 	if (tmp->name)
-	{
-		if (info->letters)
-			while (info->letters[i])
-				i++;
-		while (tmp->name[i])
-		{
-			add_char(tmp->name[i], info, hist);
-			i++;
-		}
-	}
+		restore2(info, hist, tmp);
 	if (tmp->is_dir)
 		add_char('/', info, hist);
 	info->curs_x = CURS_X;

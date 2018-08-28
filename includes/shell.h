@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 17:44:26 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 17:25:06 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -388,7 +388,7 @@ void				ac_add_queue(t_slct *root, struct dirent *dp);
 void				ac_add_head(t_slct *root, struct dirent *dp);
 void				ac_remove_elem(t_slct *elem);
 t_slct				*root_slct(void);
-t_slct				*init_slct(char *line, t_info *info);
+t_slct				*init_slct(char *line, t_info *info, t_hist *hist);
 t_slct				*ac_first_elem(t_slct *root);
 t_slct				*ac_last_elem(t_slct *root);
 void				free_slct(t_slct *lst, t_info *info);
@@ -409,7 +409,7 @@ void				add_slct(t_slct *slct, t_info *info);
 void				erase_prev(t_info *info, t_hist *hist);
 int					slct_current(t_slct *slct,t_info * info, t_hist *hist);
 char				*get_last_word(char *line, t_info *info);
-
+int					contains_letters(char *name, char *letters);
 /*
 **	END
 */
