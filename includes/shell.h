@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 17:25:06 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 14:42:09 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -355,6 +355,7 @@ void				alt_right(t_info *info, t_hist *tmp);
 void				alt_left(t_info *info, t_hist *tmp);
 void				up_key(t_info *info, t_hist *tmp);
 void				down_key(t_info *info, t_hist *tmp);
+void				ctrl_d(t_info *info);
 void				change_prompt(t_info *info, int mode);
 void				print_prompt(t_info *info);
 void				fill_history(t_info *info, t_hist *tmp);

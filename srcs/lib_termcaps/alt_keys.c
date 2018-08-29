@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:42:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/26 14:30:05 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 14:38:46 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -79,4 +79,20 @@ void		alt_right(t_info *info, t_hist *tmp)
 				&& ft_iswhite(tmp->name[info->curs_in_str - 1]))
 			right_key(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
+}
+
+void		ctrl_d(t_info *info)
+{
+	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
+	while (info->curs_in_str < info->s_len)
+		right_key(info);
+	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+	while (info->curs_x > 1)
+	{
+		tputs(tgetstr("le", NULL), 1, ft_putchar_err);
+		info->curs_x--;
+	}
+	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
+	default_term_mode(info);
+	exit(1);
 }

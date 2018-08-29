@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 17:49:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 17:52:44 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 14:42:33 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,6 +30,8 @@ void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 		ac_down_key(info, slct, hist);
 	else if (KEY_CODE_TAB)
 		ac_tab_key(info, slct, hist);
+	else if (KEY_CODE_CTRL_D)
+		ctrl_d(info);
 	else if (*(int*)buff == 10 || (KEY_CODE_BSP) || ft_isprint(*buff))
 	{
 		restore_curs(hist, info, slct);

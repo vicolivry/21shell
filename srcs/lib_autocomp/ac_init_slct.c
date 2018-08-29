@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 17:49:41 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 17:45:01 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 11:34:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -67,19 +67,14 @@ static void	fill_dir(t_slct *root, t_info *info, char *line, char **table)
 	}
 }
 
-static int	is_cmd(char *cmd)
+static int	is_cmd(char *cmd, char **pathes)
 {
 	struct dirent	*dp;
 	DIR				*dirp;
-	char			**pathes;
-	char			*str;
 	int				i;
 
-	i = 0;
-	str = NULL;
-	str = getenv("PATH");
-	pathes = ft_strsplit(str, ':');
-	while (pathes[i])
+	i = -1;
+	while (pathes[++i])
 	{
 		if ((dirp = opendir(pathes[i])) != NULL)
 		{
@@ -87,20 +82,27 @@ static int	is_cmd(char *cmd)
 				if (!ft_strcmp(dp->d_name, cmd))
 				{
 					while (pathes[i])
-					{
-						ft_strdel(&pathes[i]);
-						i++;
-					}
+						ft_strdel(&pathes[i++]);
 					closedir(dirp);
 					return (1);
 				}
 			closedir(dirp);
 		}
 		ft_strdel(&pathes[i]);
-		i++;
 	}
 	free(pathes);
 	return (0);
+}
+
+static char	**pathes(void)
+{
+	char			**pathes;
+	char			*str;
+
+	str = NULL;
+	str = getenv("PATH");
+	pathes = ft_strsplit(str, ':');
+	return (pathes);
 }
 
 t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
@@ -116,7 +118,7 @@ t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 	if (!(table[1]) && hist->name && last_char(hist->name) != ' ' &&
 			last_char(hist->name) != '/')
 		fill_commands(root, info);
-	else if (is_cmd(table[0]) || last_char(hist->name) == '/')
+	else if (is_cmd(table[0], pathes()) || last_char(hist->name) == '/')
 		fill_dir(root, info, line, table);
 	ft_strdel(&line);
 	if (root->next != root)
