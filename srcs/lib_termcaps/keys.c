@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 17:24:34 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,13 +18,12 @@ static void	cursor_start(t_info *info)
 	while (info->curs_x > 1)
 	{
 		tputs(tgetstr("le", NULL), 1, ft_putchar_err);
-		info->curs_x--;
+		get_curs_pos(info);
 	}
 }
 
 void		rc_key(t_info *info, int *loop, t_hist *tmp)
 {
-
 	fill_history(info, tmp);
 	toggle_quote(info);
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
@@ -44,9 +43,10 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 		ft_strdel(&(info->line));
 	info->line = ft_strdup(tmp->name);
 	ft_bzero(buff, 5);
+	get_curs_pos(info);
+	/*
 	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
-
+	info->curs_y = CURS_Y;*/
 	while (!tmp->current)
 		tmp = tmp->next;
 	if ((read(0, buff, 4) < 0))

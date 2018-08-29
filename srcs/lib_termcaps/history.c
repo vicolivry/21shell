@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/10 10:33:16 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:05 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 15:00:57 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,8 +64,9 @@ void		up_key(t_info *info, t_hist *tmp)
 		tmp->backup = ft_strdup(tmp->name);
 		info->s_len = ft_strlen(tmp->name);
 		info->curs_in_str = info->s_len + 1;
+	get_curs_pos(info);/*
 		info->curs_x = CURS_X;
-		info->curs_y = CURS_Y;
+		info->curs_y = CURS_Y;*/
 		tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	}
 }
@@ -88,8 +89,9 @@ void		down_key(t_info *info, t_hist *tmp)
 			tmp->backup = ft_strdup(tmp->name);
 		info->s_len = tmp->name ? ft_strlen(tmp->name) : 0;
 		info->curs_in_str = info->s_len + 1;
+	get_curs_pos(info);/*
 		info->curs_x = CURS_X;
-		info->curs_y = CURS_Y;
+		info->curs_y = CURS_Y;*/
 		tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	}
 }

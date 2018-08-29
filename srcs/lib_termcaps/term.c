@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 12:15:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:45 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 15:02:48 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,12 +35,14 @@ void	default_term_mode(t_info *info)
 	while (info->curs_y > info->orig_y)
 	{
 		tputs(tgetstr("up", NULL), 0, ft_putchar_err);
-		info->curs_y = CURS_Y;
+	get_curs_pos(info);
+	//	info->curs_y = CURS_Y;
 	}
 	while (info->curs_x > 1)
 	{
 		tputs(tgetstr("le", NULL), 0, ft_putchar_err);
-		info->curs_x = CURS_X;
+	get_curs_pos(info);
+	//	info->curs_x = CURS_X;
 	}
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	tcgetattr(STDIN_FILENO, &(info->term));

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/17 11:18:44 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:31 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 15:37:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,8 +40,7 @@ void	left_key(t_info *info)
 			info->curs_in_str--;
 		}
 	}
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	get_curs_pos(info);
 }
 
 /*
@@ -54,8 +53,6 @@ void	left_key(t_info *info)
 
 void	right_key(t_info *info)
 {
-
-//	ft_printf("\n\n %d\n", info->curs_in_str);
 	if (info->curs_in_str <= info->s_len)
 	{
 		if (info->curs_x < info->col_nb)
@@ -74,8 +71,7 @@ void	right_key(t_info *info)
 			info->curs_in_str++;
 		}
 	}
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	get_curs_pos(info);
 }
 
 /*
@@ -87,8 +83,7 @@ void	home_key(t_info *info)
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 		while (info->curs_in_str > 1)
 			left_key(info);
-		info->curs_x = CURS_X;
-		info->curs_y = CURS_Y;
+	get_curs_pos(info);
 		info->curs_in_str = 1;
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
@@ -98,8 +93,7 @@ void	end_key(t_info *info)
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 	while (info->curs_in_str <= info->s_len)
 		right_key(info);
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	get_curs_pos(info);
 	info->curs_in_str = info->s_len + 1;
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
@@ -108,7 +102,9 @@ void	get_x_back(t_info *info)
 {
 	int	i;
 
-	i = CURS_X;
+	get_curs_pos(info);
+	i = info->curs_x;
+//	i = CURS_X;
 	while (i > 1)
 	{
 		tputs(tgetstr("le", NULL), 1, ft_putchar_err);

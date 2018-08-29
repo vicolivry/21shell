@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 17:49:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:42:33 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 16:01:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -106,6 +106,5 @@ void		restore_curs(t_hist *hist, t_info *info, t_slct *slct)
 		restore2(info, hist, tmp);
 	if (tmp->is_dir)
 		add_char('/', info, hist);
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	get_curs_pos(info);
 }

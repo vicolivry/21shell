@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/19 12:14:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:40 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 17:55:37 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,18 +19,19 @@ static void		resize(t_info *info)
 	int		i;
 
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	tmp = last_elem(info->history);
+	tmp = first_elem(info->history);
+	while (!tmp->current)
+		tmp = tmp->next;
 	ioctl(0, TIOCGWINSZ, &(info->wndw));
 	info->row_nb = info->wndw.ws_row;
 	info->col_nb = info->wndw.ws_col;
 	tputs(tgoto(tgetstr("cm", NULL), 0, 0), 1, ft_putchar_err);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
 	print_prompt(info);
-	ft_putstr(info->line);
+	ft_putstr(tmp->name);
 	info->orig_y = 1;
 	i = info->s_len + 1;
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	get_curs_pos(info);
 	while (i > info->curs_in_str)
 	{
 		left_key(info);

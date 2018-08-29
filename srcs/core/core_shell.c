@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:51:13 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 17:20:04 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,8 +17,9 @@ void			init_info(t_info *info)
 {
 	raw_term_mode(info);
 	info->s_len = 0;
-	info->orig_y = CURS_Y;
-	info->curs_x = CURS_X;
+	get_curs_pos(info);
+	info->orig_y = info->curs_y;
+	//info->curs_x = CURS_X;
 	info->line = NULL;
 	info->curs_in_str = 1;
 	ioctl(0, TIOCGWINSZ, &(info->wndw));
@@ -37,8 +38,12 @@ void			reinit_info(t_info *info)
 {
 	raw_term_mode(info);
 	info->s_len = 0;
-	info->orig_y = CURS_Y;
-	info->curs_x = CURS_X;
+	ioctl(0, TIOCGWINSZ, &(info->wndw));
+	info->row_nb = info->wndw.ws_row;
+	info->col_nb = info->wndw.ws_col;
+	get_curs_pos(info);
+	info->orig_y = info->curs_y;
+//	info->curs_x = CURS_X;
 	info->curs_in_str = 1;
 	ft_strdel(&(info->line));
 }

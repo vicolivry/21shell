@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:42:09 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 14:58:01 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,10 +71,10 @@
 # define KEY_CODE_CTRL_P *(int*)buff == 16
 # define KEY_CODE_TAB *(int*)buff == 9
 # define KEY_CODE_SP *(int*)buff == 32
-
+/*
 # define CURS_X get_curs_pos(0, info)
 # define CURS_Y get_curs_pos(1, info)
-
+*/
 
 /*
 **	A Faire :
@@ -332,7 +332,7 @@ void				default_term_mode(t_info *info);
 void				raw_term_mode(t_info *info);
 void				get_key(int *loop, t_info *info, t_hist *tmp);
 t_info				*memo_info(t_info *info, int mode);
-int					get_curs_pos(int mode, t_info *info);
+void				get_curs_pos(t_info *info);
 void				get_signals(void);
 void				left_key(t_info *info);
 void				right_key(t_info *info);

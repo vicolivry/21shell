@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:42:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:38:46 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/29 15:00:10 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,8 +30,9 @@ void		alt_up_down(t_info *info, char *buff)
 		else if (info->curs_y < info->row_nb)
 			end_key(info);
 	}
+	get_curs_pos(info);/*
 	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;
+	info->curs_y = CURS_Y;*/
 	if (info->curs_x < ft_strlen(info->prmpt) && info->curs_y == info->orig_y)
 		while (info->curs_x <= ft_strlen(info->prmpt))
 			right_key(info);
