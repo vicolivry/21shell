@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 17:24:34 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/03 15:15:51 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,9 +44,6 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 	info->line = ft_strdup(tmp->name);
 	ft_bzero(buff, 5);
 	get_curs_pos(info);
-	/*
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;*/
 	while (!tmp->current)
 		tmp = tmp->next;
 	if ((read(0, buff, 4) < 0))

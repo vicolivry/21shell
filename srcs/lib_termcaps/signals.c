@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/19 12:14:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 17:55:37 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/03 17:22:35 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,9 @@ static void		resize(t_info *info)
 	tmp = first_elem(info->history);
 	while (!tmp->current)
 		tmp = tmp->next;
+	if (info->line)
+		ft_strdel(&(info->line));
+	info->line = ft_strdup(tmp->name);
 	ioctl(0, TIOCGWINSZ, &(info->wndw));
 	info->row_nb = info->wndw.ws_row;
 	info->col_nb = info->wndw.ws_col;
@@ -30,14 +33,17 @@ static void		resize(t_info *info)
 	print_prompt(info);
 	ft_putstr(tmp->name);
 	info->orig_y = 1;
-	i = info->s_len + 1;
+	info->s_len = tmp->name ? ft_strlen(tmp->name) : 0;
+	i = info->s_len ? info->s_len + 1 : 1;
 	get_curs_pos(info);
 	while (i > info->curs_in_str)
 	{
 		left_key(info);
-		info->curs_in_str++;
+		if (i != 1)
+			info->curs_in_str++;
 		i--;
 	}
+	get_curs_pos(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
@@ -69,7 +75,7 @@ static void		restart(int sig)
 	info = &g_info;
 	(void)sig;
 //	signal(SIGTSTP, stop);
-//	raw_term_mode(info);
+	raw_term_mode(info);
 	resize(info);
 }
 

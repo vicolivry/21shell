@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 17:20:04 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/03 17:22:27 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,7 +43,6 @@ void			reinit_info(t_info *info)
 	info->col_nb = info->wndw.ws_col;
 	get_curs_pos(info);
 	info->orig_y = info->curs_y;
-//	info->curs_x = CURS_X;
 	info->curs_in_str = 1;
 	ft_strdel(&(info->line));
 }
@@ -75,11 +74,6 @@ static int		parse_line(t_struct *data, char **line)
 
 	ret = 0;
 	data->commandes = ft_split_commandes(line, data);
-	// A DETETE **********************************************************
-	ft_putstr_fd(GREEN, 2);
-	ft_printf("Parsing ok\n");
-	ft_putstr_fd(RESET, 2);
-	// *******************************************************************
 	cpy = data->commandes;
 	while (cpy)
 	{
@@ -94,11 +88,6 @@ static int		parse_line(t_struct *data, char **line)
 			}
 			data->code_erreur = ret;
 		}
-		// A DETETE **********************************************************
-		ft_putstr_fd(GREEN, 2);
-		ft_printf("******* Valeur de retour (data->code_erreur) = %d\n", data->code_erreur);
-		ft_putstr_fd(RESET, 2);
-		// *******************************************************************
 		cpy = cpy->next;
 	}
 	data->commandes = clear_ins(data->commandes);
@@ -131,6 +120,7 @@ void			core_shell(t_struct *data)
 			}
 			else
 			{
+
 				full_line = str_append(full_line, g_info.line);
 				ft_strdel(&(g_info.line));
 				default_term_mode(&g_info);

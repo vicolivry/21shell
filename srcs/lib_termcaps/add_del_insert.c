@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 16:05:19 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/03 13:39:35 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,9 +56,7 @@ void	add_char(char c, t_info *info, t_hist *tmp)
 	}
 	tmp->name = !tmp->name ? ft_strdup(chr) : str_append(tmp->name, chr);
 	ft_putchar(c);
-	get_curs_pos(info);/*
-	info->curs_x = CURS_X;
-	info->curs_y = CURS_Y;*/
+	get_curs_pos(info);
 	info->curs_in_str++;
 	info->s_len++;
 	if (info->curs_y == info->row_nb && info->curs_x == 2)
