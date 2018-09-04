@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/23 13:43:07 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 15:00:19 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 13:53:06 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,8 +47,12 @@ void		toggle_quote(t_info *info)
 				single_toggle(info);
 			i++;
 		}
+	if (last_char(info->line) == '\\' && info->quoted != 1 && info->quoted != 2)
+		info->quoted = 3;
 	if (!info->quoted)
 		change_prompt(info, 0);
 	else
 		info->quoted == 1 ? change_prompt(info, 1) : change_prompt(info, 2);
+	if (info->quoted == 3)
+		change_prompt(info, 3);
 }

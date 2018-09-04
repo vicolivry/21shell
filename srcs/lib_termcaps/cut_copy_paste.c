@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/25 13:50:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 15:00:14 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 11:29:11 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,7 +60,6 @@ static void	copy_beginning(t_info *info, t_hist *tmp)
 	}
 }
 
-
 static void	cut_end(t_info *info, t_hist *tmp)
 {
 	int		curs_pos;
@@ -86,7 +85,7 @@ static void	cut_beginning(t_info *info, t_hist *tmp)
 	}
 }
 
-void	cut_n_cpy(t_info *info, char *buff, t_hist *tmp)
+void		cut_n_cpy(t_info *info, char *buff, t_hist *tmp)
 {
 	int	i;
 

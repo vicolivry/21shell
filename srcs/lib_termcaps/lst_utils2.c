@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/29 13:57:56 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:22 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 17:43:31 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,4 +55,18 @@ void	init_current(t_hist *history)
 		tmp = tmp->next;
 	}
 	tmp->current = 1;
+}
+
+void	free_hist(t_hist *lst)
+{
+	if (lst)
+	{
+		lst = lst->next;
+		while (lst->next != lst)
+		{
+			remove_elem(lst);
+			lst = lst->next;
+		}
+	}
+	ft_memdel((void**)&lst);
 }

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/10 10:33:16 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 12:03:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 11:34:05 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,8 +49,7 @@ static void	backing_up(t_hist *tmp)
 
 void		up_key(t_info *info, t_hist *tmp)
 {
-	if (tmp->prev != info->history /*&& remaining_chars(info, tmp->prev) >
-			ft_strlen(tmp->prev->name)*/)
+	if (tmp->prev != info->history)
 	{
 		backing_up(tmp);
 		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
@@ -74,8 +73,7 @@ void		up_key(t_info *info, t_hist *tmp)
 
 void		down_key(t_info *info, t_hist *tmp)
 {
-	if (tmp->next != info->history/* && remaining_chars(info, tmp->next) >
-			ft_strlen(tmp->next->name)*/)
+	if (tmp->next != info->history)
 	{
 		backing_up(tmp);
 		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
@@ -96,5 +94,4 @@ void		down_key(t_info *info, t_hist *tmp)
 	}
 	else
 		tputs(tgetstr("bl", NULL), 1, ft_putchar_err);
-
 }

@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:39:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/23 16:16:19 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 18:14:02 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -66,6 +66,7 @@ static void		init_base(t_struct **data)
 	(*data)->option_i_env = 0;
 	(*data)->code_erreur = 0;
 	(*data)->pid = getpid();
+	(*data)->is_executing = 0;
 	(*data)->sizemax = ft_load_path(data);
 }
 

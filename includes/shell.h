@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:58:01 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 18:13:30 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,10 +71,6 @@
 # define KEY_CODE_CTRL_P *(int*)buff == 16
 # define KEY_CODE_TAB *(int*)buff == 9
 # define KEY_CODE_SP *(int*)buff == 32
-/*
-# define CURS_X get_curs_pos(0, info)
-# define CURS_Y get_curs_pos(1, info)
-*/
 
 /*
 **	A Faire :
@@ -185,6 +181,7 @@ typedef struct		s_struct
 	int				code_erreur;
 	int				sizemax;
 	int				pid;
+	int				is_executing;
 	t_ins			*commandes;
 }					t_struct;
 
@@ -364,6 +361,7 @@ void				line_edit(t_info *info, t_hist *tmp);
 void				cut_n_cpy(t_info *info, char *buff, t_hist *tmp);
 void				get_x_back(t_info *info);
 int					remaining_chars(t_info *info, t_hist *hist);
+void				free_hist(t_hist *lst);
 /*
 ** LIB_AUTOCOMP
 */

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/19 14:32:59 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 14:39:34 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 13:15:54 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,5 +36,10 @@ void	change_prompt(t_info *info, int mode)
 	{
 		ft_strdel(&info->prmpt);
 		info->prmpt = ft_strdup("dquote> ");
+	}
+	else if (mode == 3)
+	{
+		ft_strdel(&info->prmpt);
+		info->prmpt = ft_strdup("> ");
 	}
 }

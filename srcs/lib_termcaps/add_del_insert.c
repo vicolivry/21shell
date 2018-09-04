@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 13:39:35 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 11:33:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,10 +27,8 @@ void	insert_char(char c, t_info *info, t_hist *tmp)
 	tputs(tgetstr("cd", NULL), 1, ft_putchar_err);
 	add_c_in_str(info, c, tmp);
 	ft_putchar(c);
-	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 	while (i++ < info->s_len)
 		ft_putchar(tmp->name[i]);
-	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar_err);
 	right_key(info);
 	info->s_len++;

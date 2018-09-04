@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 17:22:27 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 18:22:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,7 +19,6 @@ void			init_info(t_info *info)
 	info->s_len = 0;
 	get_curs_pos(info);
 	info->orig_y = info->curs_y;
-	//info->curs_x = CURS_X;
 	info->line = NULL;
 	info->curs_in_str = 1;
 	ioctl(0, TIOCGWINSZ, &(info->wndw));
@@ -96,7 +95,8 @@ static int		parse_line(t_struct *data, char **line)
 
 /*
  **	Boucle infini, Attend un retour different de zero pour exit
- */
+*/
+
 void			core_shell(t_struct *data)
 {
 	int		quit;
@@ -109,27 +109,37 @@ void			core_shell(t_struct *data)
 	init_info(&g_info);
 	while (quit == 0)
 	{
+		data->is_executing = 0;
 		line_edit(&g_info, tmp);
 		if (g_info.line != NULL && quit == 0)
 		{
-			if (g_info.quoted)
+			if (g_info.quoted == 1 || g_info.quoted == 2)
 			{
 				full_line = str_append(full_line, g_info.line);
 				full_line = str_append(full_line, "\n");
-				ft_strdel(&(g_info.line));
+			}
+			else if (g_info.quoted == 3)
+			{
+				g_info.line[ft_strlen(g_info.line) - 1] = 0;
+				full_line = str_append(full_line, g_info.line);
+				g_info.quoted = 0;
 			}
 			else
 			{
-
 				full_line = str_append(full_line, g_info.line);
-				ft_strdel(&(g_info.line));
 				default_term_mode(&g_info);
 				quit = parse_line(data, &(full_line));
-				if (full_line)
-					ft_strdel(&full_line);
 			}
+				ft_strdel(&(g_info.line));
 		}
+		data->is_executing = 1;
+		if (full_line)
+			ft_strdel(&full_line);
 		reinit_info(&g_info);
 	}
+	free_hist(g_info.history);
+	if (g_info.copy)
+		ft_strdel(&g_info.copy);
+	ft_strdel(&g_info.prmpt);
 	default_term_mode(&g_info);
 }

@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/29 15:00:57 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/24 17:50:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 18:16:05 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -99,7 +99,5 @@ int				main(int argc, char **argv, char **env)
 	core_shell(data);
 	code_exit = ft_delete_struct(&data);
 	print_ascii_art_end();
-	ft_printf("SLEEP\n");
-	sleep(150);
 	return (code_exit);
 }

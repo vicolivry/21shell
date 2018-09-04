@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 15:15:51 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/04 12:53:56 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,6 +35,32 @@ void		rc_key(t_info *info, int *loop, t_hist *tmp)
 	*loop = 0;
 }
 
+static void	get_key2(int *loop, t_info *info, t_hist *tmp, char *buff)
+{
+	if (KEY_CODE_ALT_RIGHT)
+		alt_right(info, tmp);
+	else if (KEY_CODE_ALT_LEFT)
+		alt_left(info, tmp);
+	else if (KEY_CODE_BSP)
+		del_char(info, tmp);
+	else if (KEY_CODE_HOME)
+		home_key(info);
+	else if (KEY_CODE_END)
+		end_key(info);
+	else if (KEY_CODE_RC)
+		rc_key(info, loop, tmp);
+	else if (KEY_CODE_CTRL_E || KEY_CODE_CTRL_B ||
+			KEY_CODE_CTRL_X || KEY_CODE_CTRL_A || KEY_CODE_CTRL_P)
+		cut_n_cpy(info, buff, tmp);
+	else if (KEY_CODE_CTRL_D)
+		ctrl_d(info);
+	else if (KEY_CODE_TAB)
+		autocomp(info, tmp);
+	else if (ft_isprint(*buff))
+		info->curs_in_str <= info->s_len ? insert_char(*buff, info, tmp)
+			: add_char(*buff, info, tmp);
+}
+
 void		get_key(int *loop, t_info *info, t_hist *tmp)
 {
 	char	buff[5];
@@ -59,26 +85,6 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 		left_key(info);
 	else if ((KEY_CODE_ALT_UP) || (KEY_CODE_ALT_DOWN))
 		alt_up_down(info, buff);
-	else if (KEY_CODE_ALT_RIGHT)
-		alt_right(info, tmp);
-	else if (KEY_CODE_ALT_LEFT)
-		alt_left(info, tmp);
-	else if (KEY_CODE_BSP)
-		del_char(info, tmp);
-	else if (KEY_CODE_HOME)
-		home_key(info);
-	else if (KEY_CODE_END)
-		end_key(info);
-	else if (KEY_CODE_RC)
-		rc_key(info, loop, tmp);
-	else if (KEY_CODE_CTRL_E || KEY_CODE_CTRL_B ||
-			KEY_CODE_CTRL_X || KEY_CODE_CTRL_A || KEY_CODE_CTRL_P)
-		cut_n_cpy(info, buff, tmp);
-	else if (KEY_CODE_CTRL_D)
-		ctrl_d(info);
-	else if (KEY_CODE_TAB)
-		autocomp(info, tmp);
-	else if (ft_isprint(*buff))
-		info->curs_in_str <= info->s_len ? insert_char(*buff, info, tmp)
-			: add_char(*buff, info, tmp);
+	else
+		get_key2(loop, info, tmp, buff);
 }
