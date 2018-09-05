@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/24 10:18:55 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 18:02:33 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 18:10:45 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -117,6 +117,7 @@ int					ft_putstr_fd(char const *s, int fd);
 int					ft_putendl_fd(char const *s, int fd);
 int					ft_putnbr_fd(int n, int fd);
 char				last_char(char *str);
+void				free_tab(char **table);
 
 /*
 ** Fonctions Bonus

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/17 11:18:44 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 16:26:24 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:48:25 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,6 +53,7 @@ void	left_key(t_info *info)
 
 void	right_key(t_info *info)
 {
+	get_curs_pos(info);
 	if (info->curs_in_str <= info->s_len)
 	{
 		if (info->curs_x < info->col_nb)
@@ -62,14 +63,10 @@ void	right_key(t_info *info)
 		}
 		else if (info->curs_x == info->col_nb)
 		{
-			get_curs_pos(info);
-			tputs(tgoto(tgetstr("cm", NULL), info->curs_x, info->curs_y), 1,
-					ft_putchar_err);
-			while (info->curs_x > 1)
-			{
-				tputs(tgetstr("le", NULL), 0, ft_putchar_err);
-				info->curs_x--;
-			}
+			if (info->curs_y == info->row_nb)
+				info->orig_y--;
+			tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+			get_x_back(info);
 			info->curs_in_str++;
 		}
 	}

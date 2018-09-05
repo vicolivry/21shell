@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 17:30:43 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 15:02:56 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 18:44:21 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -80,6 +80,7 @@ char		*get_last_word(char *line, t_info *info)
 	ft_strdel(&line);
 	line = ft_strdup(tmp->content);
 	free_lst(lst);
+	free_tab(table);
 	line = get_letters(line, info);
 	return (line);
 }

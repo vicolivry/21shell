@@ -6,7 +6,7 @@
 #    By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/24 10:04:43 by yoginet      #+#   ##    ##    #+#        #
-#    Updated: 2018/08/27 18:03:29 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/09/05 18:11:02 by volivry     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -133,6 +133,7 @@ SRC_NAME =	ft_memset.c \
 			get_next_line.c \
 			get_next_line2.c \
 			get_line.c \
+			free_tab.c \
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:42:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 15:33:44 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:47:43 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,6 +65,7 @@ void		alt_left(t_info *info, t_hist *tmp)
 	}
 	if (info->curs_in_str > 1)
 		right_key(info);
+	get_curs_pos(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
@@ -87,21 +88,17 @@ void		alt_right(t_info *info, t_hist *tmp)
 		while (info->curs_in_str <= ft_strlen(tmp->name)
 				&& ft_iswhite(tmp->name[info->curs_in_str - 1]))
 			right_key(info);
+	get_curs_pos(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
 void		ctrl_d(t_info *info)
 {
-	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	while (info->curs_in_str < info->s_len)
-		right_key(info);
-	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
-	while (info->curs_x > 1)
+	if (info->line && ft_strcmp(info->line, ""))
+		return ;
+	else
 	{
-		tputs(tgetstr("le", NULL), 1, ft_putchar_err);
-		info->curs_x--;
+		info->line = ft_strdup("exit");
+		info->loop = 0;
 	}
-	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
-	default_term_mode(info);
-	exit(1);
 }

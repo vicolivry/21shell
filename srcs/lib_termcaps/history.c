@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/10 10:33:16 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 11:34:05 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:53:58 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,7 +65,16 @@ void		up_key(t_info *info, t_hist *tmp)
 		info->curs_in_str = info->s_len + 1;
 		ft_putstr(tmp->name);
 		get_curs_pos(info);
-		tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
+		info->orig_y = info->curs_y - ((ft_strlen(tmp->name)
+				+ ft_strlen(info->prmpt)) / info->col_nb) + 1;
+		if ((ft_strlen(tmp->name) + ft_strlen(info->prmpt)) % info->col_nb != 0)
+			info->orig_y--;
+		else
+		{
+			tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+			get_x_back(info);
+			info->orig_y--;
+		}
 	}
 	else
 		tputs(tgetstr("bl", NULL), 1, ft_putchar_err);
@@ -84,6 +93,8 @@ void		down_key(t_info *info, t_hist *tmp)
 			tmp = tmp->next;
 		tmp->prev->current = 0;
 		tmp->current = 1;
+		get_curs_pos(info);
+		info->orig_y = info->curs_y;
 		ft_putstr(tmp->name);
 		if (tmp->next != info->history)
 			tmp->backup = ft_strdup(tmp->name);

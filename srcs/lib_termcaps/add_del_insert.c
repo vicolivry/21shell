@@ -6,14 +6,26 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 11:33:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:52:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-void	insert_char(char c, t_info *info, t_hist *tmp)
+static void	if_end(t_info *info, t_hist *tmp)
+{
+	if (tmp->name)
+		if (!((ft_strlen(tmp->name) + ft_strlen(info->prmpt)) % info->col_nb))
+		{
+			if (info->curs_y == info->row_nb)
+				info->orig_y--;
+			tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+			get_x_back(info);
+		}
+}
+
+void		insert_char(char c, t_info *info, t_hist *tmp)
 {
 	int		i;
 
@@ -41,7 +53,7 @@ void	insert_char(char c, t_info *info, t_hist *tmp)
 	}
 }
 
-void	add_char(char c, t_info *info, t_hist *tmp)
+void		add_char(char c, t_info *info, t_hist *tmp)
 {
 	char	chr[2];
 
@@ -59,9 +71,10 @@ void	add_char(char c, t_info *info, t_hist *tmp)
 	info->s_len++;
 	if (info->curs_y == info->row_nb && info->curs_x == 2)
 		info->orig_y--;
+	if_end(info, tmp);
 }
 
-void	del_char(t_info *info, t_hist *tmp)
+void		del_char(t_info *info, t_hist *tmp)
 {
 	int	i;
 
@@ -81,7 +94,7 @@ void	del_char(t_info *info, t_hist *tmp)
 	}
 }
 
-void	add_c_in_str(t_info *info, char c, t_hist *tmp)
+void		add_c_in_str(t_info *info, char c, t_hist *tmp)
 {
 	char	*str;
 	int		i;
@@ -108,7 +121,7 @@ void	add_c_in_str(t_info *info, char c, t_hist *tmp)
 	ft_strdel(&str);
 }
 
-void	del_c_in_str(t_info *info, t_hist *tmp)
+void		del_c_in_str(t_info *info, t_hist *tmp)
 {
 	char	*str;
 	int		i;

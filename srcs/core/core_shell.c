@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 18:22:23 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 18:08:40 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,6 +29,7 @@ void			init_info(t_info *info)
 	info->prmpt = ft_strdup("$> ");
 	info->history = root_hist();
 	info->letters = NULL;
+	info->loop = 1;
 	info->max_len = 0;
 	info->nb_elem = 0;
 }
@@ -44,21 +45,21 @@ void			reinit_info(t_info *info)
 	info->orig_y = info->curs_y;
 	info->curs_in_str = 1;
 	ft_strdel(&(info->line));
+	info->loop = 1;
 }
 
 void			line_edit(t_info *info, t_hist *tmp)
 {
-	int loop;
 
+	g_data->is_executing = 0;
 	raw_term_mode(info);
 	add_head(info->history);
 	tmp = last_elem(info->history);
 	init_current(info->history);
-	loop = 1;
 	print_prompt(info);
 	get_signals();
-	while (loop)
-		get_key(&loop, info, tmp);
+	while (info->loop)
+		get_key(info, tmp);
 }
 
 /*
@@ -109,8 +110,9 @@ void			core_shell(t_struct *data)
 	init_info(&g_info);
 	while (quit == 0)
 	{
-		data->is_executing = 0;
 		line_edit(&g_info, tmp);
+		g_data->is_executing = 1;
+		dprintf(2, "g_info.line: %s\n", g_info.line);
 		if (g_info.line != NULL && quit == 0)
 		{
 			if (g_info.quoted == 1 || g_info.quoted == 2)
@@ -132,11 +134,10 @@ void			core_shell(t_struct *data)
 			}
 				ft_strdel(&(g_info.line));
 		}
-		data->is_executing = 1;
-		if (full_line)
-			ft_strdel(&full_line);
 		reinit_info(&g_info);
 	}
+		if (full_line)
+			ft_strdel(&full_line);
 	free_hist(g_info.history);
 	if (g_info.copy)
 		ft_strdel(&g_info.copy);

@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 18:13:30 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:46:35 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -66,6 +66,7 @@
 # define KEY_CODE_CTRL_D *(int*)buff == 4
 # define KEY_CODE_CTRL_E *(int*)buff == 5
 # define KEY_CODE_CTRL_X *(int*)buff == 24
+
 # define KEY_CODE_CTRL_B *(int*)buff == 2
 # define KEY_CODE_CTRL_A *(int*)buff == 1
 # define KEY_CODE_CTRL_P *(int*)buff == 16
@@ -184,6 +185,8 @@ typedef struct		s_struct
 	int				is_executing;
 	t_ins			*commandes;
 }					t_struct;
+
+t_struct			*g_data;
 
 /*
  **	***	Fonctions ***
@@ -321,13 +324,15 @@ typedef struct		s_info
 	char			*letters;
 	int				nb_elem;
 	int				max_len;
+	int				loop;
 }					t_info;
 
 t_info				g_info;
 
 void				default_term_mode(t_info *info);
+void				reinit_info(t_info *info);
 void				raw_term_mode(t_info *info);
-void				get_key(int *loop, t_info *info, t_hist *tmp);
+void				get_key(t_info *info, t_hist *tmp);
 t_info				*memo_info(t_info *info, int mode);
 void				get_curs_pos(t_info *info);
 void				get_signals(void);
@@ -362,6 +367,7 @@ void				cut_n_cpy(t_info *info, char *buff, t_hist *tmp);
 void				get_x_back(t_info *info);
 int					remaining_chars(t_info *info, t_hist *hist);
 void				free_hist(t_hist *lst);
+
 /*
 ** LIB_AUTOCOMP
 */

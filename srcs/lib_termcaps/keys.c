@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 12:53:56 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 17:48:18 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ static void	cursor_start(t_info *info)
 	}
 }
 
-void		rc_key(t_info *info, int *loop, t_hist *tmp)
+void		rc_key(t_info *info, t_hist *tmp)
 {
 	fill_history(info, tmp);
 	toggle_quote(info);
@@ -32,10 +32,10 @@ void		rc_key(t_info *info, int *loop, t_hist *tmp)
 	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
 	cursor_start(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
-	*loop = 0;
+	info->loop = 0;
 }
 
-static void	get_key2(int *loop, t_info *info, t_hist *tmp, char *buff)
+static void	get_key2(t_info *info, t_hist *tmp, char *buff)
 {
 	if (KEY_CODE_ALT_RIGHT)
 		alt_right(info, tmp);
@@ -48,7 +48,7 @@ static void	get_key2(int *loop, t_info *info, t_hist *tmp, char *buff)
 	else if (KEY_CODE_END)
 		end_key(info);
 	else if (KEY_CODE_RC)
-		rc_key(info, loop, tmp);
+		rc_key(info, tmp);
 	else if (KEY_CODE_CTRL_E || KEY_CODE_CTRL_B ||
 			KEY_CODE_CTRL_X || KEY_CODE_CTRL_A || KEY_CODE_CTRL_P)
 		cut_n_cpy(info, buff, tmp);
@@ -61,7 +61,7 @@ static void	get_key2(int *loop, t_info *info, t_hist *tmp, char *buff)
 			: add_char(*buff, info, tmp);
 }
 
-void		get_key(int *loop, t_info *info, t_hist *tmp)
+void		get_key(t_info *info, t_hist *tmp)
 {
 	char	buff[5];
 
@@ -86,5 +86,5 @@ void		get_key(int *loop, t_info *info, t_hist *tmp)
 	else if ((KEY_CODE_ALT_UP) || (KEY_CODE_ALT_DOWN))
 		alt_up_down(info, buff);
 	else
-		get_key2(loop, info, tmp, buff);
+		get_key2(info, tmp, buff);
 }

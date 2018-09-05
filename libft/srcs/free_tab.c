@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   str_gestion.c                                    .::    .:/ .      .::   */
+/*   free_tab.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/06/19 14:41:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:48:47 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/09/05 18:09:05 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/09/05 18:10:33 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
+#include "../includes/libft.h"
 
-int		remaining_chars(t_info *info, t_hist *hist)
+void	free_tab(char **table)
 {
-	int	char_nb;
-	int	hist_len;
+	int	i;
 
-	hist_len = hist->name ? ft_strlen(hist->name) : 0;
-	char_nb = info->row_nb * info->col_nb;
-	return (char_nb - (hist_len + ft_strlen(info->prmpt)) - 1);
+	i = 0;
+	if (!table)
+		return ;
+	while (table[i])
+	{
+		ft_strdel(&table[i]);
+		i++;
+	}
+	free(table);
 }
