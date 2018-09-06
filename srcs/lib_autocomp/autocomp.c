@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/02 13:07:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 18:43:49 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 18:03:48 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,6 +48,7 @@ static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 	free_slct(slct, info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
+
 static int	ac_special_cases(t_slct *slct, t_info *info, t_hist *hist)
 {
 	if (!slct || !win_big_enough(info, hist))
@@ -73,10 +74,14 @@ void		autocomp(t_info *info, t_hist *hist)
 	char	*line;
 
 	line = ft_strdup(hist->name);
+	dprintf(2, "BEFORE GET LAST WORD\n");
 	line = get_last_word(line, info);
+	dprintf(2, "AFTER GET LAST WORD\n");
 	slct = init_slct(line, info, hist);
-/*	if (line)
-		ft_strdel(&line);*/
+	dprintf(2, "line: %s\n", line);
+
+	if (line)
+		ft_strdel(&line);
 	ac_get_info(slct, info);
 	if (ac_special_cases(slct, info, hist))
 		return ;

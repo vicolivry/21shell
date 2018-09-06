@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/19 12:14:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:53:30 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 14:13:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -82,32 +82,6 @@ static void		restart(int sig)
 	(void)sig;
 	raw_term_mode(info);
 	resize_win(sig);
-}
-
-static void		ctrl_c(int sig)
-{
-	t_info	*info;
-	t_hist	*tmp;
-
-	(void)sig;
-	info = &g_info;
-	tmp = info->history;
-	while (!tmp->current)
-		tmp = tmp->next;
-	if (!g_data->is_executing)
-		end_key(info);
-	raw_term_mode(info);
-	ft_putchar('\n');
-	get_x_back(info);
-	if (!g_data->is_executing)
-	{
-		if (tmp->name)
-			ft_strdel(&tmp->name);
-		if (info->line)
-			ft_strdel(&info->line);
-		reinit_info(info);
-		print_prompt(info);
-	}
 }
 
 void			get_signals(void)

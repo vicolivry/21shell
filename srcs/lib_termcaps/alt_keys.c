@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:42:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:47:43 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 17:21:25 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,14 +15,14 @@
 
 void		alt_up_down(t_info *info, char *buff)
 {
-	get_curs_pos(info);
 	if ((KEY_CODE_ALT_UP) && info->curs_y > info->orig_y)
 	{
 		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
 		get_curs_pos(info);
 		info->curs_in_str -= info->col_nb;
 	}
-	else if ((KEY_CODE_ALT_DOWN) && info->s_len > info->col_nb)
+	else if ((KEY_CODE_ALT_DOWN) && info->s_len + ft_strlen(info->prmpt)
+			> info->col_nb)
 	{
 		if (info->s_len - info->curs_in_str >= info->col_nb)
 		{

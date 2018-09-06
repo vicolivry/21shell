@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 17:30:43 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 18:44:21 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 18:09:45 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -73,7 +73,16 @@ char		*get_last_word(char *line, t_info *info)
 		return (NULL);
 	if ((table = ft_strsplit(line, ' ')) == NULL)
 		return (NULL);
-	lst = tab_to_lst(table);
+	dprintf(2, "TABLE[1]: |%s|\n", table[0]);
+	if (table[0])
+		lst = tab_to_lst(table);
+	else
+	{
+		if (line)
+			ft_strdel(&line);
+		free_tab(table);
+		return (NULL);
+	}
 	tmp = lst;
 	while (tmp->next->next != NULL)
 		tmp = tmp->next;
@@ -81,6 +90,7 @@ char		*get_last_word(char *line, t_info *info)
 	line = ft_strdup(tmp->content);
 	free_lst(lst);
 	free_tab(table);
+	dprintf(2, "BEFORE GET LETTERS\n");
 	line = get_letters(line, info);
 	return (line);
 }

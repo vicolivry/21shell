@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:46:35 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 14:12:27 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -367,6 +367,8 @@ void				cut_n_cpy(t_info *info, char *buff, t_hist *tmp);
 void				get_x_back(t_info *info);
 int					remaining_chars(t_info *info, t_hist *hist);
 void				free_hist(t_hist *lst);
+void				ctrl_c(int sig);
+void				if_end(t_info *info, t_hist *tmp);
 
 /*
 ** LIB_AUTOCOMP

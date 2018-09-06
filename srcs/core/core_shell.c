@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:11:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 18:08:40 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 18:13:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -96,7 +96,31 @@ static int		parse_line(t_struct *data, char **line)
 
 /*
  **	Boucle infini, Attend un retour different de zero pour exit
-*/
+ */
+
+static char*	quoted_loops(char *full_line, t_struct *data, int *quit)
+{
+	if (g_info.quoted == 1 || g_info.quoted == 2)
+	{
+		full_line = str_append(full_line, g_info.line);
+		full_line = str_append(full_line, "\n");
+	}
+	else if (g_info.quoted == 3)
+	{
+		g_info.line[ft_strlen(g_info.line) - 1] = 0;
+		full_line = str_append(full_line, g_info.line);
+		g_info.quoted = 0;
+	}
+	else
+	{
+		full_line = str_append(full_line, g_info.line);
+		default_term_mode(&g_info);
+		dprintf(2, "g_info.line: |%s|\n", g_info.line);
+		*quit = parse_line(data, &(full_line));
+		dprintf(2, "Passed parsing");
+	}
+	return (full_line);
+}
 
 void			core_shell(t_struct *data)
 {
@@ -112,32 +136,17 @@ void			core_shell(t_struct *data)
 	{
 		line_edit(&g_info, tmp);
 		g_data->is_executing = 1;
-		dprintf(2, "g_info.line: %s\n", g_info.line);
 		if (g_info.line != NULL && quit == 0)
 		{
-			if (g_info.quoted == 1 || g_info.quoted == 2)
-			{
-				full_line = str_append(full_line, g_info.line);
-				full_line = str_append(full_line, "\n");
-			}
-			else if (g_info.quoted == 3)
-			{
-				g_info.line[ft_strlen(g_info.line) - 1] = 0;
-				full_line = str_append(full_line, g_info.line);
-				g_info.quoted = 0;
-			}
-			else
-			{
-				full_line = str_append(full_line, g_info.line);
-				default_term_mode(&g_info);
-				quit = parse_line(data, &(full_line));
-			}
+			full_line = quoted_loops(full_line, data, &quit);
 				ft_strdel(&(g_info.line));
 		}
 		reinit_info(&g_info);
 	}
-		if (full_line)
-			ft_strdel(&full_line);
+	if (full_line)
+		ft_strdel(&full_line);
+	if (g_info.line)
+		ft_strdel(&g_info.line);
 	free_hist(g_info.history);
 	if (g_info.copy)
 		ft_strdel(&g_info.copy);

@@ -6,24 +6,12 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:51:34 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:52:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/06 17:18:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
-
-static void	if_end(t_info *info, t_hist *tmp)
-{
-	if (tmp->name)
-		if (!((ft_strlen(tmp->name) + ft_strlen(info->prmpt)) % info->col_nb))
-		{
-			if (info->curs_y == info->row_nb)
-				info->orig_y--;
-			tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
-			get_x_back(info);
-		}
-}
 
 void		insert_char(char c, t_info *info, t_hist *tmp)
 {
@@ -51,6 +39,8 @@ void		insert_char(char c, t_info *info, t_hist *tmp)
 		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
 		info->orig_y--;
 	}
+	get_curs_pos(info);
+	dprintf(2, "x: %3d | y: %3d | orig_y: %3d\n", info->curs_x, info->curs_y, info->orig_y);
 }
 
 void		add_char(char c, t_info *info, t_hist *tmp)
@@ -69,8 +59,6 @@ void		add_char(char c, t_info *info, t_hist *tmp)
 	get_curs_pos(info);
 	info->curs_in_str++;
 	info->s_len++;
-	if (info->curs_y == info->row_nb && info->curs_x == 2)
-		info->orig_y--;
 	if_end(info, tmp);
 }
 
@@ -78,7 +66,8 @@ void		del_char(t_info *info, t_hist *tmp)
 {
 	int	i;
 
-	if (info->s_len && (info->curs_x > 1 || info->curs_y > info->orig_y))
+	if (info->s_len && (info->curs_x > 1 || info->curs_y > info->orig_y)
+			&& info->curs_in_str > 1)
 	{
 		left_key(info);
 		i = info->curs_in_str - 2;
