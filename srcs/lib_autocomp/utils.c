@@ -15,13 +15,18 @@
 
 void	free_slct(t_slct *lst, t_info *info)
 {
+	t_slct	*tmp;
+	t_slct	*tmp2;
+
 	if (lst)
 	{
-		lst = lst->next;
-		while (lst->next != lst)
+		tmp = lst->next;
+		while (tmp != lst)
 		{
-			ac_remove_elem(lst);
-			lst = lst->next;
+			tmp2 = tmp->next;
+			ac_remove_elem(tmp);
+			ft_memdel((void**)&tmp);
+			tmp = tmp2;
 		}
 	}
 	if (info->letters)
@@ -35,9 +40,10 @@ int		is_exe(char *name)
 {
 	struct stat	st;
 
-	lstat(name, &st);
-	if ((st.st_mode & S_IXUSR || st.st_mode & S_IXGRP || st.st_mode & S_IXOTH)
-			&& !S_ISDIR(st.st_mode))
+	if (stat(name, &st) == -1)
+		return (0);
+	if (!S_ISDIR(st.st_mode) &&
+	(st.st_mode & S_IXUSR || st.st_mode & S_IXGRP || st.st_mode & S_IXOTH))
 		return (1);
 	else
 		return (0);

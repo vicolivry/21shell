@@ -73,7 +73,6 @@ char		*get_last_word(char *line, t_info *info)
 		return (NULL);
 	if ((table = ft_strsplit(line, ' ')) == NULL)
 		return (NULL);
-	dprintf(2, "TABLE[1]: |%s|\n", table[0]);
 	if (table[0])
 		lst = tab_to_lst(table);
 	else
@@ -90,7 +89,6 @@ char		*get_last_word(char *line, t_info *info)
 	line = ft_strdup(tmp->content);
 	free_lst(lst);
 	free_tab(table);
-	dprintf(2, "BEFORE GET LETTERS\n");
 	line = get_letters(line, info);
 	return (line);
 }

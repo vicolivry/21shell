@@ -40,7 +40,6 @@ void		insert_char(char c, t_info *info, t_hist *tmp)
 		info->orig_y--;
 	}
 	get_curs_pos(info);
-	dprintf(2, "x: %3d | y: %3d | orig_y: %3d\n", info->curs_x, info->curs_y, info->orig_y);
 }
 
 void		add_char(char c, t_info *info, t_hist *tmp)

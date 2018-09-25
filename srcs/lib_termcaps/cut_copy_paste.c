@@ -19,15 +19,19 @@ static void	copy_end(t_info *info, t_hist *tmp)
 	char	*tmp_str;
 	int		i;
 
-	i = -1;
+	i = 0;
 	tmp_str = NULL;
-	curs_pos = info->curs_in_str - 2;
+	curs_pos = info->curs_in_str - 1;
 	if (info->curs_in_str <= info->s_len)
 	{
-		if (!(tmp_str = malloc(ft_strlen(tmp->name) - curs_pos + 1)))
+		if (!(tmp_str = malloc(ft_strlen(tmp->name) - curs_pos + 2)))
 			exit(0);
-		while (curs_pos < ft_strlen(tmp->name))
-			tmp_str[i++] = tmp->name[curs_pos++];
+		while (curs_pos < ft_strlen(tmp->name) + 1)
+		{
+			tmp_str[i] = tmp->name[curs_pos];
+			i++;
+			curs_pos++;
+		}
 		tmp_str[i] = 0;
 		if (tmp_str)
 			if (info->copy)

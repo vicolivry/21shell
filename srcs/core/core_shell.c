@@ -56,6 +56,8 @@ void			line_edit(t_info *info, t_hist *tmp)
 	add_head(info->history);
 	tmp = last_elem(info->history);
 	init_current(info->history);
+	get_curs_pos(info);
+	tputs(tgoto(tgetstr("cm", NULL), info->curs_x - 1, info->curs_y - 1), 1, ft_putchar_err);
 	print_prompt(info);
 	get_signals();
 	while (info->loop)
@@ -115,9 +117,7 @@ static char*	quoted_loops(char *full_line, t_struct *data, int *quit)
 	{
 		full_line = str_append(full_line, g_info.line);
 		default_term_mode(&g_info);
-		dprintf(2, "g_info.line: |%s|\n", g_info.line);
 		*quit = parse_line(data, &(full_line));
-		dprintf(2, "Passed parsing");
 	}
 	return (full_line);
 }

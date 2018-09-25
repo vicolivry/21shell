@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 14:12:27 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/12 17:41:51 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -336,6 +336,8 @@ void				get_key(t_info *info, t_hist *tmp);
 t_info				*memo_info(t_info *info, int mode);
 void				get_curs_pos(t_info *info);
 void				get_signals(void);
+void				cursor_start(t_info *info);
+void				rc_key(t_info *info, t_hist *tmp);
 void				left_key(t_info *info);
 void				right_key(t_info *info);
 void				add_c_in_str(t_info *info, char c, t_hist *tmp);

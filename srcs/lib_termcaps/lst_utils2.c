@@ -59,13 +59,18 @@ void	init_current(t_hist *history)
 
 void	free_hist(t_hist *lst)
 {
+	t_hist	*tmp;
+	t_hist	*tmp2;
+
+	tmp = lst->next;
 	if (lst)
 	{
-		lst = lst->next;
-		while (lst->next != lst)
+		while (tmp != lst)
 		{
-			remove_elem(lst);
-			lst = lst->next;
+			tmp2 = tmp->next;
+			remove_elem(tmp);
+			ft_memdel((void**)&tmp);
+			tmp = tmp2;
 		}
 	}
 	ft_memdel((void**)&lst);

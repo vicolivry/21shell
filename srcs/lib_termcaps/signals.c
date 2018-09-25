@@ -56,7 +56,7 @@ static void		resize_win(int sig)
 		ft_putstr("EXPAND WINDOW SIZE");
 	else
 		resize(info, tmp);
-	info->orig_y = 1;
+	info->orig_y = 0;
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 

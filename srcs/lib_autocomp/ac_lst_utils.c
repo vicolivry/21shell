@@ -38,13 +38,15 @@ void	ac_add_after_lst(t_slct *elem, struct dirent *dp)
 void	ac_add_before_lst(t_slct *elem, struct dirent *dp)
 {
 	t_slct	*new_elem;
+	int		i;
 
 	new_elem = NULL;
 	if ((new_elem = (t_slct*)malloc(sizeof(*new_elem))))
 	{
 		new_elem->name = ft_strdup(dp->d_name);
 		new_elem->len = ft_strlen(dp->d_name);
-		new_elem->is_exe = is_exe(new_elem->name);
+		i = is_exe(new_elem->name);
+		new_elem->is_exe = i;
 		new_elem->is_dir = dp->d_type == DT_DIR ? 1 : 0;
 		if (new_elem->is_dir || new_elem->is_exe)
 			new_elem->len++;
@@ -72,5 +74,4 @@ void	ac_remove_elem(t_slct *elem)
 	elem->prev->next = elem->next;
 	elem->next->prev = elem->prev;
 	ft_strdel(&elem->name);
-	ft_memdel((void**)&elem);
 }

@@ -13,7 +13,7 @@
 
 #include "../../includes/shell.h"
 
-static void	cursor_start(t_info *info)
+void		cursor_start(t_info *info)
 {
 	while (info->curs_x > 1)
 	{
@@ -27,11 +27,11 @@ void		rc_key(t_info *info, t_hist *tmp)
 	fill_history(info, tmp);
 	toggle_quote(info);
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	while (info->curs_in_str < info->s_len)
-		right_key(info);
+	end_key(info);
 	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
 	cursor_start(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
+	get_curs_pos(info);
 	info->loop = 0;
 }
 
@@ -74,7 +74,6 @@ void		get_key(t_info *info, t_hist *tmp)
 		tmp = tmp->next;
 	if ((read(0, buff, 4) < 0))
 		exit(1);
-	ioctl(0, TIOCGWINSZ, info->wndw);
 	if (KEY_CODE_UP)
 		up_key(info, tmp);
 	else if (KEY_CODE_DOWN)

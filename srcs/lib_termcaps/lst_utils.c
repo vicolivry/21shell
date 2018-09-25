@@ -55,5 +55,4 @@ void	remove_elem(t_hist *elem)
 		ft_strdel(&elem->name);
 	if (elem->backup)
 		ft_strdel(&elem->backup);
-	ft_memdel((void**)&elem);
 }

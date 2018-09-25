@@ -25,7 +25,6 @@ void	raw_term_mode(t_info *info)
 	info->term.c_cc[VMIN] = 1;
 	info->term.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &(info->term));
-	tputs(tgetstr("sc", NULL), 0, ft_putchar_err);
 }
 
 void	default_term_mode(t_info *info)
@@ -33,16 +32,6 @@ void	default_term_mode(t_info *info)
 	get_curs_pos(info);
 	info->orig_y = info->orig_y ? info->orig_y : 1;
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
-	while (info->curs_y > info->orig_y)
-	{
-		tputs(tgetstr("up", NULL), 0, ft_putchar_err);
-		get_curs_pos(info);
-	}
-	while (info->curs_x > 1)
-	{
-		tputs(tgetstr("le", NULL), 0, ft_putchar_err);
-		get_curs_pos(info);
-	}
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	tcgetattr(STDIN_FILENO, &(info->term));
 	info->term.c_lflag |= (ECHO | ICANON);

@@ -28,7 +28,6 @@ int			check_error_inlinesplit(t_ins **lst)
 	cpy = *lst;
 	while (cpy)
 	{
-		printf("cpy->str = %s\n", cpy->str);
 		if (print_error(cpy->str) == 1)
 			return (1);
 		cpy = cpy->next;
