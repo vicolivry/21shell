@@ -35,7 +35,7 @@ void		toggle_quote(t_info *info)
 
 	i = 0;
 	if (info->line)
-		while (i <= info->s_len)
+		while (info->line[i])
 		{
 			if (((i == 0 && info->line[i] == '"') || (i > 0
 							&& info->line[i] == '"'
@@ -55,4 +55,6 @@ void		toggle_quote(t_info *info)
 		info->quoted == 1 ? change_prompt(info, 1) : change_prompt(info, 2);
 	if (info->quoted == 3)
 		change_prompt(info, 3);
+	if (info->quoted == 4)
+		change_prompt(info, 4);
 }

@@ -77,15 +77,13 @@ static void	cut_end(t_info *info, t_hist *tmp)
 
 static void	cut_beginning(t_info *info, t_hist *tmp)
 {
-	int		curs_pos;
-
-	curs_pos = info->curs_in_str;
+	int	i;
 	copy_beginning(info, tmp);
-	home_key(info);
-	while (info->curs_in_str < curs_pos)
+	i = ft_strlen(info->copy) + 1;
+	while (i)
 	{
 		del_char(info, tmp);
-		curs_pos--;
+		i--;
 	}
 }
 

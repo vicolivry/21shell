@@ -42,4 +42,9 @@ void	change_prompt(t_info *info, int mode)
 		ft_strdel(&info->prmpt);
 		info->prmpt = ft_strdup("> ");
 	}
+	else if (mode == 4)
+	{
+		ft_strdel(&info->prmpt);
+		info->prmpt = ft_strdup("heredoc> ");
+	}
 }

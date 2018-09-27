@@ -296,6 +296,13 @@ int					len_list(t_cmd *lst);
 typedef struct winsize t_wndw;
 typedef struct termios t_termios;
 
+typedef struct		s_here_d
+{
+	char			*cmd;
+	char			*trigger;
+	char			*fill;
+}					t_here_d;
+
 typedef struct		s_hist
 {
 	char			*name;
@@ -325,10 +332,13 @@ typedef struct		s_info
 	int				nb_elem;
 	int				max_len;
 	int				loop;
+	t_here_d		h_d;
 }					t_info;
 
 t_info				g_info;
 
+
+char 				*heredoc(void);
 void				default_term_mode(t_info *info);
 void				reinit_info(t_info *info);
 void				raw_term_mode(t_info *info);

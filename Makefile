@@ -36,6 +36,7 @@ N_SRCS = 	main.c\
 			core/ft_process.c\
 			core/execute_commandes.c\
 			core/execute_builtins.c\
+			core/heredoc.c\
 			core/ft_check_arg_invalid.c\
 			init/ft_check_infos.c\
 			init/ft_delete_struct.c\

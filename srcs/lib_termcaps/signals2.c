@@ -27,13 +27,14 @@ void ctrl_c(int sig)
 		end_key(info);*/
 	raw_term_mode(info);
 	get_x_back(info);
+	ft_putendl("");
 	if (!g_data->is_executing)
 	{
-		ft_putendl("");
 		if (tmp->name)
 			ft_strdel(&tmp->name);
 		if (info->line)
 			ft_strdel(&info->line);
+	//	fill_history(info, tmp);
 		reinit_info(info);
 		print_prompt(info);
 	}
