@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/17 15:29:32 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/24 11:47:29 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 15:54:24 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,11 +30,7 @@ static int		clean_bet_suite(char *str, int i, char **new, char **tmp)
 	str[i] == '\t'))
 	{
 		*new = ft_strsub(str, 0, i);
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		*tmp = ft_strsub(str, i - 1, ft_strlen(str) - (i - 1));
-		if (*new[ft_strlen(*new) - 1] == '\t')
-			*new[ft_strlen(*new) - 1] = ' ';
+		*tmp = ft_strsub(str, i + 1, ft_strlen(str) - (i + 1));
 		q = 1;
 	}
 	return (q);
@@ -48,7 +44,7 @@ static int		echap_quote(char *str, int i)
 		while (str[i] && str[i] != '\"')
 			i++;
 	}
-	if (str[i] == '\'')
+	else if (str[i] == '\'')
 	{
 		i++;
 		while (str[i] && str[i] != '\'')
@@ -80,8 +76,8 @@ static int		*clean_between(char **string, int i, int q)
 	ft_strdel(&tmp);
 	ft_strdel(&new);
 	ft_strdel(&str);
-	if (i + 2 < ft_strlen(*string))
-		clean_between(string, 0, 0);
+	if (i + 2 < ft_strlen(*string) && ft_strstr(*string, "  ") != NULL)
+		clean_between(string, i, 0);
 	return (0);
 }
 
@@ -96,6 +92,10 @@ int				clear_line(char **line)
 
 	before = NULL;
 	next = NULL;
+	if (*line == NULL)
+		return (0);
+	if (ft_strstr(*line, " ") == NULL && ft_strstr(*line, "\t") == NULL)
+		return (0);
 	before = clean_before(*line);
 	next = clean_next(before);
 	ft_strdel(line);
@@ -103,7 +103,7 @@ int				clear_line(char **line)
 	ft_strdel(&before);
 	ft_strdel(&next);
 	if ((ft_strstr(*line, "  ") != NULL || ft_strstr(*line, "\t ") != NULL)
-    && ft_strlen(*line) > 1)
+	&& ft_strlen(*line) > 1)
 		clean_between(line, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/14 15:40:13 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 14:44:27 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/11 12:58:41 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,7 @@ t_ins			*ft_init_ins(void)
 	if (new == NULL)
 		return (NULL);
 	new->str = NULL;
+	new->code = 0;
 	new->cmd = NULL;
 	new->next = NULL;
 	return (new);

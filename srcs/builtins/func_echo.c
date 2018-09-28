@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 13:22:07 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/18 10:07:34 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 14:39:55 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,8 @@ int				func_echo(t_struct *data, t_cmd *lst)
 	i = 1;
 	no_return = 0;
 	(void)data;
+	if (!(data) || !(lst))
+		return (1);
 	while (lst->tab_cmd[i])
 	{
 		if (lst->tab_cmd[i] != NULL && i == 1)

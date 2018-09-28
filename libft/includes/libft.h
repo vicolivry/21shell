@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/24 10:18:55 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 18:10:45 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/14 09:10:12 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,8 +116,6 @@ int					ft_putchar_fd(char c, int fd);
 int					ft_putstr_fd(char const *s, int fd);
 int					ft_putendl_fd(char const *s, int fd);
 int					ft_putnbr_fd(int n, int fd);
-char				last_char(char *str);
-void				free_tab(char **table);
 
 /*
 ** Fonctions Bonus
@@ -181,6 +179,8 @@ int					ft_power(int nb, int pwr);
 char				*ft_itoa_base(intmax_t n, int base);
 int					ft_atoi_base(char *str, char *base);
 int					ft_iswhite(int c);
+char				last_char(char *str);
+void				free_tab(char **table);
 /*
 **	GNL
 */

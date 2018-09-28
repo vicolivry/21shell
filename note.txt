@@ -15,6 +15,21 @@ https://openclassrooms.com/forum/sujet/pipe-et-dup2-comment-faire-23270
 
 A faire:
 
-Supression des cotes et doubles cote inutile
-tous ce aui est 1>&2
-gestion des droits des redirections (ecriture dans fichier)
+Encore quelques erreur sur le cd
+A verifier, normalement ok
+a check quand fusion: gestion du heredoc
+
+Segfault / double free .... :
+echo"test"
+$MACHIN si n'existe pas remplacer par null
+segfault sur delete_bs
+segfault ou abort sur split_echo
+
+Erreur std:
+error echo "test" > test
+Affiche "test" au lieu de test
+error > or >>
+(search_redirection.c et good_tab_cmd.c)
+
+
+en train de modifier replace in line, deletebs

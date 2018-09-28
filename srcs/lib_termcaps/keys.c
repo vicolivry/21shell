@@ -53,7 +53,7 @@ static void	get_key2(t_info *info, t_hist *tmp, char *buff)
 			KEY_CODE_CTRL_X || KEY_CODE_CTRL_A || KEY_CODE_CTRL_P)
 		cut_n_cpy(info, buff, tmp);
 	else if (KEY_CODE_CTRL_D)
-		ctrl_d(info);
+		ctrl_d(info, tmp);
 	else if (KEY_CODE_TAB)
 		autocomp(info, tmp);
 	else if (ft_isprint(*buff))

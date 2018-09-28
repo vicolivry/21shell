@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/15 13:57:17 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/25 13:45:13 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/10 12:58:23 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,7 @@ int			ft_delete_struct(t_struct **data)
 	(*data)->env = ft_del_tab((*data)->env);
 	(*data)->builtins = ft_del_tab((*data)->builtins);
 	(*data)->env_tmp = ft_del_tab((*data)->env_tmp);
+	ft_strdel(&(*data)->path);
 	ft_strdel(&(*data)->pwd);
 	ft_strdel(&(*data)->oldpwd);
 	ft_strdel(&(*data)->home);
@@ -35,6 +36,7 @@ int			ft_delete_struct(t_struct **data)
 	ft_strdel(&(*data)->prompt);
 	ft_strdel(&(*data)->prompt_current);
 	ft_strdel(&(*data)->char_echo);
+	(*data)->commandes = clear_ins((*data)->commandes);
 	free(*data);
 	*data = NULL;
 	return (ret);

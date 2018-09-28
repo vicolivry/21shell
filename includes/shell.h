@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/12 17:41:51 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/05 13:22:31 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,7 +35,7 @@
 # include <term.h>
 
 /*
-** PRINT COLORS
+** Define
 */
 
 # define BLACK "\033[30m"
@@ -49,7 +49,6 @@
 # define YELLOW "\033[33m"
 # define RED "\033[31m"
 # define RESET "\033[00m"
-
 # define KEY_CODE_NONE 0
 # define KEY_CODE_UP buff[0] == 27 && buff[1] == 91 && buff[2] == 65
 # define KEY_CODE_DOWN buff[0] == 27 && buff[1] == 91 && buff[2] == 66
@@ -66,18 +65,14 @@
 # define KEY_CODE_CTRL_D *(int*)buff == 4
 # define KEY_CODE_CTRL_E *(int*)buff == 5
 # define KEY_CODE_CTRL_X *(int*)buff == 24
-
 # define KEY_CODE_CTRL_B *(int*)buff == 2
 # define KEY_CODE_CTRL_A *(int*)buff == 1
 # define KEY_CODE_CTRL_P *(int*)buff == 16
 # define KEY_CODE_TAB *(int*)buff == 9
-# define KEY_CODE_SP *(int*)buff == 32
+# define CURS_X get_curs_pos(0, info)
+# define CURS_Y get_curs_pos(1, info)
 
 /*
-**	A Faire :
-**	Si variable path suprimer, ne pas lancer de commande (sauf si chemin indiquer)
-**	gestion des cotes et doubles code pour setenv et unsetenv
-**
 **	Source :
 **	http://putaindecode.io/fr/articles/shell/redirections/
 **	https://www.gnu.org/software/bash/manual/bashref.html#Redirections
@@ -86,68 +81,77 @@
 **	https://stackoverflow.com/questions/17630247/coding-multiple-pipe-in-c/17631589
 **	https://openclassrooms.com/forum/sujet/dup-dup2-et-close-12008
 **
+**	***	Structures ***
 **
+**	t_cmd -> liste chainer des commandes a executer
+**
+**	rep = Repertoire de commande
+**	tab_cmd : commande et options sous forme de tableau
+**	pathname : Si redirection dans un fichier, pathanme != NULL
+**	Code operateur:
+**	0 : NULL
+**	1 : |
+**	2 : >
+**	3 : >>
+**	4 : <
+**	5 : <<
+**	6 : &
+**	7 : &&
+**	8 : ||
+**	9 : >&
+**
+**	env : Environnement a envoyer pour la commande
 */
 
 /*
- **	***	Structures ***
- **
- **	t_cmd -> liste chainer des commandes a executer
- **
- **	rep = Repertoire de commande
- **	tab_cmd : commande et options sous forme de tableau
- **	pathname : Si redirection dans un fichier, pathanme != NULL
-
- **	Code operateur:
- **	0 : NULL
- **	1 : |
- **	2 : >
- **	3 : >>
- **	4 : <
- **	5 : <<
- **	6 : &
- **	7 : &&
- **	8 : ||
- **	9 : >&
- **
- **	env : Environnement a envoyer pour la commande
- **
- ** t_cmd -> commande a traiter
- */
+** t_cmd -> commande a traiter
+*/
 
 typedef struct		s_cmd
 {
-	char			*rep;
+	char			**env;
 	char			**tab_cmd;
-	char			*pathname;
-
-	int				op_redir;
+	char			**heredoc;
+	char			*rep;
 	int				op_next;
-
-	int				stdcmd;
 	int				stdin_cmd;
 	int				stdout_cmd;
 	int				stderr_cmd;
 	int				pid;
-
-	char			**env;
+    int             bad_fd;
+	struct s_path	*pathname;
 	struct s_cmd	*next;
 }					t_cmd;
 
 /*
- **	t_ins -> line spliter par les ;
- */
+**	t_ins -> line spliter par les ;
+*/
 
 typedef struct		s_ins
 {
 	char			*str;
+	int				code;
 	struct s_cmd	*cmd;
 	struct s_ins	*next;
 }					t_ins;
 
 /*
- **  Infos tab de hashage
- */
+**	s_path -> si redirection dans plusieurs fichiers
+*/
+
+typedef struct		s_path
+{
+	char			*name;
+    int             s_or_d;
+    int             redir_fd;
+    int             fd;
+    int             pid;
+	struct s_path	*next;
+}					t_path;
+
+/*
+**  Infos tab de hashage
+*/
 
 typedef struct		s_infos
 {
@@ -158,8 +162,8 @@ typedef struct		s_infos
 }					t_infos;
 
 /*
- **	t_struct -> On la ballade partout
- */
+**	t_struct -> On la ballade partout
+*/
 
 typedef struct		s_struct
 {
@@ -201,11 +205,21 @@ int					exec_pipe(t_struct *data);
 int					exec_pipe_suite(t_struct *data);
 int					ft_process(t_cmd *data);
 int					ft_check_arg_invalid(t_struct *data, t_cmd *cmd);
+int                 fork_redirection(t_cmd *lst);
+int                 fork_heredoc(t_cmd *lst, int code);
+int                 exec_redirection(t_path *file, int op);
+int					ft_kill_process(t_cmd *start, int pid);
+int					cmd_suivante(t_ins *cpy, int code);
+int					exit_status(int status);
+int					wait_or_not(int *status, pid_t pid, t_cmd *start);
+int					redirection_fd(t_cmd *data);
+int					delete_tmp(char **file);
+int					parse_line(t_struct *data, char **line);
 /*
- **	PARSING
- */
+**	PARSING
+*/
 t_ins				*ft_split_commandes(char **line, t_struct *data);
-t_ins				*ft_split_pvirgule(char *line, t_ins *lst);
+t_ins				*ft_split_pvirgule(char **line, t_ins *lst, int i, int quote);
 t_cmd				*ft_split_cmd(char *str, t_struct *data);
 int					clear_line(char **line);
 char				*clean_before(char *str);
@@ -214,24 +228,49 @@ int					replace_in_line(t_struct *data, char **line);
 char				*ft_search_path(char *str, t_struct *data);
 int					ft_nefaitrien(char **line);
 int					ft_search_opnext(char *str, int i);
-int					chose_rep(t_struct *data, t_cmd **new);
-int					ft_redirection_avancees(t_cmd **new, char **str);
+int					chose_rep(t_struct *data, t_cmd **new, int provisoire);
 char				**split_cmd(char *str, int i);
+char				**split_echo(char *str);
 int					ft_verif_alphanum(char *str);
 int					check_error_inlinesplit(t_ins **lst);
+int					ft_check_line_vide(char *str, t_struct **data);
+int					insert_cmd_simple(t_struct *data, t_cmd **lst, char *str);
+int					good_tab_cmd(t_struct *data, t_cmd **lst, char *str, int i);
+int					what_is_op(char *str, int i);
+int					search_redirection(t_cmd **lst, char *str, int i, int j);
+int					search_heredoc(t_cmd **lst, char *str, int i, int j);
+int					check_validity(t_cmd **lst, t_struct *data);
+int					check_link(t_cmd *lst);
+void				print_msg_error(char *str, int i);
+void				clear_string(char **str, int deleted, int opt);
+int 				search_fd(char *str, int i);
+int 				modifie_fd(t_cmd **lst, char *str, int start);
+int					resize_str_echo(char **str, int start, int len);
+int					check_regex_classic(t_struct *data, char **line);
+int					good_op_next(t_cmd **lst, char *str, int i);
+void				verifie_op(t_cmd **lst, char *str, int i);
+int					check_search_null(t_path **lst, char *str, int i, int j);
+int					clear_echo(char ***tabl);
+int					delete_bs(char **line);
 /*
  **	BUILTINS
  */
 int					ft_search_func(t_struct *mystruct, t_cmd *lst, int i);
 int					func_exit(t_struct *data, t_cmd *lst);
-int					func_env(t_struct *data, t_cmd *lst);
+int					func_env(t_struct *data, t_cmd **lst);
+int					execute_with_env(t_struct **data, t_cmd *lst, int i, int opt);
+int					ft_is_func(t_struct *data, char *str, int hash);
+int					execute_var_modif(t_struct *data, t_cmd **lst, int i, int opt);
 int					func_echo(t_struct *data, t_cmd *lst);
 int					func_cd(t_struct *data, t_cmd *lst);
+int					func_history(t_struct *data, t_cmd *lst);
 int					func_setenv(t_struct **data, t_cmd *lst);
+int					modifie_env(t_struct **data, t_cmd *lst, int i);
+int					check_if_path_modif(t_struct **data, t_cmd *lst);
 int					func_unsetenv(t_struct **data, t_cmd *lst);
-
-
-
+char				**malloc_for_env(t_struct **data, t_cmd **lst, int i, int opt);
+char				**malloc_for_env_deux(t_struct **data, t_cmd **lst, int i);
+int					malloc_for_env_suite(char ***str, t_struct *data, t_cmd *lst, int i);
 /*
  **	INIT
  */
@@ -246,6 +285,8 @@ t_ins				*clear_ins(t_ins *start);
 int					ft_load_path(t_struct **data);
 t_infos             *init_infos(char *rep, char *name);
 t_infos             *clear_infos(t_infos *start);
+t_path				*ft_init_path(void);
+t_path				*clear_pathname(t_path **path);
 
 // HASH
 int					ft_count(char *path);
@@ -263,36 +304,43 @@ long				**delete_tab_hash(long **tabh, int size);
 /*
  **	LIB_SHELL
  */
+void				print_ascii_art_start(void);
+void				print_ascii_art_end(void);
 int					ft_replace_word(char **str, char *word, char *replace);
 char				**ft_del_tab(char **tabl);
 int					ft_len_tab(char **tabl);
 char				**ft_duplicate_tab(char **tabl);
 char				**ft_insert_in_tab(char **tabl, char *str);
 void				ft_print_tab(char **tabl);
+void				ft_print_tab_spe(char **env, char **tabl, int i);
 char				**ft_del_tab_index(char **tabl, int max);
 char				*ft_add_line(char *str, char **add, t_struct *data);
 int					ft_dir_exist(char *path);
-void				ft_display(t_struct *data);
 int					ft_access(char *path);
-int					ft_access_rep(char *path);
+int					ft_access_rep(char *path, int mode);
 void				basic_error(char *name, char *cmd);
 int					ft_error(int cmd, char **line);
-void				ft_error_dir(char *name, char *pre);
+void				ft_error_dir(char *name, char *pre, int fd);
 void				ft_error_unset(char *str, int what);
 void				ft_error_fork(int father);
 void				ft_check_path(t_struct *data, char **path);
 int					good_path(char *target, char *cmd, int opt);
 char				*ft_return_path(char *str);
-char				*ft_insert_home(t_struct *data, char **str, int i, int len);
-char				*ft_insert_dollar(t_struct *data, char **str, int i, int len);
-char				*ft_insert_moins(t_struct *data, char **str, int i, int len);
+char				*ft_return_home(t_struct *data);
+char				*ft_return_dollar(t_struct *data, char *str, int len);
+char				*ft_return_moins(t_struct *data);
 int					ft_existe_in_path(t_struct *data, char **path);
 char				*ft_return_pwd(void);
 int					len_list(t_cmd *lst);
+int					resize_str(char **str, int len);
+int					replace_line(char **line, char *str);
 /*
- **	LIB_TERMCAPS
- */
-
+**	DEBUG
+*/
+void				print_debug(t_cmd **data, int code);
+/*
+**	LIB_TERMCAPS
+*/
 typedef struct winsize t_wndw;
 typedef struct termios t_termios;
 
@@ -337,7 +385,6 @@ typedef struct		s_info
 
 t_info				g_info;
 
-
 char 				*heredoc(void);
 void				default_term_mode(t_info *info);
 void				reinit_info(t_info *info);
@@ -369,7 +416,7 @@ void				alt_right(t_info *info, t_hist *tmp);
 void				alt_left(t_info *info, t_hist *tmp);
 void				up_key(t_info *info, t_hist *tmp);
 void				down_key(t_info *info, t_hist *tmp);
-void				ctrl_d(t_info *info);
+void				ctrl_d(t_info *info, t_hist *tmp);
 void				change_prompt(t_info *info, int mode);
 void				print_prompt(t_info *info);
 void				fill_history(t_info *info, t_hist *tmp);
@@ -429,6 +476,7 @@ void				erase_prev(t_info *info, t_hist *hist);
 int					slct_current(t_slct *slct,t_info * info, t_hist *hist);
 char				*get_last_word(char *line, t_info *info);
 int					contains_letters(char *name, char *letters);
+
 /*
 **	END
 */

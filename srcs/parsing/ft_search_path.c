@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/20 11:18:28 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/25 14:32:32 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/30 13:19:21 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -72,6 +72,8 @@ char				*ft_search_path(char *str, t_struct *data)
 	rep = NULL;
 	retour = NULL;
 	hash = return_hash(str, data->sizemax);
+	if (data->tab_hash == NULL)
+		return (NULL);
 	if (data->tab_hash[hash][0] == 0)
 		return (NULL);
 	else

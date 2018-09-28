@@ -6,51 +6,12 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/18 12:12:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/24 15:52:12 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 10:55:09 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
-
-static int		clear_string(char **str, int delete, int opt)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp1 = NULL;
-	tmp2 = NULL;
-	if (delete == 0)
-	{
-		tmp1 = ft_strsub(*str, 1, ft_strlen(*str) - 1);
-		ft_strdel(str);
-		*str = ft_strdup(tmp1);
-	}
-	else if (delete == ft_strlen(*str) || delete == ft_strlen(*str) - 1)
-	{
-		tmp1 = ft_strsub(*str, 0, ft_strlen(*str) - 1);
-		ft_strdel(str);
-		*str = ft_strdup(tmp1);
-	}
-	else
-	{
-		if (opt == 1)
-		{
-			tmp1 = ft_strsub(*str, 0, delete - 1);
-			tmp2 = ft_strsub(*str, delete, ft_strlen(*str) - (delete));
-		}
-		else
-		{
-			tmp1 = ft_strsub(*str, 0, delete);
-			tmp2 = ft_strsub(*str, delete + 1, ft_strlen(*str) - (delete + 1));
-		}
-		ft_strdel(str);
-		*str = ft_strjoin(tmp1, tmp2);
-	}
-	ft_strdel(&tmp1);
-	ft_strdel(&tmp2);
-	return (0);
-}
 
 static int		clear_quote_deux(char *tmp, int i, int j)
 {
@@ -73,9 +34,8 @@ static int		clear_quote_deux(char *tmp, int i, int j)
 	return (0);
 }
 
-static int		clear_quote(char **str)
+static int		clear_quote(char **str, int i)
 {
-	int		i;
 	int		j;
 	char	*tmp;
 
@@ -100,7 +60,7 @@ static int		clear_quote(char **str)
 		i++;
 	}
 	ft_strdel(&tmp);
-	return (0);	
+	return (0);
 }
 
 char			**split_cmd(char *str, int i)
@@ -111,7 +71,7 @@ char			**split_cmd(char *str, int i)
 	while (new[i])
 	{
 		if (ft_strstr(new[i], "\"") != NULL || ft_strstr(new[i], "\'") != NULL)
-        	clear_quote(&new[i]);
+			clear_quote(&new[i], 0);
 		i++;
 	}
 	return (new);

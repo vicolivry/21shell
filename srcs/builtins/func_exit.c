@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 13:22:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/24 18:02:55 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/10 12:43:14 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -55,5 +55,6 @@ int			func_exit(t_struct *data, t_cmd *lst)
 		ret = ft_atoi(lst->tab_cmd[1]);
 	if (test == 0)
 		data->code_erreur = ret;
+	default_term_mode(&g_info);
 	return (-1);
 }

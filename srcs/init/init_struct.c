@@ -6,31 +6,12 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/06 10:39:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 18:14:02 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 13:33:57 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
-
-static char		**init_env_null(void)
-{
-	char	**env;
-	char	*pwd;
-
-	env = NULL;
-	pwd = NULL;
-	if (!((char **)malloc(sizeof(char *) * 2)))
-		return (NULL);
-	if (!(pwd = ft_return_pwd()))
-	{
-		env = ft_del_tab(env);
-		return (NULL);
-	}
-	env[0] = ft_strjoin("PWD=", pwd);
-	env[1] = NULL;
-	return (env);
-}
 
 static char		**init_env(char **env)
 {
@@ -46,9 +27,11 @@ static void		init_base(t_struct **data)
 {
 	char	*tmp;
 
+	tmp = NULL;
 	tmp = ft_check_infos((*data)->env, "PATH=");
-	(*data)->pwd = ft_strsub(tmp, 4, ft_strlen(tmp) - 4);
+	(*data)->path = ft_strsub(tmp, 5, (ft_strlen(tmp) - 5));
 	ft_strdel(&tmp);
+	(*data)->pwd = ft_return_pwd();
 	(*data)->oldpwd = ft_strdup((*data)->pwd);
 	tmp = ft_check_infos((*data)->env, "HOME=");
 	(*data)->home = ft_strsub(tmp, 5, ft_strlen(tmp) - 5);
@@ -66,7 +49,6 @@ static void		init_base(t_struct **data)
 	(*data)->option_i_env = 0;
 	(*data)->code_erreur = 0;
 	(*data)->pid = getpid();
-	(*data)->is_executing = 0;
 	(*data)->sizemax = ft_load_path(data);
 }
 
@@ -74,11 +56,11 @@ t_struct		*init_struct(char **env)
 {
 	t_struct	*data;
 
-	data = (t_struct *)malloc(sizeof(t_struct));
+	data = NULL;
 	if (env == NULL)
-		data->env = init_env_null();
-	else
-		data->env = init_env(env);
+		exit(EXIT_SUCCESS);
+	data = (t_struct *)malloc(sizeof(t_struct));
+	data->env = init_env(env);
 	init_base(&data);
 	data->builtins = ft_initialise_builtins();
 	data->commandes = NULL;

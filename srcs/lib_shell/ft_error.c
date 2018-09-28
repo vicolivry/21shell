@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 10:04:43 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/13 11:57:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/28 16:25:14 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,11 +29,11 @@ void		basic_error(char *name, char *cmd)
 **	No such file of directory
 */
 
-void		ft_error_dir(char *name, char *pre)
+void		ft_error_dir(char *name, char *pre, int fd)
 {
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd(pre, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
+	ft_putstr_fd(name, fd);
+	ft_putstr_fd(pre, fd);
+	ft_putstr_fd(": No such file or directory\n", fd);
 }
 
 /*

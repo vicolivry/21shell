@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 13:21:57 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/13 12:16:15 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 13:37:08 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,7 +50,7 @@ static int		change_directory(t_struct *data, t_cmd *lst, char *newpath)
 	{
 		if (chdir(newpath) == -1)
 		{
-			ft_putstr_fd("cd: no such file or directory:", 2);
+			ft_putstr_fd("cd: no such file or directory: ", 2);
 			ft_putstr_fd(newpath, 2);
 			ft_putstr_fd("\n", 2);
 			return (1);
@@ -129,6 +129,13 @@ int				func_cd(t_struct *data, t_cmd *lst)
 	if (mode == 2)
 		pwd_replace(data, lst);
 	else
-		change_directory(data, lst, NULL);
+    {
+        if (lst->tab_cmd[1] == NULL)
+		    change_directory(data, lst, data->home);
+        else
+		    change_directory(data, lst, NULL);
+    }
+	ft_strdel(&data->pwd);
+	data->pwd = ft_return_pwd();
 	return (EXIT_SUCCESS);
 }

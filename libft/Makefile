@@ -6,7 +6,7 @@
 #    By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/24 10:04:43 by yoginet      #+#   ##    ##    #+#        #
-#    Updated: 2018/09/05 18:11:02 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/06/14 09:10:43 by yoginet     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -106,7 +106,6 @@ SRC_NAME =	ft_memset.c \
 			wchar_len.c \
 			wstrlen.c \
 			ft_printf.c \
-			last_char.c\
 			sized.c \
 			type_c.c \
 			type_di.c \
@@ -133,6 +132,7 @@ SRC_NAME =	ft_memset.c \
 			get_next_line.c \
 			get_next_line2.c \
 			get_line.c \
+			last_char.c \
 			free_tab.c \
 
 all: $(NAME)

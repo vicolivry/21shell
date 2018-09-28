@@ -92,9 +92,9 @@ void		alt_right(t_info *info, t_hist *tmp)
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
-void		ctrl_d(t_info *info)
+void		ctrl_d(t_info *info, t_hist *tmp)
 {
-	if (info->line && ft_strcmp(info->line, ""))
+	if (tmp->name && ft_strcmp(tmp->name, ""))
 		return ;
 	else
 	{

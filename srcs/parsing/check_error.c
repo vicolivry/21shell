@@ -6,13 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/24 09:43:18 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/24 12:53:27 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/08/27 14:11:12 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
+/*
+**	Check si on a des regex d'erreur
+*/
 
 static int	print_error(char *str)
 {
