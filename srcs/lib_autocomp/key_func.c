@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/01 17:49:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/29 16:01:23 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/28 14:26:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,9 +18,8 @@ void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 	char	buff[5];
 
 	ft_bzero(buff, 5);
-	if ((read(0, buff, 4) < 0))
-		exit(0);
-	else if (KEY_CODE_RIGHT)
+	read(0, buff, 4);
+	if (KEY_CODE_RIGHT)
 		ac_right_key(info, slct, hist);
 	else if (KEY_CODE_LEFT)
 		ac_left_key(info, slct, hist);

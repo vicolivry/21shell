@@ -40,6 +40,7 @@ N_SRCS = 	main.c\
 			core/ft_check_arg_invalid.c\
 			core/heredoc.c\
 			core/hd_exec.c\
+			core/info_init_edit.c\
 			core/kill_process.c\
 			core/cmd_suivante.c\
 			core/exit_status.c\
@@ -83,6 +84,7 @@ N_SRCS = 	main.c\
 			lib_autocomp/utils.c\
 			lib_autocomp/ac_parse_line.c\
 			lib_autocomp/ac_init_slct.c\
+			lib_autocomp/ac_init_slct2.c\
 			lib_shell/ascii_art.c\
 			lib_shell/ft_add_line.c\
 			lib_shell/ft_check_path.c\

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 17:30:43 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 18:09:45 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/09/28 14:17:40 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,6 +63,14 @@ static char	*get_letters(char *line, t_info *info)
 	return (letters(line, info, tmp, len));
 }
 
+char		*no_table_case(char *line, char **table)
+{
+	if (line)
+		ft_strdel(&line);
+	free_tab(table);
+	return (NULL);
+}
+
 char		*get_last_word(char *line, t_info *info)
 {
 	char	**table;
@@ -76,12 +84,7 @@ char		*get_last_word(char *line, t_info *info)
 	if (table[0])
 		lst = tab_to_lst(table);
 	else
-	{
-		if (line)
-			ft_strdel(&line);
-		free_tab(table);
-		return (NULL);
-	}
+		return (no_table_case(line, table));
 	tmp = lst;
 	while (tmp->next->next != NULL)
 		tmp = tmp->next;

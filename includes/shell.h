@@ -428,6 +428,8 @@ int					remaining_chars(t_info *info, t_hist *hist);
 void				free_hist(t_hist *lst);
 void				ctrl_c(int sig);
 void				if_end(t_info *info, t_hist *tmp);
+char*				quoted_loops(char *full_line, t_struct *data, int *quit);
+void			init_info(t_info *info);
 
 /*
 ** LIB_AUTOCOMP
@@ -458,6 +460,8 @@ t_slct				*init_slct(char *line, t_info *info, t_hist *hist);
 t_slct				*ac_first_elem(t_slct *root);
 t_slct				*ac_last_elem(t_slct *root);
 void				free_slct(t_slct *lst, t_info *info);
+void				init_info(t_info *info);
+void				fill_commands(t_slct *root, t_info *info);
 void				ac_right_key(t_info *info, t_slct *slct, t_hist *hist);
 void				ac_left_key(t_info *info, t_slct *slct, t_hist *hist);
 void				ac_up_key(t_info *info, t_slct *slct, t_hist *hist);
