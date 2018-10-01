@@ -90,7 +90,6 @@ void				core_shell(t_struct *data)
 	while (quit == 0)
 	{
 		line_edit(&g_info, tmp);
-		g_data->is_executing = 1;
 		if (g_info.line != NULL && quit == 0)
 		{
 			full_line = quoted_loops(full_line, data, &quit);

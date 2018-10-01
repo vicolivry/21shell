@@ -49,12 +49,12 @@ void		toggle_quote(t_info *info)
 		}
 	if (last_char(info->line) == '\\' && info->quoted != 1 && info->quoted != 2)
 		info->quoted = 3;
+	else if (ft_strstr(info->line, "<<"))
+		info->quoted = 4;
 	if (!info->quoted)
 		change_prompt(info, 0);
-	else
+	else if (info->quoted == 1 || info->quoted == 2)
 		info->quoted == 1 ? change_prompt(info, 1) : change_prompt(info, 2);
-	if (info->quoted == 3)
-		change_prompt(info, 3);
-	if (info->quoted == 4)
-		change_prompt(info, 4);
+	else
+		info->quoted == 3 ? change_prompt(info, 3) : change_prompt(info, 4);
 }

@@ -55,6 +55,6 @@ int			func_exit(t_struct *data, t_cmd *lst)
 		ret = ft_atoi(lst->tab_cmd[1]);
 	if (test == 0)
 		data->code_erreur = ret;
-	default_term_mode(&g_info);
+	//default_term_mode(&g_info);
 	return (-1);
 }
