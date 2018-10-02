@@ -116,6 +116,8 @@ static void	quit_hd(void)
 	g_info.loop = 0;
 	change_prompt(&g_info, 0);
 	g_info.quoted = 0;
+	if (g_info.h_d.fill)
+		ft_strdel(&g_info.h_d.fill);
 	remove_elem(tmp);
 }
 
@@ -123,26 +125,33 @@ char *heredoc(void)
 {
 	char	*remain;
 	t_hist	*tmp;
+	int		first_round;
+	char	*ret;
 
+	first_round = 1;
 	tmp = last_elem(g_info.history);
 	remain = get_hd_cmd();
 	if (hd_err(remain))
 		return (NULL);
 	change_prompt(&g_info, 4);
 	g_info.quoted = 4;
-	g_info.h_d.fill = remain ? ft_strdup(remain) :  NULL;
+	g_info.h_d.fill = remain ? ft_strdup(remain) : NULL;
 	ft_strdel(&remain);	
 	fill_history(&g_info, tmp);
 	while (g_info.h_d.trigger && ft_strcmp(g_info.line, g_info.h_d.trigger))
 	{
-		if (g_info.line)
+		if (g_info.line && !first_round)
 		{
 			g_info.h_d.fill = str_append(g_info.h_d.fill, "\n");
 			g_info.h_d.fill = str_append(g_info.h_d.fill, g_info.line);
 		}
+		first_round = 0;
 		reinit_info(&g_info);
 		line_edit(&g_info, tmp);
 	}
+	ret = ft_strdup(g_info.h_d.cmd);
+	ret = str_append(ret, " << ");
+	ret = str_append(ret, g_info.h_d.fill);
 	quit_hd();
-	return (g_info.h_d.fill);
+	return (ret);
 }

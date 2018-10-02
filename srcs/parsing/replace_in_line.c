@@ -114,19 +114,14 @@ int				replace_in_line(t_struct *data, char **line)
 	ret = 0;
 	// test
 	printf("(%s) line = %s\n", __func__, *line);
-	
-	ft_putendl("kikoo");
 	if (line == NULL || ft_strlen(*line) < 1)
 	{
 		ft_strdel(line);
 		return (1);
 	}
-
 	if ((ft_strstr(*line, "~") == NULL && ft_strstr(*line, "-") == NULL &&
 	ft_strstr(*line, "$") == NULL) || check_regex_classic(data, line) == 0)
 		return (0);
-
-	ft_putendl("kikolol");
 	tmp = ft_strdup(*line);
 	if (replace_in_line_deux(data, &tmp, 0) == -1)
 		ret = -1;
