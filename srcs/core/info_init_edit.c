@@ -96,8 +96,8 @@ char			*quoted_loops(char *full_line, t_struct *data, int *quit)
 		full_line = str_append(full_line, g_info.line);
 		g_info.quoted = 0;
 	}
-	else if (g_info.quoted == 4)
-		full_line = hd_case(quit, full_line, data);
+/*	else if (g_info.quoted == 4)
+		full_line = hd_case(quit, full_line, data);*/
 	else
 	{
 		full_line = str_append(full_line, g_info.line);

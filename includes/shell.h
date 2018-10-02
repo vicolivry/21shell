@@ -110,7 +110,9 @@
 typedef struct		s_cmd
 {
 	char			**env;
+	char			*line;
 	char			**tab_cmd;
+	char			*heredoc_str;
 	char			**heredoc;
 	char			*rep;
 	int				op_next;
