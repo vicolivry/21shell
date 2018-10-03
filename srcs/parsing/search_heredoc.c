@@ -58,11 +58,65 @@ static char	**heredoc_simple(char *str, int i, int *j)
 	return (new);
 }
 
-int			search_heredoc(t_cmd **lst, char *str, int i, int j)
+/*
+** cat << test auteur
+** on va jusqu'a test et si il reste des arguments, on les passes en parametre de la fonction
+*/
+
+static int	len_heredoc(char *str)
+{
+	int		i;
+	int		len;
+
+	i = 0;
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	while (str[i] && i != len)
+	{
+		if (str[i] == '<' && str[i + 1] == '<')
+		{
+			i += 2;
+			if (str[i] == ' ')
+			{
+				while (str[i] == ' ' || str[i] == '\t')
+					i++;
+			}
+			while (str[i] && (str[i] != ' ' || str[i] != '\t'))
+				i++;
+			return (i);
+		}
+		i++;
+	}
+	return (i);
+}
+
+// A proteger
+
+static int	add_params(t_cmd **lst, char *str, int j)
 {
 	char	*tmp;
+	char	**tabl;
+	int		i;
 
 	tmp = NULL;
+	tabl = NULL;
+	i = 0;
+	tmp = ft_strsub(str, j, ft_strlen(str) - j);
+	tabl = ft_strsplit(str, ' ');
+	while (tabl[i])
+	{
+		increase_tab(&(*lst)->tab_cmd);
+		(*lst)->tab_cmd[i + 1] = ft_strdup(tabl[i]);
+		i++;
+	}
+	ft_strdel(&tmp);
+	tabl = ft_del_tab(tabl);
+	return (0);
+}
+
+int			search_heredoc(t_cmd **lst, char *str, int i, int j)
+{
 	if (!lst || !str)
 		return (-1);
 	if ((*lst)->op_next == 4)
@@ -71,9 +125,10 @@ int			search_heredoc(t_cmd **lst, char *str, int i, int j)
 	{
 		(*lst)->line = ft_strdup(str);
 		(*lst)->heredoc_str = heredoc();
-		ft_printf("Ret HD: %s\n", (*lst)->heredoc_str);
+		j = len_heredoc(str);
+		add_params(lst, str, j);
 	}
+	change_prompt(&g_info, 0);
 	ft_strdel(&(*lst)->line);
-	ft_strdel(&tmp);
 	return (j);
 }

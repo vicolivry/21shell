@@ -88,14 +88,6 @@ static char	**fill_pathes(void)
 	return (pathes);
 }
 
-static void	free_init_slct(char **table, char **pathes)
-{
-	if (table)
-		free_tab(table);
-	if (pathes)
-		free_tab(pathes);
-}
-
 t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 {
 	t_slct	*root;
@@ -116,7 +108,10 @@ t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 		fill_commands(root, info);
 	else if (is_cmd(table[0], pathes) || last_char(hist->name) == '/')
 		fill_dir(root, info, line, table);
-	free_init_slct(table, pathes);
+	if (table)
+	free_tab(table);
+	if (pathes)
+		free_tab(pathes);
 	if (root->next != root)
 		return (root);
 	else

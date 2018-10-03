@@ -1,31 +1,49 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   insert_cmd_simple.c                              .::    .:/ .      .::   */
+/*   clear_echo.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/08/08 15:04:18 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/23 15:40:10 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/10/03 11:45:16 by yoginet      #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/03 11:45:18 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-/*
-**	Split and chose rep
-*/
-
-int			insert_cmd_simple(t_struct *data, t_cmd **lst, char *str)
+static int	check_line_echo(char **str)
 {
-	if (ft_strstr(str, "echo"))
-		(*lst)->tab_cmd = split_echo(str);
-	else
-		(*lst)->tab_cmd = split_cmd(str, 0);
-	if ((*lst)->tab_cmd == NULL)
+	char	*tmp;
+	char	*cpy;
+
+	tmp = NULL;
+	cpy = NULL;
+	cpy = ft_strdup(*str);
+	if (cpy[0] == '\"' && cpy[ft_strlen(*str) - 1] == '\"')
+	{
+		tmp = ft_strsub(*str, 1, ft_strlen(*str) - 2);
+		ft_strdel(str);
+		*str = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+	ft_strdel(&cpy);
+	return (0);
+}
+
+int			clear_echo(char ***tabl)
+{
+	int		i;
+
+	i = 0;
+	if (!(*tabl))
 		return (1);
-	chose_rep(data, lst, 0);
-	(*lst)->env = ft_duplicate_tab(data->env);
+	while ((*tabl)[i])
+	{
+		if ((*tabl)[i] != NULL)
+			check_line_echo(&(*tabl)[i]);
+		i++;
+	}
 	return (0);
 }

@@ -35,8 +35,7 @@ static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 	loop = 1;
 	while (loop)
 	{
-		key_input(info, slct, &loop, hist);
-		if (loop && win_big_enough(info, hist))
+		if (loop && win_big_enough(info, hist) && key_input(info, slct, &loop, hist))
 			display(info, slct);
 		else if (!win_big_enough(info, hist))
 		{
@@ -73,11 +72,9 @@ void		autocomp(t_info *info, t_hist *hist)
 	t_slct	*slct;
 	char	*line;
 
-	g_slct = NULL;
 	line = ft_strdup(hist->name);
 	line = get_last_word(line, info);
-	g_slct = init_slct(line, info, hist);
-	slct = g_slct;
+	slct = init_slct(line, info, hist);
 	if (line != NULL)
 		ft_strdel(&line);
 	ac_get_info(slct, info);

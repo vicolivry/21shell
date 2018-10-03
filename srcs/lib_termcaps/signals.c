@@ -60,9 +60,35 @@ static void		resize_win(int sig)
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
+static void		stop(int sig)
+{
+	t_info	*info;
+	char	s[2];
+
+	info = &g_info;
+	s[0] = info->term.c_cc[VSUSP];
+	s[1] = 0;
+	(void)sig;
+	default_term_mode(info);
+	signal(SIGTSTP, SIG_DFL);
+	ioctl(0, TIOCSTI, s);
+}
+
+static void		restart(int sig)
+{
+	t_info	*info;
+
+	info = &g_info;
+	(void)sig;
+	raw_term_mode(info);
+	resize_win(sig);
+}
+
 void			get_signals(void)
 {
 	signal(SIGWINCH, resize_win);
+	signal(SIGTSTP, stop);
+	signal(SIGCONT, restart);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }

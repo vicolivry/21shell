@@ -82,12 +82,8 @@ static int		heredoc_exec(t_cmd *lst, char *file)
 	if ((fd = open(file, O_CREAT | O_WRONLY | O_WRONLY, S_IRUSR
 	| S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 		return (1);
-	while (lst->heredoc[i])
-	{
-		write(fd, lst->heredoc[i], ft_strlen(lst->heredoc[i]));
-		write(fd, "\n", 2);
-		i++;
-	}
+	write(fd, lst->heredoc_str, ft_strlen(lst->heredoc_str));
+	write(fd, "\n", ft_strlen("\n"));
 	close(fd);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (1);

@@ -62,17 +62,22 @@ static int		check_file_redir(t_struct *data, t_path *start)
 	return (0);
 }
 
+// probleme Here
+// pk replace_order ?
+
 static int		check_lst_special(t_struct *data, t_cmd **lst, int i)
 {
 	int		quit;
 	t_path	*start;
 
 	start = NULL;
+	if ((*lst)->tab_cmd == NULL)
+		return (1);
 	while (*lst)
 	{
 		i = 0;
 		quit = 0;
-		while ((*lst)->tab_cmd[i] && quit == 0)
+		while ((*lst)->tab_cmd[i])
 		{
 			quit = replace_in_line(data, &(*lst)->tab_cmd[i]);
 			if (quit == -1)
@@ -108,6 +113,8 @@ int				check_link(t_cmd *lst)
 **	Check validity of lst && replace $ and ~
 */
 
+// a verif
+
 int				check_validity(t_cmd **lst, t_struct *data)
 {
 	t_cmd	*start;
@@ -118,7 +125,6 @@ int				check_validity(t_cmd **lst, t_struct *data)
 	if (check_lst_special(data, &start, 0) == 1)
 		return (1);
 	start = *lst;
-	return (0);
 	while (start)
 	{
 		if (check_link(start) != 0)

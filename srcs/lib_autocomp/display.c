@@ -28,6 +28,7 @@ void		reset_screen(t_info *info)
 {
 	int	rows;
 
+	get_curs_pos(info);
 	rows = get_row_number(info);
 	get_x_back(info);
 	while (rows > 1)

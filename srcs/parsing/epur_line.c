@@ -36,23 +36,6 @@ static int		clean_bet_suite(char *str, int i, char **new, char **tmp)
 	return (q);
 }
 
-static int		echap_quote(char *str, int i)
-{
-	if (str[i] == '\"')
-	{
-		i++;
-		while (str[i] && str[i] != '\"')
-			i++;
-	}
-	else if (str[i] == '\'')
-	{
-		i++;
-		while (str[i] && str[i] != '\'')
-			i++;
-	}
-	return (i);
-}
-
 static int		*clean_between(char **string, int i, int q)
 {
 	char	*tmp;
@@ -64,7 +47,7 @@ static int		*clean_between(char **string, int i, int q)
 	str = ft_strdup(*string);
 	while (q == 0)
 	{
-		i = echap_quote(str, i);
+		i = echap_quote(str, i, 0);
 		q = clean_bet_suite(str, i, &new, &tmp);
 		i++;
 	}

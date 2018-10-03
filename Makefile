@@ -105,6 +105,11 @@ N_SRCS = 	main.c\
 			lib_shell/resize_str.c\
 			lib_shell/ft_replace_word.c\
 			lib_shell/replace_line.c\
+			lib_shell/insert_in_line.c\
+			lib_shell/echap_quote.c\
+			lib_shell/increase_tab.c\
+			lib_shell/clear_echo.c\
+			lib_shell/delete_back_slash.c\
 			builtins/good_func.c\
 			builtins/func_cd.c\
 			builtins/func_echo.c\
@@ -127,7 +132,6 @@ N_SRCS = 	main.c\
 			parsing/replace_in_line.c\
 			parsing/ft_error_parsing.c\
 			parsing/split_echo.c\
-			parsing/split_echo_suite.c\
 			parsing/split_cmd.c\
 			parsing/split_cmd_suite.c\
 			parsing/check_error.c\
@@ -143,7 +147,6 @@ N_SRCS = 	main.c\
 			parsing/modifie_fd.c\
 			parsing/check_regex_classic.c\
 			parsing/good_op_next.c\
-			parsing/delete_bs.c\
 			debug.c\
 
 all: $(NAME)

@@ -13,12 +13,14 @@
 
 #include "../../includes/shell.h"
 
-void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
+int			key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 {
-	char	buff[5];
+	char	buff[20];
 
-	ft_bzero(buff, 5);
-	read(0, buff, 4);
+	ft_bzero(buff, 20);
+	read(0, buff, 19);
+	if (buff[3] || buff[0] > 127)
+		return (0);
 	if (KEY_CODE_RIGHT)
 		ac_right_key(info, slct, hist);
 	else if (KEY_CODE_LEFT)
@@ -29,15 +31,19 @@ void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 		ac_down_key(info, slct, hist);
 	else if (KEY_CODE_TAB)
 		ac_tab_key(info, slct, hist);
-	else if (*(int*)buff == 10 || (KEY_CODE_BSP) || ft_isprint(*buff))
+	else if (KEY_CODE_CTRL_D)
+		ctrl_d(info, hist);
+	else if ((buff[0] == 10 && buff[1] == 0) || (KEY_CODE_BSP) || ft_isprint(*buff))
 	{
 		restore_curs(hist, info, slct);
 		if (ft_isprint(*buff))
 			add_char(*buff, info, hist);
 		*loop = 0;
+		return (0);
 	}
 	else
 		reset_screen(info);
+	return (1);
 }
 
 void		add_slct(t_slct *slct, t_info *info)

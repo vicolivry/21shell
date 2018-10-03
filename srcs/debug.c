@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/28 12:57:46 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 14:11:26 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 14:59:32 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,6 +49,7 @@ void		print_debug(t_cmd **data, int code)
 		}
 		i = 0;
 		printf("HEREDOC:\n");
+		printf("->%s\n", start->heredoc_str);
 		if (start->heredoc != NULL)
 		{
 			while (start->heredoc[i])

@@ -38,7 +38,8 @@ static int		check_end_line(char *line)
 	int		len;
 
 	len = ft_strlen(line);
-	if (line[len - 1] == '>' || line[len - 1] == '<' || line[len - 1] == '|')
+	if (line[len - 1] == '>' ||
+	(line[len - 1] == '<' && line[len - 2] != '<') || line[len - 1] == '|')
 	{
 		print_msg_error(line + (len - 1), 2);
 		return (1);

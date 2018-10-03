@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   insert_cmd_simple.c                              .::    .:/ .      .::   */
+/*   increase_tab.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/08/08 15:04:18 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/23 15:40:10 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/10/02 15:19:04 by yoginet      #+#   ##    ##    #+#       */
+/*   Updated: 2018/10/02 15:19:32 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,18 +14,30 @@
 #include "../../includes/shell.h"
 
 /*
-**	Split and chose rep
+**  Augmente de 1 la taille du tableau
 */
 
-int			insert_cmd_simple(t_struct *data, t_cmd **lst, char *str)
+int			increase_tab(char ***tabl)
 {
-	if (ft_strstr(str, "echo"))
-		(*lst)->tab_cmd = split_echo(str);
-	else
-		(*lst)->tab_cmd = split_cmd(str, 0);
-	if ((*lst)->tab_cmd == NULL)
-		return (1);
-	chose_rep(data, lst, 0);
-	(*lst)->env = ft_duplicate_tab(data->env);
+	char	**cpy;
+	int		size;
+	int		i;
+
+	cpy = NULL;
+	size = ft_len_tab((*tabl));
+	i = 0;
+	cpy = ft_duplicate_tab((*tabl));
+	(*tabl) = ft_del_tab(*tabl);
+	(*tabl) = (char **)malloc(sizeof(char *) * (size + 2));
+	while (i != (size + 1))
+	{
+		if (cpy[i] != NULL)
+			(*tabl)[i] = ft_strdup(cpy[i]);
+		else
+			(*tabl)[i] = NULL;
+		i++;
+	}
+	(*tabl)[size + 1] = NULL;
+	cpy = ft_del_tab(cpy);
 	return (0);
 }

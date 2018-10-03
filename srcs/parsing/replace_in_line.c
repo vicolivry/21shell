@@ -18,121 +18,96 @@
 **	Appeler dans check_validity
 */
 
-static int		insert_str_suite(char **str, char *tmp, int i, int l)
+static int		return_compt(char *str, int j)
 {
-	char	*new;
-	char	*tmp2;
+	int		compt;
 
-	new = NULL;
-	tmp2 = NULL;
-	if (!str || !tmp)
-		return (-1);
-	new = ft_strsub(*str, i, l);
-	ft_replace_word(str, new, tmp);
-	ft_strdel(&new);
-	return (ft_strlen(tmp));
-}
-
-static int		insert_in_str(t_struct *data, char **str, int i)
-{
-	char	*tmp;
-	char	*new;
-	int		len;
-	int		ret;
-
-	tmp = NULL;
-	new = NULL;
-	len = 1;
-	ret = 1;
-	// a delete ?
-	if (i > 0 && *str[i] == '$' && *str[i - 1] == '\\')
-	{
-		printf("(%s) HERE\n", __func__);
-		return (-1);
-	}
-	// end
-	if (!(new = ft_strsub(*str, i, ft_strlen(*str) - i)))
-		return (1);
-	if (new[0] == '~')
-		tmp = ft_return_home(data);
-	else if (new[0] == '$')
-	{
-		while (new[len] >= 65 && new[len] <= 90)
-			len++;
-		if (len > 1)
-			tmp = ft_return_dollar(data, new, len);
-	}
-	ft_strdel(&new);
-	if ((ret = insert_str_suite(str, tmp, i, len)) == -1)
-		return (-1);
-	ft_strdel(&tmp);
-	return (ret - 1);
-}
-
-static int		return_i_quote(char *tmp, int i, char c)
-{
-	if (!tmp)
+	compt = 0;
+	if (str == NULL)
 		return (0);
-	while (tmp[i] != c)
+	while (str[j] > 64 && str[j] < 91)
 	{
-		i++;
+		j++;
+		compt++;
 	}
-	return (i);
+	return (compt);
 }
 
-static int		replace_in_line_deux(t_struct *data, char **str, int i)
+static char		*return_dol(t_struct *data, char *str, int i)
 {
+	char	*dol;
 	char	*tmp;
+	char	*ret;
+	int		j;
+	int		compt;
 
-	if (!(tmp = ft_strdup(*str)))
-		return (1);
-	while (tmp[i])
+	dol = NULL;
+	tmp = NULL;
+	ret = NULL;
+	j = i;
+	compt = 0;
+	j++;
+	compt = return_compt(str, j);
+	tmp = ft_strsub(str, i, compt + 1);
+	j = ft_strlen(tmp) - 1;
+	dol = ft_return_dollar(data, tmp, compt + 1);
+	ret = insert_in_line(str, i, dol);
+	ft_strdel(&dol);
+	dol = ft_strsub(ret, 0, ft_strlen(ret) - j);
+	ft_strdel(&ret);
+	ft_strdel(&tmp);
+	return (dol);
+}
+
+static char		*replace_suite(t_struct *data, char **str)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	line = NULL;
+	if (!(line = ft_strdup(*str)))
+		return (NULL);
+	while (line[i])
 	{
-		if (tmp[i] == '\'')
-			i = return_i_quote(tmp, i + 1, '\'');
-		else if (tmp[i] == '\"')
-			i = return_i_quote(tmp, i + 1, '\"');
-		else if (tmp[i] == '~' || tmp[i] == '$')
-			i = insert_in_str(data, str, i);
-		if (i == -1)
+		i = echap_quote(line, i, 1);
+		if (line[i] == '~')
 		{
-			ft_strdel(&tmp);
-			return (-1);
+			ft_strdel(&line);
+			line = insert_in_line(*str, i, data->home);
+			i = 0;
+		}
+		if (line[i] == '$')
+		{
+			ft_strdel(&line);
+			line = return_dol(data, *str, i);
+			i = 0;
 		}
 		i++;
 	}
-	ft_strdel(&tmp);
-	return (0);
+	return (line);
 }
 
 int				replace_in_line(t_struct *data, char **line)
 {
 	char	*tmp;
-	int		ret;
 
 	tmp = NULL;
-	ret = 0;
-	// test
-	printf("(%s) line = %s\n", __func__, *line);
-	if (line == NULL || ft_strlen(*line) < 1)
+	if (*line == NULL)
+		return (1);
+	if (ft_strlen(*line) < 1)
+		return (1);
+	if (ft_strstr(*line, "~") == NULL && ft_strstr(*line, "$") == NULL)
+		return (0);
+	if (!(tmp = ft_strdup(*line)))
+		return (1);
+	tmp = replace_suite(data, line);
+	if (tmp != NULL)
 	{
 		ft_strdel(line);
-		return (1);
+		*line = ft_strdup(tmp);
 	}
-	if ((ft_strstr(*line, "~") == NULL && ft_strstr(*line, "-") == NULL &&
-	ft_strstr(*line, "$") == NULL) || check_regex_classic(data, line) == 0)
-		return (0);
-	tmp = ft_strdup(*line);
-	if (replace_in_line_deux(data, &tmp, 0) == -1)
-		ret = -1;
-	replace_line(line, tmp);
 	ft_strdel(&tmp);
-	// test
-	printf("line = %s\n", *line);
-	if (ret == -1)
-		return (0);
-	if ((ft_strstr(*line, "~") != NULL || ft_strstr(*line, "$") != NULL) &&
-	ft_strstr(*line, "\"") == NULL && ft_strstr(*line, "\'") == NULL)
-		replace_in_line(data, line);
-	return (ret);
+	delete_back_slash(line);
+	return (0);
 }

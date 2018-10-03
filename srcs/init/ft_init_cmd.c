@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/14 15:37:03 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/04 11:23:13 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 14:35:52 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,6 @@ t_cmd			*ft_init_cmd(void)
 	if (new == NULL)
 		return (NULL);
 	new->rep = NULL;
-	new->line = NULL;
 	new->tab_cmd = NULL;
 	new->pathname = NULL;
 	new->heredoc = NULL;
@@ -34,6 +33,7 @@ t_cmd			*ft_init_cmd(void)
 	new->bad_fd = 0;
 	new->pid = 0;
 	new->env = NULL;
+	new->line = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -50,7 +50,6 @@ t_cmd			*clear_cmd(t_cmd *start)
 	while (clear)
 	{
 		ft_strdel(&clear->rep);
-	//	ft_strdel(&clear->line);
 		ft_strdel(&clear->heredoc_str);
 		clear->tab_cmd = ft_del_tab(clear->tab_cmd);
 		clear->heredoc = ft_del_tab(clear->heredoc);

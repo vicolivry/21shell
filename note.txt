@@ -31,5 +31,4 @@ Affiche "test" au lieu de test
 error > or >>
 (search_redirection.c et good_tab_cmd.c)
 
-
-en train de modifier replace in line, deletebs
+en train de modif search_heredoc.c

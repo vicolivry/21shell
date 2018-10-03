@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/04 14:43:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 13:22:31 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/03 14:50:41 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -110,10 +110,9 @@
 typedef struct		s_cmd
 {
 	char			**env;
-	char			*line;
 	char			**tab_cmd;
-	char			*heredoc_str;
 	char			**heredoc;
+	char			*heredoc_str;
 	char			*rep;
 	int				op_next;
 	int				stdin_cmd;
@@ -121,6 +120,7 @@ typedef struct		s_cmd
 	int				stderr_cmd;
 	int				pid;
     int             bad_fd;
+	char			*line;
 	struct s_path	*pathname;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -247,13 +247,10 @@ void				print_msg_error(char *str, int i);
 void				clear_string(char **str, int deleted, int opt);
 int 				search_fd(char *str, int i);
 int 				modifie_fd(t_cmd **lst, char *str, int start);
-int					resize_str_echo(char **str, int start, int len);
 int					check_regex_classic(t_struct *data, char **line);
 int					good_op_next(t_cmd **lst, char *str, int i);
 void				verifie_op(t_cmd **lst, char *str, int i);
 int					check_search_null(t_path **lst, char *str, int i, int j);
-int					clear_echo(char ***tabl);
-int					delete_bs(char **line);
 /*
  **	BUILTINS
  */
@@ -336,6 +333,11 @@ char				*ft_return_pwd(void);
 int					len_list(t_cmd *lst);
 int					resize_str(char **str, int len);
 int					replace_line(char **line, char *str);
+char				*insert_in_line(char *str, int i, char *insert);
+int					echap_quote(char *str, int i, int opt);
+int         		increase_tab(char ***tabl);
+int					clear_echo(char ***tabl);
+int         		delete_back_slash(char **line);
 /*
 **	DEBUG
 */
@@ -431,7 +433,7 @@ void				free_hist(t_hist *lst);
 void				ctrl_c(int sig);
 void				if_end(t_info *info, t_hist *tmp);
 char*				quoted_loops(char *full_line, t_struct *data, int *quit);
-void			init_info(t_info *info);
+void				init_info(t_info *info);
 
 /*
 ** LIB_AUTOCOMP
@@ -449,8 +451,6 @@ typedef struct		s_slct
 	struct s_slct	*prev;
 
 }					t_slct;
-
-t_slct				*g_slct;
 
 void				autocomp(t_info *info, t_hist *hist);
 void				ac_get_info(t_slct *slct, t_info *info);
@@ -471,7 +471,7 @@ void				ac_left_key(t_info *info, t_slct *slct, t_hist *hist);
 void				ac_up_key(t_info *info, t_slct *slct, t_hist *hist);
 void				ac_down_key(t_info *info, t_slct *slct, t_hist *hist);
 void				ac_tab_key(t_info *info, t_slct *slct, t_hist *hist);
-void				key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist);
+int					key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist);
 void				ac_print_arg(t_slct *slct, t_info *info);
 void				display(t_info *info, t_slct *slct);
 void				update_index(t_slct *root);
