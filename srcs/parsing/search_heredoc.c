@@ -57,19 +57,6 @@ static char	**heredoc_simple(char *str, int i, int *j)
 	ft_strdel(&tmp);
 	return (new);
 }
-/*
-static char	**heredoc_yg(char *str, int i, int *j)
-{
-	char	*tmp;
-	char	**new;
-
-	tmp = NULL;
-	new = NULL;
-	*j = ft_return_heredoc(str, &tmp, i, 2);
-	new = ft_strsplit(tmp, ' ');
-	ft_strdel(&tmp);
-	return (new);
-}*/
 
 int			search_heredoc(t_cmd **lst, char *str, int i, int j)
 {

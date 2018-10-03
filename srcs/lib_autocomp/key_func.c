@@ -29,8 +29,6 @@ void		key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 		ac_down_key(info, slct, hist);
 	else if (KEY_CODE_TAB)
 		ac_tab_key(info, slct, hist);
-	else if (KEY_CODE_CTRL_D)
-		ctrl_d(info, hist);
 	else if (*(int*)buff == 10 || (KEY_CODE_BSP) || ft_isprint(*buff))
 	{
 		restore_curs(hist, info, slct);

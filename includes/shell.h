@@ -450,6 +450,8 @@ typedef struct		s_slct
 
 }					t_slct;
 
+t_slct				*g_slct;
+
 void				autocomp(t_info *info, t_hist *hist);
 void				ac_get_info(t_slct *slct, t_info *info);
 void				ac_add_after_lst(t_slct *elem, struct dirent *dp);
