@@ -51,31 +51,6 @@ static void	fill_dir(t_slct *root, t_info *info, char *line, char **table)
 	}
 }
 
-static int	is_cmd(char *cmd, char **pathes)
-{
-	struct dirent	*dp;
-	DIR				*dirp;
-	int				i;
-
-	i = -1;
-	while (pathes[++i])
-	{
-		if ((dirp = opendir(pathes[i])) != NULL)
-		{
-			while ((dp = readdir(dirp)) != NULL)
-				if (!ft_strcmp(dp->d_name, cmd))
-				{
-					while (pathes[i])
-						ft_strdel(&pathes[i++]);
-					closedir(dirp);
-					return (1);
-				}
-			closedir(dirp);
-		}
-	}
-	return (0);
-}
-
 static char	**fill_pathes(void)
 {
 	char	**pathes;
@@ -86,6 +61,14 @@ static char	**fill_pathes(void)
 		return (NULL);
 	pathes = ft_strsplit(str, ':');
 	return (pathes);
+}
+
+static void	free_init_slct(char **table, char **pathes)
+{
+	if (table)
+		free_tab(table);
+	if (pathes)
+		free_tab(pathes);
 }
 
 t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
@@ -108,10 +91,7 @@ t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 		fill_commands(root, info);
 	else if (is_cmd(table[0], pathes) || last_char(hist->name) == '/')
 		fill_dir(root, info, line, table);
-	if (table)
-	free_tab(table);
-	if (pathes)
-		free_tab(pathes);
+	free_init_slct(table, pathes);
 	if (root->next != root)
 		return (root);
 	else

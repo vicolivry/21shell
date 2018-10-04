@@ -82,8 +82,10 @@ static void	cut_beginning(t_info *info, t_hist *tmp)
 	i = ft_strlen(info->copy) + 1;
 	while (i)
 	{
+		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 		del_char(info, tmp);
 		i--;
+		tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	}
 }
 
@@ -103,9 +105,11 @@ void		cut_n_cpy(t_info *info, char *buff, t_hist *tmp)
 	if (KEY_CODE_CTRL_P && info->copy)
 		while (info->copy[i])
 		{
+			tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 			info->curs_in_str <= info->s_len ?
 				insert_char(info->copy[i], info, tmp)
 				: add_char(info->copy[i], info, tmp);
 			i++;
+			tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 		}
 }

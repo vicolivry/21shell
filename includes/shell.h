@@ -484,6 +484,7 @@ void				erase_prev(t_info *info, t_hist *hist);
 int					slct_current(t_slct *slct,t_info * info, t_hist *hist);
 char				*get_last_word(char *line, t_info *info);
 int					contains_letters(char *name, char *letters);
+int					is_cmd(char *cmd, char **pathes);
 
 /*
 **	END

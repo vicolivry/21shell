@@ -13,14 +13,8 @@
 
 #include "../../includes/shell.h"
 
-int			key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
+static void	arrow_cmds(t_info *info, t_slct *slct, char *buff, t_hist *hist)
 {
-	char	buff[20];
-
-	ft_bzero(buff, 20);
-	read(0, buff, 19);
-	if (buff[3] || buff[0] > 127)
-		return (0);
 	if (KEY_CODE_RIGHT)
 		ac_right_key(info, slct, hist);
 	else if (KEY_CODE_LEFT)
@@ -33,7 +27,21 @@ int			key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 		ac_tab_key(info, slct, hist);
 	else if (KEY_CODE_CTRL_D)
 		ctrl_d(info, hist);
-	else if ((buff[0] == 10 && buff[1] == 0) || (KEY_CODE_BSP) || ft_isprint(*buff))
+}
+
+int			key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
+{
+	char	buff[50];
+
+	ft_bzero(buff, 50);
+	read(0, buff, 49);
+	if (buff[3] || buff[0] > 127)
+		return (0);
+	if ((KEY_CODE_RIGHT) || (KEY_CODE_LEFT) || (KEY_CODE_UP)
+	|| (KEY_CODE_DOWN) || (KEY_CODE_TAB) || (KEY_CODE_CTRL_D))
+		arrow_cmds(info, slct, buff, hist);
+	else if ((buff[0] == 10 && buff[1] == 0) || (KEY_CODE_BSP)
+	|| ft_isprint(*buff))
 	{
 		restore_curs(hist, info, slct);
 		if (ft_isprint(*buff))
@@ -44,26 +52,6 @@ int			key_input(t_info *info, t_slct *slct, int *loop, t_hist *hist)
 	else
 		reset_screen(info);
 	return (1);
-}
-
-void		add_slct(t_slct *slct, t_info *info)
-{
-	int	i;
-
-	i = 0;
-	if (info->letters)
-		while (info->letters[i])
-			i++;
-	if (slct->name)
-		while (slct->name[i])
-		{
-			ft_putchar(slct->name[i]);
-			i++;
-		}
-	if (slct->is_dir)
-		ft_putchar('/');
-	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
-	get_x_back(info);
 }
 
 void		erase_prev(t_info *info, t_hist *hist)

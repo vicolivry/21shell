@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/29 13:55:04 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/03 11:15:44 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/04 11:17:49 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -78,4 +78,24 @@ int		slct_current(t_slct *slct, t_info *info, t_hist *hist)
 		return (1);
 	}
 	return (0);
+}
+
+void	add_slct(t_slct *slct, t_info *info)
+{
+	int	i;
+
+	i = 0;
+	if (info->letters)
+		while (info->letters[i])
+			i++;
+	if (slct->name)
+		while (slct->name[i])
+		{
+			ft_putchar(slct->name[i]);
+			i++;
+		}
+	if (slct->is_dir)
+		ft_putchar('/');
+	tputs(tgetstr("sf", NULL), 1, ft_putchar_err);
+	get_x_back(info);
 }

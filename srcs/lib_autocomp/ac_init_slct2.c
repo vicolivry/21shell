@@ -41,3 +41,28 @@ void	fill_commands(t_slct *root, t_info *info)
 	}
 	free(pathes);
 }
+
+int		is_cmd(char *cmd, char **pathes)
+{
+	struct dirent	*dp;
+	DIR				*dirp;
+	int				i;
+
+	i = -1;
+	while (pathes[++i])
+	{
+		if ((dirp = opendir(pathes[i])) != NULL)
+		{
+			while ((dp = readdir(dirp)) != NULL)
+				if (!ft_strcmp(dp->d_name, cmd))
+				{
+					while (pathes[i])
+						ft_strdel(&pathes[i++]);
+					closedir(dirp);
+					return (1);
+				}
+			closedir(dirp);
+		}
+	}
+	return (0);
+}

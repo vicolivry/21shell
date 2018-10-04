@@ -35,7 +35,8 @@ static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 	loop = 1;
 	while (loop)
 	{
-		if (loop && win_big_enough(info, hist) && key_input(info, slct, &loop, hist))
+		if (loop && win_big_enough(info, hist) &&
+		key_input(info, slct, &loop, hist))
 			display(info, slct);
 		else if (!win_big_enough(info, hist))
 		{
