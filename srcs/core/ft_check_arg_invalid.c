@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/20 11:13:22 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 15:03:48 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:45:46 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,15 +50,14 @@ static int		compare_builtins(char **builtins, t_cmd *cmd)
 }
 
 /*
-**	Verifis si on a les droits et si la commandes existe
+**	Verifie si on a les droits et si la commandes existe
 */
 
 int				ft_check_arg_invalid(t_struct *data, t_cmd *cmd)
 {
 	if (cmd == NULL)
 		return (1);
-	if ((cmd->rep == NULL && cmd->op_next == 0)
-	&& compare_builtins(data->builtins, cmd) == 1)
+	if (cmd->rep == NULL && compare_builtins(data->builtins, cmd) == 1)
 	{
 		basic_error("commande not found: ", cmd->tab_cmd[0]);
 		data->code_erreur = 127;

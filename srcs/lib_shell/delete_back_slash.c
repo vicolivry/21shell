@@ -33,15 +33,30 @@ static int	check_char(char *line, int i)
 	return (0);
 }
 
+static char	*delete_bs_suite(char *line, int i)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*ret;
+
+	tmp = NULL;
+	tmp2 = NULL;
+	ret = NULL;
+	if (!(tmp = ft_strsub(line, 0, i)))
+		return (NULL);
+	if (!(tmp2 = ft_strsub(line, i + 1, ft_strlen(line) - (i + 1))))
+		return (NULL);
+	ret = ft_strjoin(tmp, tmp2);
+	ft_strdel(&tmp);
+	ft_strdel(&tmp2);
+	return (ret);
+}
+
 static char	*delete_bs(char *line, int i)
 {
 	char	*ret;
-	char	*tmp;
-	char	*tmp2;
 
 	ret = NULL;
-	tmp = NULL;
-	tmp2 = NULL;
 	while (line[i])
 	{
 		i = echap_quote(line, i, 0);
@@ -49,16 +64,10 @@ static char	*delete_bs(char *line, int i)
 		{
 			if (i == 0)
 				ret = ft_strsub(line, 1, ft_strlen(line) - 1);
-			if (i == ft_strlen(line))
+			else if (i == ft_strlen(line))
 				ret = ft_strsub(line, 0, ft_strlen(line) - 1);
 			else
-			{
-				tmp = ft_strsub(line, 0, i);
-				tmp2 = ft_strsub(line, i + 1, ft_strlen(line) - (i + 1));
-				ret = ft_strjoin(tmp, tmp2);
-				ft_strdel(&tmp);
-				ft_strdel(&tmp2);
-			}
+				ret = delete_bs_suite(line, i);
 			return (ret);
 		}
 		i++;

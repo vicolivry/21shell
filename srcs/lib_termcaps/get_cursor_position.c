@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Gets x and y coordinates of the cursor position
+*/
+
 void	get_curs_pos(t_info *info)
 {
 	char	pos[20];

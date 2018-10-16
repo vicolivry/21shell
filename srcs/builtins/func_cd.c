@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 13:21:57 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 13:37:08 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/15 11:17:14 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,33 +18,7 @@
 **	~ // - // $ > traiter dans parsing
 */
 
-static int		actualise_env(t_struct *data, char *newpath)
-{
-	int		i;
-
-	i = 0;
-	ft_strdel(&data->oldpwd);
-	data->oldpwd = ft_strdup(data->pwd);
-	ft_strdel(&data->pwd);
-	data->pwd = ft_strdup(newpath);
-	while (data->env[i])
-	{
-		if (ft_strncmp(data->env[i], "PWD=", 4) == 0)
-		{
-			ft_strdel(&data->env[i]);
-			data->env[i] = ft_strjoin("PWD=", data->pwd);
-		}
-		if (ft_strncmp(data->env[i], "OLDPWD=", 7) == 0)
-		{
-			ft_strdel(&data->env[i]);
-			data->env[i] = ft_strjoin("OLDPWD=", data->oldpwd);
-		}
-		i++;
-	}
-	return (0);
-}
-
-static int		change_directory(t_struct *data, t_cmd *lst, char *newpath)
+static int	change_directory(t_struct *data, t_cmd *lst, char *newpath)
 {
 	if (newpath != NULL)
 	{
@@ -61,7 +35,7 @@ static int		change_directory(t_struct *data, t_cmd *lst, char *newpath)
 	{
 		if (chdir(lst->tab_cmd[1]) == -1)
 		{
-			ft_putstr_fd("cd: no such file or directory:", 2);
+			ft_putstr_fd("cd: no such file or directory: ", 2);
 			ft_putstr_fd(lst->tab_cmd[1], 2);
 			ft_putstr_fd("\n", 2);
 			return (1);
@@ -71,7 +45,7 @@ static int		change_directory(t_struct *data, t_cmd *lst, char *newpath)
 	return (0);
 }
 
-static int		pwd_replace(t_struct *data, t_cmd *lst)
+static int	pwd_replace(t_struct *data, t_cmd *lst)
 {
 	char	*pwd;
 	char	*tmp;
@@ -100,9 +74,9 @@ static int		pwd_replace(t_struct *data, t_cmd *lst)
 	return (0);
 }
 
-static int		check_error_cd(char **tabargv)
+static int	check_error_cd(char **tabargv)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	while (tabargv[i])
@@ -117,9 +91,15 @@ static int		check_error_cd(char **tabargv)
 	return (EXIT_SUCCESS);
 }
 
-int				func_cd(t_struct *data, t_cmd *lst)
+static int	cd_minus(t_struct *data, t_cmd *lst)
 {
-	int		mode;
+	change_directory(data, lst, lst->tab_cmd[1]);
+	return (0);
+}
+
+int			func_cd(t_struct *data, t_cmd *lst)
+{
+	int mode;
 
 	mode = 0;
 	if (!data || !lst)
@@ -129,12 +109,18 @@ int				func_cd(t_struct *data, t_cmd *lst)
 	if (mode == 2)
 		pwd_replace(data, lst);
 	else
-    {
-        if (lst->tab_cmd[1] == NULL)
-		    change_directory(data, lst, data->home);
-        else
-		    change_directory(data, lst, NULL);
-    }
+	{
+		if (lst->tab_cmd[1] == NULL)
+			change_directory(data, lst, data->home);
+		else if (!ft_strcmp(lst->tab_cmd[1], "-"))
+		{
+			ft_strdel(&lst->tab_cmd[1]);
+			lst->tab_cmd[1] = ft_strdup(data->oldpwd);
+			cd_minus(data, lst);
+		}
+		else
+			change_directory(data, lst, NULL);
+	}
 	ft_strdel(&data->pwd);
 	data->pwd = ft_return_pwd();
 	return (EXIT_SUCCESS);

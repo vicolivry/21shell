@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/11 11:32:20 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 14:55:19 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:43:08 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Check la commande suivante a executer (selon code erreur)
+*/
 
 int			cmd_suivante(t_ins *cpy, int code)
 {

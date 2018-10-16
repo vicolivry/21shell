@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Checks if the terminal window is big enough
+** to display the list.
+*/
+
 static int	win_big_enough(t_info *info, t_hist *hist)
 {
 	int		rows;
@@ -28,6 +33,10 @@ static int	win_big_enough(t_info *info, t_hist *hist)
 		return (0);
 }
 
+/*
+** Infinite loop while navigating in the autocomp linked list.
+*/
+
 static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int	loop;
@@ -35,6 +44,11 @@ static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 	loop = 1;
 	while (loop)
 	{
+		if (info->out)
+		{
+			free_slct(slct, info);
+			return ;
+		}
 		if (loop && win_big_enough(info, hist) &&
 		key_input(info, slct, &loop, hist))
 			display(info, slct);
@@ -48,6 +62,11 @@ static void	infinite_loop(t_info *info, t_slct *slct, t_hist *hist)
 	free_slct(slct, info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
+
+/*
+** Checks exceptions and quits if there is an
+** exception case.
+*/
 
 static int	ac_special_cases(t_slct *slct, t_info *info, t_hist *hist)
 {
@@ -68,14 +87,23 @@ static int	ac_special_cases(t_slct *slct, t_info *info, t_hist *hist)
 	return (0);
 }
 
+/*
+** Inits the autocomp linked list and starts
+** an infinite loop.
+*/
+
 void		autocomp(t_info *info, t_hist *hist)
 {
 	t_slct	*slct;
 	char	*line;
 
-	line = ft_strdup(hist->name);
+	line = NULL;
+	info->out = 0;
+	if (hist->name)
+		line = ft_strdup(hist->name);
 	line = get_last_word(line, info);
-	slct = init_slct(line, info, hist);
+	g_slct = init_slct(line, info, hist);
+	slct = g_slct;
 	if (line != NULL)
 		ft_strdel(&line);
 	ac_get_info(slct, info);

@@ -59,7 +59,7 @@ static int		add_in_env(t_struct **data, t_cmd *lst)
 	i = ft_len_tab((*data)->env);
 	if (!(new = (char **)malloc(sizeof(char *) * (i + 2))))
 		return (1);
-    new[i + 1] = NULL;
+	new[i + 1] = NULL;
 	i = 0;
 	while ((*data)->env[i])
 	{

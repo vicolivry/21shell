@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Checks if there is an unclosed single quote.
+*/
+
 static void	single_toggle(t_info *info)
 {
 	if (!(info->quoted))
@@ -21,6 +25,10 @@ static void	single_toggle(t_info *info)
 		info->quoted = 0;
 }
 
+/*
+** Checks if there is an unclosed double quote.
+*/
+
 static void	double_toggle(t_info *info)
 {
 	if (!(info->quoted))
@@ -28,6 +36,11 @@ static void	double_toggle(t_info *info)
 	else
 		info->quoted = 0;
 }
+
+/*
+** Checks if there is an unclosed quote of
+** any type. Modifies the prompt accordingly.
+*/
 
 void		toggle_quote(t_info *info)
 {
@@ -38,12 +51,12 @@ void		toggle_quote(t_info *info)
 		while (info->line[i])
 		{
 			if (((i == 0 && info->line[i] == '"') || (i > 0
-							&& info->line[i] == '"'
-							&& info->line[i - 1] != '\\')) && info->quoted != 1)
+			&& info->line[i] == '"' && info->quoted != 4
+				&& info->line[i - 1] != '\\')) && info->quoted != 1)
 				double_toggle(info);
-			if (((i == 0 && info->line[i] == 39) || (i > 0
-							&& info->line[i] == 39
-							&& info->line[i - 1] != '\\')) && info->quoted != 2)
+			if (((i == 0 && info->line[i] == 39) ||
+			(i > 0 && info->line[i] == 39 && info->quoted != 4
+			&& info->line[i - 1] != '\\')) && info->quoted != 2)
 				single_toggle(info);
 			i++;
 		}

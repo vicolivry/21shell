@@ -6,7 +6,7 @@
 /*   By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/15 13:22:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 11:18:49 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/12 16:16:20 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,7 +59,8 @@ static int		func_env_suite(t_struct **data, t_cmd *lst, int i, int opt)
 	while (lst->tab_cmd[i])
 	{
 		hash = ft_calcul_hash(lst->tab_cmd[i], (*data)->sizemax);
-		if (ft_is_func(*data, lst->tab_cmd[i], hash) == 0)
+		if (ft_is_func(*data, lst->tab_cmd[i], hash) == 0 ||
+	ft_strstr(lst->tab_cmd[i], "./") != NULL)
 			return (execute_with_env(data, lst, i, opt));
 		if (ft_strstr(lst->tab_cmd[i], "=") != NULL)
 			return (print_env(*data, lst, i, opt));

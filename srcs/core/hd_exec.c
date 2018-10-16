@@ -6,12 +6,35 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/28 14:42:03 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/30 10:02:01 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:46:22 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Execution heredoc
+*/
+
+int				check_validity_heredoc(t_cmd *lst)
+{
+	char	*path;
+	int		ret;
+
+	path = NULL;
+	ret = 0;
+	if (lst->redir_heredoc == 0 || lst->heredoc == NULL)
+		return (0);
+	path = return_path_heredoc(lst->heredoc[0]);
+	if (open(path, O_RDONLY) < 0)
+	{
+		ret = 1;
+		basic_error(lst->heredoc[0], ": No such file or directory");
+	}
+	ft_strdel(&path);
+	return (ret);
+}
 
 int				delete_tmp(char **file)
 {
@@ -32,25 +55,6 @@ int				delete_tmp(char **file)
 	return (0);
 }
 
-static char		*return_path_heredoc(char *name)
-{
-	char	*path;
-	char	*tmp;
-
-	path = NULL;
-	tmp = NULL;
-	if (!(path = ft_strnew(255)))
-		return (NULL);
-	getcwd(path, 255);
-	if (!(tmp = ft_strjoin(path, "/")))
-		return (NULL);
-	ft_strdel(&path);
-	clear_line(&name);
-	if (!(path = ft_strjoin(tmp, name)))
-		return (NULL);
-	return (name);
-}
-
 static int		heredoc_simple_exec(t_cmd *lst, int i)
 {
 	int		fd;
@@ -61,12 +65,16 @@ static int		heredoc_simple_exec(t_cmd *lst, int i)
 	if (!(path = return_path_heredoc(lst->heredoc[i])))
 		return (1);
 	if ((fd = open(path, O_RDONLY)) < 0)
+	{
+		basic_error(lst->heredoc[i], ": No such file or directory");
+		ft_strdel(&path);
 		return (1);
+	}
 	ft_strdel(&path);
 	dup2(fd, lst->stdin_cmd);
 	close(fd);
 	status = execve(lst->rep, lst->tab_cmd, lst->env);
-	return (status);
+	exit(status);
 }
 
 static int		heredoc_exec(t_cmd *lst, char *file)
@@ -77,13 +85,14 @@ static int		heredoc_exec(t_cmd *lst, char *file)
 
 	i = 0;
 	status = 0;
-	if (file == NULL)
-		return (1);
 	if ((fd = open(file, O_CREAT | O_WRONLY | O_WRONLY, S_IRUSR
-	| S_IWUSR | S_IRGRP | S_IROTH)) < 0)
+					| S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 		return (1);
-	write(fd, lst->heredoc_str, ft_strlen(lst->heredoc_str));
-	write(fd, "\n", ft_strlen("\n"));
+	if (lst->heredoc_str != NULL)
+	{
+		write(fd, lst->heredoc_str, ft_strlen(lst->heredoc_str));
+		write(fd, "\n", ft_strlen("\n"));
+	}
 	close(fd);
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (1);
@@ -113,9 +122,9 @@ int				fork_heredoc(t_cmd *lst, int code)
 	}
 	if (!(lst))
 		return (1);
-	if (lst->op_next == 4)
+	if (lst->op_next == 4 || lst->heredoc != NULL)
 		ret = heredoc_simple_exec(lst, 0);
 	else
 		ret = heredoc_exec(lst, "./.heredoc_42sh_tmp");
-	return (ret);
+	exit(ret);
 }

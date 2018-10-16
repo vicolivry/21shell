@@ -85,7 +85,7 @@ t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 	if (hist->name)
 		table = ft_strsplit(hist->name, ' ');
 	if (!(root = root_slct()) || !line || !table)
-		return (NULL);
+		return (init_error(root, info, table, pathes));
 	if (!(table[1]) && hist->name && last_char(hist->name) != ' ' &&
 			last_char(hist->name) != '/')
 		fill_commands(root, info);
@@ -95,5 +95,5 @@ t_slct		*init_slct(char *line, t_info *info, t_hist *hist)
 	if (root->next != root)
 		return (root);
 	else
-		return (NULL);
+		return (free_slct(root, info));
 }

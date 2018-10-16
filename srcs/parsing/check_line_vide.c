@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/26 12:06:01 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 11:58:20 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:53:48 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Check des erreurs
+*/
 
 static int	suite_vide(char *str, int i)
 {
@@ -19,7 +23,7 @@ static int	suite_vide(char *str, int i)
 		i++;
 	if (i == ft_strlen(str))
 	{
-		basic_error(" ", " : command not found");
+		basic_error(" ", ": command not found");
 		return (0);
 	}
 	i = 0;

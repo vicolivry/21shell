@@ -27,6 +27,8 @@ t_cmd			*ft_init_cmd(void)
 	new->heredoc = NULL;
 	new->heredoc_str = NULL;
 	new->op_next = 0;
+	new->redir_heredoc = 0;
+	new->heredoc_activ = 0;
 	new->stdin_cmd = 0;
 	new->stdout_cmd = 1;
 	new->stderr_cmd = 2;
@@ -74,8 +76,8 @@ t_path			*ft_init_path(void)
 	if (new == NULL)
 		return (NULL);
 	new->name = NULL;
-	new->s_or_d = 2;
-	new->redir_fd = 1;
+	new->s_or_d = 0;
+	new->redir_fd = 0;
 	new->fd = 0;
 	new->pid = 0;
 	new->next = NULL;

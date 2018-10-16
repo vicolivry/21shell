@@ -30,7 +30,7 @@ static int		ft_init_parsing(t_ins **new, char **line, t_struct **data)
 	if (ft_nefaitrien(line) == 1)
 	{
 		(*data)->code_erreur = 258;
-        ft_strdel(line);
+		ft_strdel(line);
 		return (1);
 	}
 	len = ft_strlen(*line);
@@ -77,7 +77,7 @@ t_ins			*ft_split_commandes(char **line, t_struct *data)
 	while (cpy)
 	{
 		tmp = ft_strdup(cpy->str);
-		cpy->cmd = ft_split_cmd(tmp, data);
+		cpy->cmd = ft_split_cmd(&tmp, data);
 		cpy = cpy->next;
 		ft_strdel(&tmp);
 	}

@@ -15,7 +15,7 @@
 
 char	last_char(char *str)
 {
-	if (!str)
+	if (!str || !ft_strcmp(str, ""))
 		return (0);
 	else
 		return (str[ft_strlen(str) - 1]);

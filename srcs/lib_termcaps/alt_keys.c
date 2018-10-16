@@ -6,22 +6,26 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/27 10:42:20 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 17:21:25 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/04 12:46:42 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
+/*
+** Cursor goes up a line
+*/
+
 void		alt_up_down(t_info *info, char *buff)
 {
-	if ((KEY_CODE_ALT_UP) && info->curs_y > info->orig_y)
+	if ((ALT_UP) && info->curs_y > info->orig_y)
 	{
 		tputs(tgetstr("up", NULL), 1, ft_putchar_err);
 		get_curs_pos(info);
 		info->curs_in_str -= info->col_nb;
 	}
-	else if ((KEY_CODE_ALT_DOWN) && info->s_len + ft_strlen(info->prmpt)
+	else if ((A_DWN) && info->s_len + ft_strlen(info->prmpt)
 			> info->col_nb)
 	{
 		if (info->s_len - info->curs_in_str >= info->col_nb)
@@ -41,6 +45,10 @@ void		alt_up_down(t_info *info, char *buff)
 			right_key(info);
 	get_curs_pos(info);
 }
+
+/*
+** Cursor goes to the previous word
+*/
 
 void		alt_left(t_info *info, t_hist *tmp)
 {
@@ -69,6 +77,10 @@ void		alt_left(t_info *info, t_hist *tmp)
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
+/*
+** Cursor goes to the next word
+*/
+
 void		alt_right(t_info *info, t_hist *tmp)
 {
 	if (!tmp->name)
@@ -92,14 +104,18 @@ void		alt_right(t_info *info, t_hist *tmp)
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
 
+/*
+** Exits program if command line is empty and no process
+** is running
+*/
+
 void		ctrl_d(t_info *info, t_hist *tmp)
 {
-
-	if ((tmp->name && ft_strcmp(tmp->name, "")))
+	if ((tmp->name && ft_strcmp(tmp->name, "")) || g_data->is_executing)
 		return ;
 	if ((!tmp->name || !ft_strcmp(tmp->name, "")) && info->h_d.cmd)
 	{
-		info->line = ft_strdup(info->h_d.trigger);
+		tmp->name = ft_strdup(info->h_d.trigger);
 		rc_key(info, tmp);
 	}
 	else if ((!tmp->name || !ft_strcmp(tmp->name, "")) && !info->h_d.cmd)

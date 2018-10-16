@@ -181,6 +181,7 @@ int					ft_atoi_base(char *str, char *base);
 int					ft_iswhite(int c);
 char				last_char(char *str);
 void				free_tab(char **table);
+int					str_iswhite(char *str);
 /*
 **	GNL
 */

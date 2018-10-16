@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/08 15:29:39 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 10:42:35 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:52:22 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,11 +60,10 @@ static int		fd_next_suite(char *str, int i, int add, int *fd_next)
 	char	*tmp;
 
 	tmp = NULL;
-	// add gestion chemin a faire
 	while (ft_isalpha(str[i + add]) == 1 || str[i + add] == '/')
 		add++;
 	tmp = ft_strsub(str, i + 1, add);
-	basic_error(tmp, ": ambigous redirect");
+	basic_error(tmp, " : ambigous redirect");
 	*fd_next = -1;
 	ft_strdel(&tmp);
 	return (-2);
@@ -83,7 +82,7 @@ static int		ft_fd_next(char *str, int i, int *fd_next)
 		*fd_next = open("/dev/null", O_RDWR);
 		return (2);
 	}
-	while(str[i + 1] == ' ' || str[i + 1] == '\t')
+	while (str[i + 1] == ' ' || str[i + 1] == '\t')
 	{
 		i++;
 		add++;

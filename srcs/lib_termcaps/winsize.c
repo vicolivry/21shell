@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Returns the number of characters to be possibly typed in the terminal
+** in order to check if the window is big enough.
+*/
+
 int		remaining_chars(t_info *info, t_hist *hist)
 {
 	int	char_nb;

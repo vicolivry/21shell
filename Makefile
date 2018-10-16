@@ -6,7 +6,7 @@
 #    By: yoginet <yoginet@student.le-101.fr>        +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/24 10:04:43 by yoginet      #+#   ##    ##    #+#        #
-#    Updated: 2018/09/05 13:22:59 by yoginet     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/10/16 09:48:04 by yoginet     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -19,7 +19,7 @@ JAUNE=\033[33m
 
 NAME =		21sh
 CC = 		gcc
-FLAGS = 	-Wall -Werror -Wextra
+FLAGS = 	-g -Wall -Werror -Wextra
 DEL =		rm -rf
 
 SRC_PATH = ./srcs/
@@ -39,13 +39,17 @@ N_SRCS = 	main.c\
 			core/execute_builtins.c\
 			core/ft_check_arg_invalid.c\
 			core/heredoc.c\
+			core/heredoc2.c\
 			core/hd_exec.c\
+			core/hd_exec_suite.c\
 			core/info_init_edit.c\
 			core/kill_process.c\
 			core/cmd_suivante.c\
 			core/exit_status.c\
 			core/wait_or_not.c\
 			core/redirection_fd.c\
+			core/duplique_process.c\
+			core/exec_child.c\
 			init/ft_check_infos.c\
 			init/ft_delete_struct.c\
 			init/ft_init_builtins.c\
@@ -112,6 +116,7 @@ N_SRCS = 	main.c\
 			lib_shell/delete_back_slash.c\
 			builtins/good_func.c\
 			builtins/func_cd.c\
+			builtins/func_cd2.c\
 			builtins/func_echo.c\
 			builtins/func_env.c\
 			builtins/func_env_suite.c\
@@ -124,6 +129,7 @@ N_SRCS = 	main.c\
 			builtins/func_history.c\
 			parsing/ft_split_commandes.c\
 			parsing/ft_split_pvirgule.c\
+			parsing/ft_split_pvirgule_suite.c\
 			parsing/ft_split_cmd.c\
 			parsing/chose_rep.c\
 			parsing/epur_line.c\
@@ -139,6 +145,7 @@ N_SRCS = 	main.c\
 			parsing/insert_cmd_simple.c\
 			parsing/good_tab_cmd.c\
 			parsing/search_heredoc.c\
+			parsing/search_heredoc_suite.c\
 			parsing/search_redirection.c\
 			parsing/search_redirection_suite.c\
 			parsing/search_redirection_fd.c\
@@ -147,7 +154,9 @@ N_SRCS = 	main.c\
 			parsing/modifie_fd.c\
 			parsing/check_regex_classic.c\
 			parsing/good_op_next.c\
-			debug.c\
+			parsing/return_name.c\
+			parsing/insert_options_cmd.c\
+			parsing/search_regex_invalid.c\
 
 all: $(NAME)
 

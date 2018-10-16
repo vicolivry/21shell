@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/26 11:24:31 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/25 16:23:33 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/08 12:47:29 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,8 @@ char		**ft_duplicate_tab(char **tabl)
 		return (NULL);
 	while (tabl[i])
 	{
-		new[i] = ft_strdup(tabl[i]);
+		if (!(new[i] = ft_strdup(tabl[i])))
+			new[i] = NULL;
 		i++;
 	}
 	new[len] = NULL;

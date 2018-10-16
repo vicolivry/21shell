@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Checks if the added character is in the bottom right
+** corner of the terminal
+*/
+
 void	if_end(t_info *info, t_hist *tmp)
 {
 	if (tmp->name)

@@ -13,49 +13,18 @@
 
 #include "../../includes/shell.h"
 
-static int		ft_check_vir(t_ins **lst, char **line)
+static t_ins	*return_good_chain(t_ins **lst)
 {
-	if (ft_strstr(*line, ";") == NULL && ft_strstr(*line, "&&") == NULL
-	&& ft_strstr(*line, "||") == NULL)
+	if (!(*lst))
+		return (NULL);
+	if ((*lst)->str != NULL)
 	{
-		(*lst)->str = ft_strdup(*line);
-		ft_strdel(line);
-		return (0);
+		while ((*lst)->next)
+			*lst = (*lst)->next;
+		(*lst)->next = ft_init_ins();
+		*lst = (*lst)->next;
 	}
-	return (1);
-}
-
-static int		resize_line(char **str, int i, t_ins **lst)
-{
-	char	*tmp;
-
-	(void)lst;
-	tmp = NULL;
-	if (!(*str))
-		return (1);
-	if (i == ft_strlen(*str))
-	{
-		ft_strdel(str);
-		return (0);
-	}
-	tmp = ft_strdup(*str);
-	ft_strdel(str);
-	*str = ft_strsub(tmp, i + 1, ft_strlen(tmp) - (i + 1));
-	ft_strdel(&tmp);
-	return (0);
-}
-
-static int		add_code(t_ins *lst, char *str, int i)
-{
-	if (!lst || !str)
-		return (1);
-	if (str[i] == ';')
-		lst->code = 0;
-	if (str[i] == '&')
-		lst->code = 7;
-	if (str[i] == '|')
-		lst->code = 8;
-	return (0);
+	return (*lst);
 }
 
 static int		ft_split_pvir_suite(char **line, int i, t_ins **lst)
@@ -65,13 +34,7 @@ static int		ft_split_pvir_suite(char **line, int i, t_ins **lst)
 	tmp = NULL;
 	if (i == -1 || !(*line))
 		return (0);
-	if ((*lst)->str != NULL)
-	{
-		while ((*lst)->next)
-			*lst = (*lst)->next;
-		(*lst)->next = ft_init_ins();
-		*lst = (*lst)->next;
-	}
+	*lst = return_good_chain(lst);
 	add_code(*lst, *line, i);
 	if (i == ft_strlen(*line))
 	{
@@ -92,6 +55,16 @@ static int		ft_split_pvir_suite(char **line, int i, t_ins **lst)
 	return (-1);
 }
 
+static int		check_tmp(char *tmp, int i)
+{
+	if (!tmp)
+		return (-1);
+	if (tmp[i] == ';' || (tmp[i] == '&' && tmp[i + 1] == '&') ||
+		(tmp[i] == '|' && tmp[i + 1] == '|'))
+		return (1);
+	return (0);
+}
+
 t_ins			*ft_split_pvirgule(char **line, t_ins *lst, int i, int quote)
 {
 	t_ins	*start;
@@ -108,9 +81,7 @@ t_ins			*ft_split_pvirgule(char **line, t_ins *lst, int i, int quote)
 			quote = 1;
 		else if ((tmp[i] == '\'' || tmp[i] == '\"') && quote == 1)
 			quote = 0;
-		else if (i == ft_strlen(tmp) || (quote == 0 && (tmp[i] == ';' ||
-	(tmp[i] == '&' && tmp[i + 1] == '&') ||
-	(tmp[i] == '|' && tmp[i + 1] == '|'))))
+		else if (i == ft_strlen(tmp) || (quote == 0 && check_tmp(tmp, i) == 1))
 			i = ft_split_pvir_suite(&tmp, i, &lst);
 		i++;
 	}

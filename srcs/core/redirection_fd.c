@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/23 11:22:16 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 14:47:29 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:48:01 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Agregateur de descripteur de fichier
+*/
 
 int			redirection_fd(t_cmd *data)
 {

@@ -13,7 +13,11 @@
 
 #include "../../includes/shell.h"
 
-void	free_slct(t_slct *lst, t_info *info)
+/*
+** Frees the linked list and reinits the informations.
+*/
+
+void	*free_slct(t_slct *lst, t_info *info)
 {
 	t_slct	*tmp;
 	t_slct	*tmp2;
@@ -34,7 +38,12 @@ void	free_slct(t_slct *lst, t_info *info)
 	info->max_len = 0;
 	info->nb_elem = 0;
 	ft_memdel((void**)&lst);
+	return (NULL);
 }
+
+/*
+** Checks if the element of the list is an executable file.
+*/
 
 int		is_exe(char *name)
 {
@@ -48,6 +57,10 @@ int		is_exe(char *name)
 	else
 		return (0);
 }
+
+/*
+** checks fi there are letters to be completed.
+*/
 
 int		contains_letters(char *name, char *letters)
 {
@@ -79,6 +92,10 @@ int		slct_current(t_slct *slct, t_info *info, t_hist *hist)
 	}
 	return (0);
 }
+
+/*
+** Completes the command line with the selected element.
+*/
 
 void	add_slct(t_slct *slct, t_info *info)
 {

@@ -134,6 +134,7 @@ SRC_NAME =	ft_memset.c \
 			get_line.c \
 			last_char.c \
 			free_tab.c \
+			str_iswhite.c \
 
 all: $(NAME)
 

@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Creates a back up of a history element if this one
+** is modified.
+*/
+
 static void	backing_up(t_hist *tmp)
 {
 	if (tmp->backup)
@@ -44,6 +49,11 @@ static void	down_key2(t_info *info, t_hist *tmp)
 	get_curs_pos(info);
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
+
+/*
+** Command line becomes the next element in the
+** history if there is one.
+*/
 
 void		down_key(t_info *info, t_hist *tmp)
 {
@@ -86,6 +96,11 @@ static void	up_key2(t_info *info, t_hist *tmp)
 		info->orig_y--;
 	}
 }
+
+/*
+** Command line becomes the last element in the
+** history if there is one.
+*/
 
 void		up_key(t_info *info, t_hist *tmp)
 {

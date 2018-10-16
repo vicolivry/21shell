@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/26 13:40:50 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/30 13:05:20 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:49:38 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	choisis le repertoires d'execution en fonction de la commande
+*/
 
 int				ft_search_opnext(char *str, int i)
 {
@@ -108,6 +112,11 @@ int				chose_rep(t_struct *data, t_cmd **new, int provisoire)
 	tmp = NULL;
 	if (provisoire == 1)
 	{
+		if (ft_stat((*new)->tab_cmd[0]) == 0)
+		{
+			(*new)->rep = ft_strdup((*new)->tab_cmd[0]);
+			return (0);
+		}
 		chose_rep_provisoire(new, &tmp, 0);
 		ft_strdel(&tmp);
 		return (0);
@@ -115,7 +124,7 @@ int				chose_rep(t_struct *data, t_cmd **new, int provisoire)
 	tmp = ft_return_path((*new)->tab_cmd[0]);
 	if (ft_strstr((*new)->tab_cmd[0], "./") != NULL)
 		(*new)->rep = ft_strdup((*new)->tab_cmd[0]);
-	else if (ft_dir_exist(tmp) == 1)
+	else if (ft_stat(tmp) == 0)
 		(*new)->rep = ft_strdup((*new)->tab_cmd[0]);
 	else
 		(*new)->rep = ft_search_path((*new)->tab_cmd[0], data);

@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/17 10:26:53 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/30 10:45:53 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:49:56 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -103,6 +103,8 @@ static int		check_regex_invalid(char *str, int i)
 
 int				ft_nefaitrien(char **line)
 {
+	if (search_regex_invalid(*line) == 1)
+		return (1);
 	if (ft_check_start_line(*line) == 1)
 		return (1);
 	if (ft_strstr(*line, "\"") == NULL &&

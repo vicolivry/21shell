@@ -17,7 +17,6 @@
 ** LEFT KEY
 ** le : move cursor left
 ** up : move cursor up
-** vi / ve : init/end cursor invisibility
 */
 
 void	left_key(t_info *info)
@@ -46,8 +45,6 @@ void	left_key(t_info *info)
 /*
 ** RIGHT KEY
 ** nd : move cursor right
-** le : move cursor left
-** sr : scroll the screen one line down
 ** sf : scroll one line up
 */
 
@@ -96,6 +93,10 @@ void	end_key(t_info *info)
 	info->curs_in_str = info->s_len + 1;
 	tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 }
+
+/*
+** Puts cursor at x = 0.
+*/
 
 void	get_x_back(t_info *info)
 {

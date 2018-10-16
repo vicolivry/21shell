@@ -6,22 +6,15 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/19 12:14:19 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/06 14:13:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/15 15:28:04 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-static void		resize(t_info *info, t_hist *tmp)
+static void		resize2(t_info *info, int i)
 {
-	int	i;
-
-	print_prompt(info);
-	ft_putstr(tmp->name);
-	info->s_len = tmp->name ? ft_strlen(tmp->name) : 0;
-	i = info->s_len ? info->s_len + 1 : 1;
-	i -= (info->s_len + ft_strlen(info->prmpt)) % info->col_nb == 0 ? 1 : 0;
 	get_curs_pos(info);
 	while (i > info->curs_in_str)
 	{
@@ -33,12 +26,45 @@ static void		resize(t_info *info, t_hist *tmp)
 	get_curs_pos(info);
 }
 
+static void		resize(t_info *info, t_hist *tmp)
+{
+	int	i;
+
+	print_prompt(info);
+	if (info->curs_in_str == 1)
+	{
+		ft_putstr(tmp->name);
+		tputs(tgoto(tgetstr("cm", NULL), ft_strlen(info->prmpt), 0),
+		1, ft_putchar_err);
+		home_key(info);
+		return ;
+	}
+	ft_putstr(tmp->name);
+	get_curs_pos(info);
+	info->s_len = tmp->name ? ft_strlen(tmp->name) : 0;
+	i = info->s_len ? info->s_len + 1 : 1;
+	if ((info->s_len + ft_strlen(info->prmpt)) % info->col_nb == 0)
+	{
+		tputs(tgoto(tgetstr("cm", NULL), 0, info->curs_x == 1 ?
+		info->curs_y + 1 : info->curs_y), 1, ft_putchar_err);
+		get_curs_pos(info);
+		return ;
+	}
+	resize2(info, i);
+}
+
+/*
+** Handles the resizing of the terminal window.
+*/
+
 static void		resize_win(int sig)
 {
 	t_hist	*tmp;
 	t_info	*info;
 
 	(void)sig;
+	if (g_data->is_executing)
+		return ;
 	info = &g_info;
 	tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 	tmp = first_elem(info->history);
@@ -62,33 +88,27 @@ static void		resize_win(int sig)
 
 static void		stop(int sig)
 {
-	t_info	*info;
-	char	s[2];
+	int		pid;
 
-	info = &g_info;
-	s[0] = info->term.c_cc[VSUSP];
-	s[1] = 0;
+	pid = 0;
+	if (g_data->is_executing)
+	{
+		pid = g_data->commandes->cmd->pid;
+		kill(g_data->commandes->cmd->pid, 9);
+		ft_putstr_fd("Process stopped : [", 2);
+		ft_putnbr_fd(pid, 2);
+		ft_putstr_fd("]\n", 2);
+	}
 	(void)sig;
-	default_term_mode(info);
-	signal(SIGTSTP, SIG_DFL);
-	ioctl(0, TIOCSTI, s);
-}
-
-static void		restart(int sig)
-{
-	t_info	*info;
-
-	info = &g_info;
-	(void)sig;
-	raw_term_mode(info);
-	resize_win(sig);
 }
 
 void			get_signals(void)
 {
 	signal(SIGWINCH, resize_win);
 	signal(SIGTSTP, stop);
-	signal(SIGCONT, restart);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGURG, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
+	signal(SIGCONT, SIG_IGN);
 }

@@ -38,6 +38,11 @@ static char	*letters(char *line, t_info *info, char *tmp, int len)
 	return (line);
 }
 
+/*
+** Gets the last letters of the last word of the command
+** line, to autocomplete it.
+*/
+
 static char	*get_letters(char *line, t_info *info)
 {
 	char	*tmp;
@@ -63,6 +68,11 @@ static char	*get_letters(char *line, t_info *info)
 	return (letters(line, info, tmp, len));
 }
 
+/*
+** Checks if there are multiple words in the commande
+** line. I fnot, frees and exits.
+*/
+
 char		*no_table_case(char *line, char **table)
 {
 	if (line)
@@ -70,6 +80,10 @@ char		*no_table_case(char *line, char **table)
 	free_tab(table);
 	return (NULL);
 }
+
+/*
+** Gets the last word of the cmmand line
+*/
 
 char		*get_last_word(char *line, t_info *info)
 {

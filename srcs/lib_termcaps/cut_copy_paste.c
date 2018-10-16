@@ -6,12 +6,17 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/07/25 13:50:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:47:51 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/04 12:48:55 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+** Copies the end of the command line from the
+** cursor position
+*/
 
 static void	copy_end(t_info *info, t_hist *tmp)
 {
@@ -41,6 +46,11 @@ static void	copy_end(t_info *info, t_hist *tmp)
 	}
 }
 
+/*
+** Copies the beginning of the command line until the
+** cursor position
+*/
+
 static void	copy_beginning(t_info *info, t_hist *tmp)
 {
 	int		curs_pos;
@@ -64,6 +74,11 @@ static void	copy_beginning(t_info *info, t_hist *tmp)
 	}
 }
 
+/*
+** Copies and cuts the end of the command line from the
+** cursor position
+*/
+
 static void	cut_end(t_info *info, t_hist *tmp)
 {
 	int		curs_pos;
@@ -75,19 +90,27 @@ static void	cut_end(t_info *info, t_hist *tmp)
 		del_char(info, tmp);
 }
 
+/*
+** Copies and cuts the beginning of the command line
+** until the cursor position
+*/
+
 static void	cut_beginning(t_info *info, t_hist *tmp)
 {
 	int	i;
+
 	copy_beginning(info, tmp);
 	i = ft_strlen(info->copy) + 1;
 	while (i)
 	{
-		tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 		del_char(info, tmp);
 		i--;
-		tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 	}
 }
+
+/*
+** Manages the cut and copy signals
+*/
 
 void		cut_n_cpy(t_info *info, char *buff, t_hist *tmp)
 {
@@ -105,11 +128,9 @@ void		cut_n_cpy(t_info *info, char *buff, t_hist *tmp)
 	if (KEY_CODE_CTRL_P && info->copy)
 		while (info->copy[i])
 		{
-			tputs(tgetstr("vi", NULL), 1, ft_putchar_err);
 			info->curs_in_str <= info->s_len ?
 				insert_char(info->copy[i], info, tmp)
 				: add_char(info->copy[i], info, tmp);
 			i++;
-			tputs(tgetstr("ve", NULL), 1, ft_putchar_err);
 		}
 }

@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** First initialisation of info struct
+*/
+
 void			init_info(t_info *info)
 {
 	raw_term_mode(info);
@@ -30,12 +34,18 @@ void			init_info(t_info *info)
 	info->history = root_hist();
 	info->letters = NULL;
 	info->loop = 1;
+	info->out = 0;
 	info->max_len = 0;
 	info->nb_elem = 0;
 	info->h_d.cmd = NULL;
+	info->over = 0;
 	info->h_d.trigger = NULL;
 	info->h_d.fill = NULL;
 }
+
+/*
+** Reinitialisation of info struct after each command
+*/
 
 void			reinit_info(t_info *info)
 {
@@ -47,9 +57,14 @@ void			reinit_info(t_info *info)
 	get_curs_pos(info);
 	info->orig_y = info->curs_y;
 	info->curs_in_str = 1;
+	info->out = 1;
 	ft_strdel(&(info->line));
 	info->loop = 1;
 }
+
+/*
+** Infinite loop of line editing until RC
+*/
 
 void			line_edit(t_info *info, t_hist *tmp)
 {
@@ -67,21 +82,10 @@ void			line_edit(t_info *info, t_hist *tmp)
 		get_key(info, tmp);
 }
 
-char			*hd_case(int *quit, char *full_line, t_struct *data)
-{
-	if (heredoc() == NULL || !g_info.h_d.fill ||
-	!ft_strcmp(g_info.h_d.fill, ""))
-		return (full_line);
-	g_info.h_d.cmd = str_append(g_info.h_d.cmd, " ");
-	g_info.h_d.cmd = str_append(g_info.h_d.cmd, g_info.h_d.fill);
-	full_line = ft_strdup(g_info.h_d.cmd);
-	ft_strdel(&g_info.h_d.fill);
-	ft_strdel(&g_info.h_d.cmd);
-	default_term_mode(&g_info);
-	g_data->is_executing = 1;
-	*quit = parse_line(data, &(full_line));
-	return (full_line);
-}
+
+/*
+** Management of loops and quoted loops
+*/
 
 char			*quoted_loops(char *full_line, t_struct *data, int *quit)
 {
@@ -94,6 +98,7 @@ char			*quoted_loops(char *full_line, t_struct *data, int *quit)
 	{
 		g_info.line[ft_strlen(g_info.line) - 1] = 0;
 		full_line = str_append(full_line, g_info.line);
+		reinit_info(&g_info);
 		g_info.quoted = 0;
 	}
 	else
@@ -101,7 +106,8 @@ char			*quoted_loops(char *full_line, t_struct *data, int *quit)
 		full_line = str_append(full_line, g_info.line);
 		default_term_mode(&g_info);
 		g_data->is_executing = 1;
-		*quit = parse_line(data, &(full_line));
+		if (full_line && !str_iswhite(full_line))
+			*quit = parse_line(data, &(full_line), 0);
 	}
 	return (full_line);
 }

@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Goes one line down.
+*/
+
 void		ac_down_key(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int		rows;
@@ -41,6 +45,10 @@ void		ac_down_key(t_info *info, t_slct *slct, t_hist *hist)
 	}
 }
 
+/*
+** Goes one line up.
+*/
+
 void		ac_up_key(t_info *info, t_slct *slct, t_hist *hist)
 {
 	int		rows;
@@ -68,6 +76,10 @@ void		ac_up_key(t_info *info, t_slct *slct, t_hist *hist)
 		tmp = tmp->prev;
 	}
 }
+
+/*
+** Goes to the next element.
+*/
 
 void		ac_tab_key(t_info *info, t_slct *slct, t_hist *hist)
 {

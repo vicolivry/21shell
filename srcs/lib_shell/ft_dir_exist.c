@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/17 09:38:58 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/07/28 13:26:35 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/08 16:31:44 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,6 +16,17 @@
 /*
 **	Directory exist of not
 */
+
+int			ft_stat(char *path)
+{
+	struct stat		buff;
+
+	if (lstat(path, &buff) == -1)
+	{
+		return (1);
+	}
+	return (0);
+}
 
 int			ft_dir_exist(char *path)
 {

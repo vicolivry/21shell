@@ -6,12 +6,16 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/06/12 14:39:02 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 17:48:18 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/15 15:50:05 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+** Gets the cursor back to x = 0
+*/
 
 void		cursor_start(t_info *info)
 {
@@ -21,6 +25,11 @@ void		cursor_start(t_info *info)
 		get_curs_pos(info);
 	}
 }
+
+/*
+** Validates the command line and sends it to be
+** executed.
+*/
 
 void		rc_key(t_info *info, t_hist *tmp)
 {
@@ -37,9 +46,9 @@ void		rc_key(t_info *info, t_hist *tmp)
 
 static void	get_key2(t_info *info, t_hist *tmp, char *buff)
 {
-	if (KEY_CODE_ALT_RIGHT)
+	if (A_RGHT)
 		alt_right(info, tmp);
-	else if (KEY_CODE_ALT_LEFT)
+	else if (A_LFT)
 		alt_left(info, tmp);
 	else if (KEY_CODE_BSP)
 		del_char(info, tmp);
@@ -61,13 +70,18 @@ static void	get_key2(t_info *info, t_hist *tmp, char *buff)
 			: add_char(*buff, info, tmp);
 }
 
+/*
+** Gets the key that is typed.
+*/
+
 void		get_key(t_info *info, t_hist *tmp)
 {
 	char	buff[5];
 
 	if (info->line)
 		ft_strdel(&(info->line));
-	info->line = ft_strdup(tmp->name);
+	if (tmp->name != NULL)
+		info->line = ft_strdup(tmp->name);
 	ft_bzero(buff, 5);
 	get_curs_pos(info);
 	while (!tmp->current)
@@ -82,7 +96,7 @@ void		get_key(t_info *info, t_hist *tmp)
 		right_key(info);
 	else if (KEY_CODE_LEFT)
 		left_key(info);
-	else if ((KEY_CODE_ALT_UP) || (KEY_CODE_ALT_DOWN))
+	else if ((ALT_UP) || (A_DWN))
 		alt_up_down(info, buff);
 	else
 		get_key2(info, tmp, buff);

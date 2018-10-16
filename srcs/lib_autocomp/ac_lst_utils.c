@@ -59,15 +59,27 @@ void	ac_add_before_lst(t_slct *elem, struct dirent *dp)
 	}
 }
 
+/*
+** Adds an element at the beginning of the linked list
+*/
+
 void	ac_add_queue(t_slct *root, struct dirent *dp)
 {
 	ac_add_before_lst(root, dp);
 }
 
+/*
+** Adds an element at the end of the linked list
+*/
+
 void	ac_add_head(t_slct *root, struct dirent *dp)
 {
 	ac_add_after_lst(root, dp);
 }
+
+/*
+** Removes an element from the linked list
+*/
 
 void	ac_remove_elem(t_slct *elem)
 {

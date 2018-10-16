@@ -6,7 +6,7 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/27 16:26:33 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/28 11:15:55 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/11 16:31:31 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,7 @@ char			**malloc_for_env_deux(t_struct **data, t_cmd **lst, int i)
 	len += (i + 1);
 	if (!(new = (char **)malloc(sizeof(char *) * len)))
 		return (NULL);
+	new[len - 1] = NULL;
 	if (malloc_for_env_suite(&new, *data, *lst, 1) == 1)
 	{
 		new = ft_del_tab(new);
@@ -50,6 +51,7 @@ char			**malloc_for_env(t_struct **data, t_cmd **lst, int i, int opt)
 	len = i + 1;
 	if (!(new = (char **)malloc(sizeof(char *) * len)))
 		return (NULL);
+	new[len - 1] = NULL;
 	i = 0;
 	while (ft_strcmp((*lst)->tab_cmd[i], "env") == 0 ||
 			ft_strcmp((*lst)->tab_cmd[i], "-i") == 0)

@@ -13,6 +13,12 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Creates the neutral element of the
+** linked list, that is its beginning and
+** ending, and returns it.
+*/
+
 t_hist	*root_hist(void)
 {
 	t_hist	*lst;
@@ -28,6 +34,10 @@ t_hist	*root_hist(void)
 	return (lst);
 }
 
+/*
+** Returns the first element of the linked list.
+*/
+
 t_hist	*first_elem(t_hist *root)
 {
 	if (root->next != root)
@@ -36,6 +46,10 @@ t_hist	*first_elem(t_hist *root)
 		return (NULL);
 }
 
+/*
+** Returns the last element of the linked list.
+*/
+
 t_hist	*last_elem(t_hist *root)
 {
 	if (root->prev != root)
@@ -43,6 +57,10 @@ t_hist	*last_elem(t_hist *root)
 	else
 		return (NULL);
 }
+
+/*
+** Reinits which element is the current one.
+*/
 
 void	init_current(t_hist *history)
 {
@@ -56,6 +74,10 @@ void	init_current(t_hist *history)
 	}
 	tmp->current = 1;
 }
+
+/*
+** Frees the history linked list.
+*/
 
 void	free_hist(t_hist *lst)
 {

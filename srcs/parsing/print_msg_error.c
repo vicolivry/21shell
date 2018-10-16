@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/11 13:43:49 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/08/27 14:09:56 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:53:09 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Fonction pour imprimer des msg d'erreur
+*/
 
 void		print_msg_error(char *str, int i)
 {

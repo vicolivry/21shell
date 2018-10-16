@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Puts the terminal in editing mode.
+*/
+
 void	raw_term_mode(t_info *info)
 {
 	char			*term_name;
@@ -26,6 +30,10 @@ void	raw_term_mode(t_info *info)
 	info->term.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &(info->term));
 }
+
+/*
+** Puts the terminal in its normal mode.
+*/
 
 void	default_term_mode(t_info *info)
 {

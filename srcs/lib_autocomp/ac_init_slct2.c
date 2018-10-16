@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/09/28 14:21:33 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/28 14:24:37 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/15 12:47:02 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,7 @@ void	fill_commands(t_slct *root, t_info *info)
 		{
 			while ((dp = readdir(dirp)) != NULL)
 				if (dp->d_name[0] != '.' &&
-						contains_letters(dp->d_name, info->letters))
+					contains_letters(dp->d_name, info->letters))
 					ac_add_queue(root, dp);
 			closedir(dirp);
 		}
@@ -65,4 +65,12 @@ int		is_cmd(char *cmd, char **pathes)
 		}
 	}
 	return (0);
+}
+
+void	*init_error(t_slct *root, t_info *info, char **table, char **pathes)
+{
+	free_slct(root, info);
+	free_tab(table);
+	free_tab(pathes);
+	return (NULL);
 }

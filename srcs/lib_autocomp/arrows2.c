@@ -34,6 +34,10 @@ static void	ac_right2(t_info *info, t_slct *slct, t_hist *hist, t_slct *tmp)
 	}
 }
 
+/*
+** Goes one column to the right.
+*/
+
 void		ac_right_key(t_info *info, t_slct *slct, t_hist *hist)
 {
 	t_slct	*tmp;
@@ -78,6 +82,10 @@ static void	ac_left2(t_info *info, t_slct *slct, t_hist *hist, t_slct *tmp)
 		add_slct(tmp, info);
 	}
 }
+
+/*
+** Goes one column to the left.
+*/
 
 void		ac_left_key(t_info *info, t_slct *slct, t_hist *hist)
 {

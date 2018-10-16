@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Fills history with the lat command line.
+** Handles the backup of a modified history element.
+*/
+
 void		fill_history(t_info *info, t_hist *tmp)
 {
 	t_hist	*last;
@@ -32,7 +37,7 @@ void		fill_history(t_info *info, t_hist *tmp)
 	}
 	while (tmp->next != info->history)
 		tmp = tmp->next;
-	if (!last->name ||
+	if ((!last->name || str_iswhite(last->name)) ||
 			(last->prev->name && !ft_strcmp(last->name, last->prev->name)))
-		remove_elem(last);
+		remove_this_elem(last);
 }

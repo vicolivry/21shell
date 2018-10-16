@@ -13,6 +13,11 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Gets various informations such as the longest word in the list and the
+** number of elements.
+*/
+
 void	ac_get_info(t_slct *slct, t_info *info)
 {
 	t_slct	*tmp;

@@ -6,12 +6,16 @@
 /*   By: yoginet <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/08/17 14:38:34 by yoginet      #+#   ##    ##    #+#       */
-/*   Updated: 2018/09/05 15:16:55 by yoginet     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/10/16 14:54:08 by yoginet     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
+
+/*
+**	Split echo
+*/
 
 static int	echap_word(char *str, int i)
 {
@@ -31,8 +35,8 @@ static int	echap_word(char *str, int i)
 
 static int	check_split_echo(char ***tabl, int index)
 {
-	int 	i;
-	int 	t;
+	int		i;
+	int		t;
 	int		len;
 	char	*tmp;
 
@@ -58,34 +62,60 @@ static int	check_split_echo(char ***tabl, int index)
 	return (0);
 }
 
+static int	return_start_echo(char *str)
+{
+	int		i;
+
+	i = 0;
+	if (!str)
+		return (-1);
+	if (ft_strstr(str, "echo") == NULL)
+		return (-1);
+	if (ft_strncmp(str, "echo ", 5) == 0)
+		return (5);
+	if (ft_strncmp(str, "echo\"", 5) == 0)
+	{
+		basic_error(str, " : command not found");
+		return (-2);
+	}
+	while (str[i])
+	{
+		if (ft_strncmp(str + i, "echo ", 5) == 0)
+			return (i + 5);
+		i++;
+	}
+	return (-2);
+}
+
 /*
 **	Appleler via insert_cmd_simple.c
 */
 
 char		**split_echo(char *str)
 {
-	int 	ret;
+	int		ret;
+	int		j;
 	char	**new;
 
 	new = NULL;
 	ret = 0;
+	j = return_start_echo(str);
 	if (ft_strstr(str, "\"") == NULL && ft_strstr(str, "\'") == NULL)
 	{
 		new = ft_strsplit(str, ' ');
 		return (new);
 	}
-	if (str[4] == '\"')
-	{
-		basic_error(str, " : command not found\n");
+	if (j == -2)
 		return (NULL);
-	}
 	if (!(new = (char **)malloc(sizeof(char *) * 3)))
 		return (NULL);
 	new[0] = ft_strdup("echo");
-	new[1] = ft_strsub(str, 5, ft_strlen(str) - 5);
+	if (j != -1 && j != -2)
+		new[1] = ft_strsub(str, j, ft_strlen(str) - j);
+	else
+		new[1] = ft_strsub(str, 5, ft_strlen(str) - 5);
 	new[2] = NULL;
-	ret = check_split_echo(&new, 1);
-	if (ret == 1)
+	if ((ret = check_split_echo(&new, 1)) == 1)
 		return (NULL);
 	return (new);
 }

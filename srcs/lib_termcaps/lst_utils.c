@@ -13,6 +13,10 @@
 
 #include "../../includes/shell.h"
 
+/*
+** Adds an element at the beginning of the linked list
+*/
+
 void	add_queue(t_hist *elem)
 {
 	t_hist	*new_elem;
@@ -29,6 +33,10 @@ void	add_queue(t_hist *elem)
 		elem->next = new_elem;
 	}
 }
+
+/*
+** Adds an element at the end of the linked list
+*/
 
 void	add_head(t_hist *elem)
 {
@@ -47,6 +55,10 @@ void	add_head(t_hist *elem)
 	}
 }
 
+/*
+** Removes an element from the linked list
+*/
+
 void	remove_elem(t_hist *elem)
 {
 	elem->prev->next = elem->next;
@@ -55,4 +67,19 @@ void	remove_elem(t_hist *elem)
 		ft_strdel(&elem->name);
 	if (elem->backup)
 		ft_strdel(&elem->backup);
+}
+
+/*
+** Removes and frees an element from the linked list
+*/
+
+void	remove_this_elem(t_hist *elem)
+{
+	elem->prev->next = elem->next;
+	elem->next->prev = elem->prev;
+	if (elem->name)
+		ft_strdel(&elem->name);
+	if (elem->backup)
+		ft_strdel(&elem->backup);
+	free(elem);
 }
